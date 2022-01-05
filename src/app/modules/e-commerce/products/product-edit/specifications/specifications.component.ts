@@ -61,7 +61,7 @@ export class SpecificationsComponent
       (res) => (this.isLoading = res)
     );
     this.subscriptions.push(sb);
-    this.specsService.patchState({ entityId: this.productId });
+    this.specsService.patchState({  });
     this.grouping = this.specsService.grouping;
     this.paginator = this.specsService.paginator;
     this.sorting = this.specsService.sorting;

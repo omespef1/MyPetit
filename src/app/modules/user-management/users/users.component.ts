@@ -2,17 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import notify from 'devextreme/ui/notify';
-import { of, Subscription } from 'rxjs';
-import {
-	debounceTime,
-	delay,
-	distinctUntilChanged,
-	filter,
-} from 'rxjs/operators';
-import {
-	ITableState,
-	PaginatorState,
-} from 'src/app/_metronic/shared/crud-table';
+import { Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
+import { ITableState } from 'src/app/_metronic/shared/crud-table';
 import { ColumnInfo } from '../../components/grid-control/grid-control.component';
 import { UserService } from '../services/user.service';
 
