@@ -226,7 +226,7 @@
   "resolved" "https://registry.npmjs.org/@angular/compiler/-/compiler-9.0.0.tgz"
   "version" "9.0.0"
 
-"@angular/core@^11.0.0", "@angular/core@^11.0.0 || ^12.0.0-0", "@angular/core@^11.0.4", "@angular/core@^9.0.0", "@angular/core@>=10.0.0", "@angular/core@>=8.0.0", "@angular/core@>=9.0.0", "@angular/core@>=9.0.0 <11.0.0", "@angular/core@>7.0.0", "@angular/core@~11.0.0", "@angular/core@11.0.9":
+"@angular/core@^11.0.0", "@angular/core@^11.0.0 || ^12.0.0-0", "@angular/core@^11.0.4", "@angular/core@^9.0.0", "@angular/core@>=10.0.0", "@angular/core@>=4.0.0 || >12.0.0", "@angular/core@>=8.0.0", "@angular/core@>=9.0.0", "@angular/core@>=9.0.0 <11.0.0", "@angular/core@>7.0.0", "@angular/core@~11.0.0", "@angular/core@11.0.9":
   "integrity" "sha512-J0ff3UK2Cw7Z0eNLtUXrpMFvmmkvPPZWLYIwimyc1pZys7qsIVT6cy2ybGEOhbJgC6qt3fo0DoJV3pGXTalb8A=="
   "resolved" "https://registry.npmjs.org/@angular/core/-/core-11.0.9.tgz"
   "version" "11.0.9"
@@ -282,7 +282,7 @@
   dependencies:
     "tslib" "^2.0.0"
 
-"@angular/router@~11.0.0":
+"@angular/router@>=4.0.0 || >12.0.0", "@angular/router@~11.0.0":
   "integrity" "sha512-WopMMhOw4YT8cplDXxxnTS7ByaGop3+frLOkVirY9MKcpcqLwXPblVq4rNKn395XgBVjNK6hmU91RScBnAuVLQ=="
   "resolved" "https://registry.npmjs.org/@angular/router/-/router-11.0.9.tgz"
   "version" "11.0.9"
@@ -5565,6 +5565,11 @@
     "readable-stream" "~2.3.6"
     "set-immediate-shim" "~1.0.1"
 
+"jwt-decode@^3.1.2":
+  "integrity" "sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A=="
+  "resolved" "https://registry.npmjs.org/jwt-decode/-/jwt-decode-3.1.2.tgz"
+  "version" "3.1.2"
+
 "karma-chrome-launcher@~3.1.0":
   "integrity" "sha512-3dPs/n7vgz1rxxtynpzZTvb9y/GIaW8xjAwcIGttLbycqoFtI7yo1NGnQi6oFTherRE+GIhCAHZC4vEqWGhNvg=="
   "resolved" "https://registry.npmjs.org/karma-chrome-launcher/-/karma-chrome-launcher-3.1.0.tgz"
@@ -6333,6 +6338,13 @@
   dependencies:
     "perfect-scrollbar" "1.5.0"
     "resize-observer-polyfill" "^1.5.0"
+
+"ngx-permissions@^8.1.1":
+  "integrity" "sha512-gxpZtyg9Hucx+sgoC+iJTYL02E6GOoDCfMKZ1rDnSzIFsyGWIsaNFbSi0FaoT4diWnQ+8B/kL4mEM7ldO/FTxA=="
+  "resolved" "https://registry.npmjs.org/ngx-permissions/-/ngx-permissions-8.1.1.tgz"
+  "version" "8.1.1"
+  dependencies:
+    "tslib" "^1.10.0"
 
 "ngx-window-token@>=3.0.0":
   "integrity" "sha512-DhigCrm9QO8R29lqJYzBC9aaTU0KiWgdnt8RNcTN/DvMaS7shfzAqyvUtxSIm/+JR4gW5JKqR/JODU8760nJMw=="
@@ -8016,7 +8028,7 @@
   dependencies:
     "aproba" "^1.1.1"
 
-"rxjs@^6.0.0", "rxjs@^6.5.0", "rxjs@^6.5.3", "rxjs@^6.5.5", "rxjs@^6.6.0", "rxjs@>=6.0.0", "rxjs@>=6.5.3", "rxjs@~6.6.0":
+"rxjs@^6.0.0", "rxjs@^6.5.0", "rxjs@^6.5.3", "rxjs@^6.5.5", "rxjs@^6.6.0", "rxjs@>=6.0.0", "rxjs@>=6.0.0 || >8.0.0", "rxjs@>=6.5.3", "rxjs@~6.6.0":
   "integrity" "sha512-hTdwr+7yYNIT5n4AMYp85KA6yw2Va0FLa3Rguvbpa4W3I5xynaBZo41cM3XM+4Q6fRMj3sBYIR1VAmZMXYJvRQ=="
   "resolved" "https://registry.npmjs.org/rxjs/-/rxjs-6.6.7.tgz"
   "version" "6.6.7"
@@ -10073,7 +10085,7 @@
   "resolved" "https://registry.npmjs.org/yocto-queue/-/yocto-queue-0.1.0.tgz"
   "version" "0.1.0"
 
-"zone.js@~0.10.2", "zone.js@~0.10.3":
+"zone.js@>=0.8.4 || >2.0.0", "zone.js@~0.10.2", "zone.js@~0.10.3":
   "integrity" "sha512-LXVLVEq0NNOqK/fLJo3d0kfzd4sxwn2/h67/02pjCjfKDxgx1i9QqpvtHD8CrBnSSwMw5+dy11O7FRX5mkO7Cg=="
   "resolved" "https://registry.npmjs.org/zone.js/-/zone.js-0.10.3.tgz"
   "version" "0.10.3"
