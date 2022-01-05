@@ -20,7 +20,7 @@ export class AuthHTTPService {
 
 	// public methods
 	login(email: string, password: string): Observable<any> {
-		return this.http.post<AuthModel>(`${API_AUTH_URL}/loginReconoSER`, {
+		return this.http.post<AuthModel>(`${API_AUTH_URL}/login`, {
 			email,
 			password,
 		});

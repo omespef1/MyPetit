@@ -16,7 +16,7 @@ export const DynamicAsideMenuConfig = {
       page: '/builder',
       svg: './assets/media/svg/icons/Home/Library.svg'
     },
-    { section: 'Components' },
+    { section: 'Parámetros' },
     {
       title: 'Google Material',
       root: true,
