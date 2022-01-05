@@ -1,0 +1,87 @@
+<mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Tipes
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="table-responsive">
+        <dx-data-grid id="grid" [dataSource]="dataSource | async" [repaintChangesOnly]="true" [showBorders]="true">
+            <dxo-export [enabled]="true" [fileName]="'Solicitudes'" [texts]="{ exportAll:'Exportar a excel'}">
+            </dxo-export>
+            <dxo-editing mode="row" [allowUpdating]="true" [useIcons]="true">
+                <dxo-texts saveRowChanges="Guardar">
+                </dxo-texts>
+            </dxo-editing>
+            <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true" [placeholder]="'Buscar'">
+            </dxo-search-panel>
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+            <dxo-header-filter [visible]="true"></dxo-header-filter>
+            <dxo-selection mode="single"></dxo-selection>
+            <dxo-paging [pageSize]="20"></dxo-paging>
+            <dxo-pager [showPageSizeSelector]="true" [showInfo]="true">
+            </dxo-pager>
+            <dxi-column [allowEditing]="false" dataField="id" caption="ID">
+                <dxi-validation-rule type="required" message="Requerido"></dxi-validation-rule>
+            </dxi-column>
+            <dxi-column [allowEditing]="false" dataField="namE_T" caption="Nombre">
+                <dxi-validation-rule type="required" message="Requerido"></dxi-validation-rule>
+            </dxi-column>
+        </dx-data-grid>
+    </div>
+</mat-expansion-panel>
+<mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Breeds
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p>This is the primary content of the panel.</p>
+</mat-expansion-panel>
+<mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Cities
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p>This is the primary content of the panel.</p>
+</mat-expansion-panel>
+<mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            States
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p>This is the primary content of the panel.</p>
+</mat-expansion-panel>
+<mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Taxes
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p>This is the primary content of the panel.</p>
+</mat-expansion-panel>
+<mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Discounts
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p>This is the primary content of the panel.</p>
+</mat-expansion-panel>
+<mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Vaccines
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p>This is the primary content of the panel.</p>
+</mat-expansion-panel>
+<mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Hair
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p>This is the primary content of the panel.</p>
+</mat-expansion-panel>
