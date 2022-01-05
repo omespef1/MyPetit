@@ -11,9 +11,10 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatButtonModule } from '@angular/material/button';
 import { ComponentsModule } from '../components/components.module';
+import { UserEditComponent } from './users/user-edit/user-edit.component';
 
 @NgModule({
-	declarations: [UsersComponent, RolesComponent, UserManagementComponent],
+	declarations: [UsersComponent, RolesComponent, UserManagementComponent, UserEditComponent],
 	imports: [
 		UserManagementRoutingModule,
 		CommonModule,

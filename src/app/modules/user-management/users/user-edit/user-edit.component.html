@@ -1,0 +1,372 @@
+<div class="card card-custom gutter-b" style="min-height: 250px">
+	<ng-container *ngIf="isLoading$ | async">
+		<app-loading></app-loading>
+	</ng-container>
+
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="card-label">
+				<ng-container *ngIf="user">
+					{{ (id ? 'COMMON.EDIT' : 'COMMON.NEW') | translate }}
+					{{ 'USER.USER' | translate }}
+					<span *ngIf="user && user.id">'{{ user.userName }}'</span>
+				</ng-container>
+			</h3>
+		</div>
+		<div class="card-toolbar">
+			<a
+				type="button"
+				class="btn btn-light"
+				routerLink="/user-management/users"
+			>
+				<i class="fa fa-arrow-left"></i>{{ 'COMMON.BACK' | translate }}
+			</a>
+			<button class="btn btn-secondary ml-2" (click)="reset()">
+				<i class="fa fa-redo"></i>{{ 'COMMON.RESET' | translate }}
+			</button>
+			<ng-container *ngIf="user && activeTabId === tabs.BASIC_TAB">
+				<button
+					type="button"
+					(click)="save()"
+					class="btn btn-primary font-weight-bold ml-2"
+					[disabled]="formGroup.invalid || (isLoading$ | async)"
+				>
+					{{ 'COMMON.SAVE' | translate }}
+				</button>
+			</ng-container>
+		</div>
+	</div>
+	<div class="card-body">
+		<ul class="nav nav-tabs nav-tabs-line" role="tablist">
+			<li
+				class="nav-item cursor-pointer"
+				(click)="changeTab(tabs.BASIC_TAB)"
+			>
+				<a
+					class="nav-link"
+					data-toggle="tab"
+					role="tab"
+					[attr.aria-selected]="activeTabId === tabs.BASIC_TAB"
+					[class.active]="activeTabId === tabs.BASIC_TAB"
+				>
+					{{ 'COMMON.BASIC_INFO' | translate }}
+				</a>
+			</li>
+			<li
+				*ngIf="user && user.id"
+				class="nav-item cursor-pointer"
+				(click)="changeTab(tabs.ROLES_TAB)"
+			>
+				<a
+					class="nav-link"
+					data-toggle="tab"
+					role="button"
+					[attr.aria-selected]="
+						activeTabId === tabs.ROLES_TAB
+					"
+					[class.active]="activeTabId === tabs.ROLES_TAB"
+					>{{ 'USER.ROLES' | translate }}</a
+				>
+			</li>
+		</ul>
+
+		<ng-container *ngIf="activeTabId === tabs.BASIC_TAB">
+			<div class="mt-5" *ngIf="user">
+				<form
+					action="#"
+					class="form form-label-right"
+					[formGroup]="formGroup"
+					(ngSubmit)="save()"
+				>
+					<div class="form-group row">
+						<div class="col-lg-2">
+							<label
+								><b>{{ 'USER.USERNAME' | translate }}</b></label
+							>
+							<input
+								type="text"
+								class="form-control form-control-lg form-control-solid"
+								autocomplete="off"
+								placeholder="{{ 'USER.USERNAME' | translate }}"
+								name="userName"
+								[class.is-invalid]="
+									isControlInvalid('userName')
+								"
+								formControlName="userName"
+							/>
+							<div
+								class="invalid-feedback"
+								*ngIf="controlHasError('required', 'userName')"
+							>
+								<b>{{ 'USER.USERNAME' | translate }}</b>
+								{{ 'COMMON.REQUIRED' | translate }}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="controlHasError('minlength', 'userName')"
+							>
+								<b>{{ 'USER.USERNAME' | translate }}</b>
+								{{
+									'COMMON.SHOULTD_HAVE_AT_LEAST'
+										| translate: { min: 5 }
+								}}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="controlHasError('maxlength', 'userName')"
+							>
+								<b>{{ 'USER.USERNAME' | translate }}</b>
+								{{
+									'COMMON.SHOULTD_HAVE_MAXIMUM'
+										| translate: { max: 255 }
+								}}
+							</div>
+						</div>
+						<div class="col-lg-5">
+							<label
+								><b>{{ 'USER.FIRST_NAMES' | translate }}</b>
+							</label>
+							<input
+								type="text"
+								class="form-control form-control-lg form-control-solid"
+								autocomplete="off"
+								placeholder="{{
+									'USER.FIRST_NAMES' | translate
+								}}"
+								name="firstName"
+								[class.is-invalid]="
+									isControlInvalid('firstName')
+								"
+								formControlName="firstName"
+							/>
+							<div
+								class="invalid-feedback"
+								*ngIf="controlHasError('required', 'firstName')"
+							>
+								<b>{{ 'USER.FIRST_NAMES' | translate }}</b>
+								{{ 'COMMON.REQUIRED' | translate }}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="
+									controlHasError('minlength', 'firstName')
+								"
+							>
+								<b>{{ 'USER.FIRST_NAMES' | translate }}</b>
+								{{
+									'COMMON.SHOULTD_HAVE_AT_LEAST'
+										| translate: { min: 3 }
+								}}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="
+									controlHasError('maxlength', 'firstName')
+								"
+							>
+								<b>{{ 'USER.FIRST_NAMES' | translate }}</b>
+								{{
+									'COMMON.SHOULTD_HAVE_MAXIMUM'
+										| translate: { max: 255 }
+								}}
+							</div>
+						</div>
+						<div class="col-lg-5">
+							<label
+								><b>{{ 'USER.LAST_NAMES' | translate }}</b>
+							</label>
+							<input
+								type="text"
+								class="form-control form-control-lg form-control-solid"
+								autocomplete="off"
+								placeholder="{{
+									'USER.LAST_NAMES' | translate
+								}}"
+								name="lastName"
+								[class.is-invalid]="
+									isControlInvalid('lastName')
+								"
+								formControlName="lastName"
+							/>
+							<div
+								class="invalid-feedback"
+								*ngIf="controlHasError('required', 'lastName')"
+							>
+								<b>{{ 'USER.LAST_NAMES' | translate }}</b>
+								{{ 'COMMON.REQUIRED' | translate }}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="controlHasError('minlength', 'lastName')"
+							>
+								<b>{{ 'USER.LAST_NAMES' | translate }}</b>
+								{{
+									'COMMON.SHOULTD_HAVE_AT_LEAST'
+										| translate: { min: 3 }
+								}}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="controlHasError('maxlength', 'lastName')"
+							>
+								<b>{{ 'USER.LAST_NAMES' | translate }}</b>
+								{{
+									'COMMON.SHOULTD_HAVE_MAXIMUM'
+										| translate: { max: 255 }
+								}}
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<!-- <div class="col-lg-3">
+							<label
+								>{{ 'COMMON.ENTER' | translate }}
+								{{ 'SOURCE.API_KEY' | translate }}</label
+							>
+							<input
+								type="text"
+								class="form-control form-control-lg form-control-solid"
+								autocomplete="off"
+								placeholder="{{ 'SOURCE.API_KEY' | translate }}"
+								name="apiKey"
+								[class.is-invalid]="isControlInvalid('apiKey')"
+								[class.is-valid]="isControlValid('apiKey')"
+								formControlName="apiKey"
+							/>
+							<div
+								class="feedback"
+								*ngIf="!isControlTouched('apiKey')"
+							>
+								{{ 'COMMON.PLEASE_ENTER' | translate }}
+								<b>{{ 'SOURCE.API_KEY' | translate }}</b>
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="controlHasError('required', 'apiKey')"
+							>
+								{{ 'SOURCE.API_KEY' | translate }}
+								{{ 'COMMON.REQUIRED' | translate }}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="controlHasError('minlength', 'apiKey')"
+							>
+								{{ 'SOURCE.API_KEY' | translate }}
+								{{
+									'COMMON.SHOULTD_HAVE_AT_LEAST'
+										| translate
+											: {
+													min: 2
+											  }
+								}}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="controlHasError('maxlength', 'apiKey')"
+							>
+								{{ 'SOURCE.API_KEY' | translate }}
+								{{
+									'COMMON.SHOULTD_HAVE_MAXIMUM'
+										| translate
+											: {
+													max: 100
+											  }
+								}}
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<label
+								>{{ 'COMMON.ENTER' | translate }}
+								{{ 'SOURCE.RESPONSE_KEY' | translate }}</label
+							>
+							<input
+								type="text"
+								class="form-control form-control-lg form-control-solid"
+								autocomplete="off"
+								placeholder="{{
+									'SOURCE.RESPONSE_KEY' | translate
+								}}"
+								name="responseKey"
+								[class.is-invalid]="
+									isControlInvalid('responseKey')
+								"
+								[class.is-valid]="isControlValid('responseKey')"
+								formControlName="responseKey"
+							/>
+							<div
+								class="invalid-feedback"
+								*ngIf="
+									controlHasError('minlength', 'responseKey')
+								"
+							>
+								{{ 'SOURCE.RESPONSE_KEY' | translate }}
+								{{
+									'COMMON.SHOULTD_HAVE_AT_LEAST'
+										| translate
+											: {
+													min: 2
+											  }
+								}}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="
+									controlHasError('maxlength', 'responseKey')
+								"
+							>
+								{{ 'SOURCE.RESPONSE_KEY' | translate }}
+								{{
+									'COMMON.SHOULTD_HAVE_MAXIMUM'
+										| translate
+											: {
+													max: 100
+											  }
+								}}
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<label
+								>{{ 'COMMON.ENTER' | translate }}
+								{{ 'SOURCE.ORDER' | translate }}</label
+							>
+							<input
+								type="text"
+								class="form-control form-control-lg form-control-solid"
+								autocomplete="off"
+								placeholder="{{ 'SOURCE.ORDER' | translate }}"
+								name="responseKey"
+								[class.is-invalid]="isControlInvalid('order')"
+								[class.is-valid]="isControlValid('order')"
+								formControlName="order"
+							/>
+						</div>
+						<div class="col-lg-2">
+							<label class="form-label">{{
+								'COMMON.ACTIVE' | translate
+							}}</label>
+							<label class="checkbox">
+								<input
+									type="checkbox"
+									formControlName="isActive"
+								/>
+								<span></span>
+							</label>
+						</div> -->
+					</div>
+				</form>
+			</div>
+		</ng-container>
+		<!-- <ng-container *ngIf="activeTabId === tabs.INPUT_PARAMETER_TAB && source && source.id">
+            <app-add-input-parameter [sourceId]="source.id"></app-add-input-parameter>
+        </ng-container>
+        <ng-container *ngIf="activeTabId === tabs.COUNTRIES_TAB && source && source.id">
+            <app-add-country [sourceId]="source.id"></app-add-country>
+        </ng-container>
+        <ng-container *ngIf="activeTabId === tabs.DOCUMENT_TYPES_TAB && source && source.id">
+            <app-add-document-type-source [sourceId]="source.id"></app-add-document-type-source>
+        </ng-container>
+        <ng-container *ngIf="activeTabId === tabs.RESPONSE_TAB && source && source.id">
+            <app-source-response [sourceId]="source.id"></app-source-response>
+        </ng-container> -->
+	</div>
+</div>

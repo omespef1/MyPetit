@@ -1,11 +1,11 @@
 <div class="card card-custom gutter-b">
 	<div class="card-header">
 		<div class="card-title">
-			<h3 class="card-label">{{ 'AGREEMENT.TITLE' | translate }}</h3>
+			<h3 class="card-label">{{ 'USER.TITLE' | translate }}</h3>
 		</div>
 		<div class="card-toolbar">
 			<button type="button" class="btn btn-primary" routerLink="0">
-				{{ 'AGREEMENT.NEW' | translate }}
+				{{ 'USER.NEW' | translate }}
 			</button>
 		</div>
 	</div>
@@ -28,13 +28,13 @@
 			</div>
 		</div>
 		<app-grid-control
-			[table_name]="'agreements'"
+			[table_name]="'users'"
 			[columns]="columns"
 			[widthActions]="90"
 			[entityService]="userService"
 			[showEdit]="true"
 			(patchState)="fetch($event)"
-			[routerLinkPath]="'/management/agreements'"
+			[routerLinkPath]="'./'"
 			[propertyLink]="'id'"
 		>
 		</app-grid-control>

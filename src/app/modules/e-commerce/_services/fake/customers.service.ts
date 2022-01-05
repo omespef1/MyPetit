@@ -13,8 +13,8 @@ const DEFAULT_STATE: ITableState = {
   paginator: new PaginatorState(),
   sorting: new SortState(),
   searchTerm: '',
-  grouping: new GroupingState(),
-  entityId: undefined
+  // grouping: new GroupingState(),
+  // entityId: undefined
 };
 
 @Injectable({

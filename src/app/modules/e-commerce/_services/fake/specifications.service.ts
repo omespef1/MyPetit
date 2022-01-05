@@ -20,7 +20,7 @@ export class SpecificationsService extends TableService<ProductSpecification> im
   find(tableState: ITableState): Observable<TableResponseModel<ProductSpecification>> {
     return this.http.get<ProductSpecification[]>(this.API_URL).pipe(
       map((response: ProductSpecification[]) => {
-        const filteredResult = baseFilter(response.filter(el => el.carId === tableState.entityId), tableState);
+        const filteredResult = baseFilter(response.filter(el => el.carId === 1), tableState);
         const result: TableResponseModel<ProductSpecification> = {
           items: filteredResult.items,
           total: filteredResult.total

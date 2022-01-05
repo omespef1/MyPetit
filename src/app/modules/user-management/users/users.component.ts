@@ -16,24 +16,36 @@ import { UserService } from '../services/user.service';
 export class UsersComponent implements OnInit, OnDestroy {
 	columns: ColumnInfo[] = [
 		{
-			columnName: 'id',
-			columnTitle: 'AGREEMENT.AGREEMENTID',
+			columnName: 'userName',
+			columnTitle: 'USER.USERNAME',
 			sortable: true,
 		},
 		{
-			columnName: 'convenioGuid',
-			columnTitle: 'AGREEMENT.UPPER_GUID',
+			columnName: 'fullName',
+			columnTitle: 'USER.FULL_NAME',
 			sortable: true,
 		},
 		{
-			columnName: 'nombre',
-			columnTitle: 'AGREEMENT.UPPER_NAME',
+			columnName: 'email',
+			columnTitle: 'USER.EMAIL',
 			sortable: true,
 		},
 		{
-			columnName: 'accountToken',
-			columnTitle: 'AGREEMENT.ACCOUNT_TOKEN',
+			columnName: 'isActive',
+			columnTitle: 'USER.STATE',
 			sortable: false,
+			customOptions: [
+				{
+					value: true,
+					text: 'COMMON.ACTIVE',
+					class: 'label-light-success',
+				},
+				{
+					value: false,
+					text: 'COMMON.INACTIVE',
+					class: 'label-light-danger',
+				},
+			],
 		},
 	];
 	searchGroup: FormGroup;
@@ -56,7 +68,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 		this.subscriptions.push(
 			this.userService.errorMessage$
 				.pipe(filter((r) => r !== ''))
-				.subscribe((err) => notify(err))
+				.subscribe((err) => notify(err, 'error', 1000))
 		);
 	}
 

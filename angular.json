@@ -34,13 +34,11 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "styles": ["src/styles.scss"],
             "scripts": [
               "node_modules/apexcharts/dist/apexcharts.min.js",
               "node_modules/clipboard/dist/clipboard.js"
-            ]
+            ]          
           },
           "configurations": {
             "production": {

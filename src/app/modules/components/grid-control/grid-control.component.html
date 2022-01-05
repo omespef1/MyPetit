@@ -1,1 +1,90 @@
-<p>grid-control works!</p>
+<!-- begin:Table -->
+<div class="table-responsive angular-bootstrap-table">
+    <table class="table table-head-custom table-vertical-center overflow-hidden">
+        <thead>
+            <ng-container *ngIf="showView || showEdit || showDelete">
+                <th [style]="getWidthActions()">{{ 'COMMON.ACTIONS' | translate | uppercase }}</th>
+            </ng-container>
+            <th *ngFor="let col of columns" [style]="getWidthStyle(col)">
+                <ng-container *ngIf="!col.hide">
+                    {{ col.columnTitle | translate }}
+                    <ng-container *ngIf="col.sortable">
+                        <app-sort-icon [column]="col.columnName" [activeColumn]="sorting.column"
+                            [activeDirection]="sorting.direction" (sort)="sort($event)"></app-sort-icon>
+                    </ng-container>
+                </ng-container>
+            </th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of entityService.items$ | async">
+                <ng-container *ngIf="showView || showEdit || showDelete">
+                    <td>
+                        <ng-container *ngIf="showView">
+                            <a title="show" class="btn btn-icon btn-light btn-hover-success btn-sm mx-3"
+                                (click)="showClick(item)" [routerLink]="getRouterLink(item)">
+                                <span [inlineSVG]="
+                                './assets/media/svg/icons/General/Search2.svg'
+                            " cacheSVG="true" class="svg-icon svg-icon-md svg-icon-success">
+                                </span>
+                            </a>
+                        </ng-container>
+                        <ng-container *ngIf="showEdit">
+                            <a title="Edit item" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+                                (click)="editClick(item)" [routerLink]="getRouterLink(item)">
+                                <span [inlineSVG]="
+                                    './assets/media/svg/icons/Communication/Write.svg'
+                                " cacheSVG="true" class="svg-icon svg-icon-md svg-icon-primary">
+                                </span>
+                            </a>
+                        </ng-container>
+                        <ng-container *ngIf="showDelete">
+                            <a title="Delete item" class="btn btn-icon btn-light btn-hover-danger btn-sm"
+                                (click)="deleteClick(item)">
+                                <span [inlineSVG]="
+            './assets/media/svg/icons/General/Trash.svg'
+        " cacheSVG="true" class="svg-icon svg-icon-md svg-icon-danger">
+                                </span>
+                            </a>
+                        </ng-container>
+                    </td>
+                </ng-container>
+                <td *ngFor="let col of columns">
+                    <ng-container *ngIf="!col.hide">
+                        <ng-container *ngIf="col.datePipe else noDatePipe">
+                            {{ item[col.columnName] | date: col.datePipe }}
+                        </ng-container>
+                        <ng-template #noDatePipe>
+                            <ng-container *ngIf="col.customOptions else noTemplate">
+                                <span class="label label-lg label-inline"
+                                    [class]="getColumnOptionValue(col, item[col.columnName])?.class">
+                                    {{ getColumnOptionValue(col, item[col.columnName])?.text | translate}}
+                                </span>
+                            </ng-container>
+                            <ng-template #noTemplate>
+                                <ng-container *ngIf="col.svgIconOption else noIcon">
+                                    <ng-container *ngIf="getSvgIconItem(col, item[col.columnName]) !== ''">
+                                        <button href="javascript:;" class="btn btn-sm btn-clean btn-icon mr-2"
+                                            [ngbTooltip]="getSvgIconItem(col, item[col.columnName])?.tooltip | translate">
+                                            <span [inlineSVG]="getSvgIconItem(col, item[col.columnName])?.icon"
+                                                cacheSVG="true"
+                                                class="svg-icon svg-icon-md svg-icon-{{ getSvgIconItem(col, item[col.columnName])?.color }}">
+                                            </span>
+                                        </button>
+                                    </ng-container>
+                                </ng-container>
+                                <ng-template #noIcon>
+                                    {{ item[col.columnName] }}
+                                </ng-template>
+                            </ng-template>
+                        </ng-template>
+                    </ng-container>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- end: Table -->
+<app-paginator tableName="countries" class="d-flex justify-content-between align-items-center flex-wrap"
+    [paginator]="paginator" [isLoading]="isLoading$ | async" (paginate)="paginate($event)">
+</app-paginator>
