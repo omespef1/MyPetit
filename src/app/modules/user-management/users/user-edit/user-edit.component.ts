@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import notify from 'devextreme/ui/notify';
 import { Observable, of, Subscription } from 'rxjs';
-import { catchError, filter, switchMap } from 'rxjs/operators';
+import { catchError, filter, switchMap, tap } from 'rxjs/operators';
 import { UserModel } from 'src/app/_metronic/core/models/user.model';
+import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { UserService } from '../../services/user.service';
 
 const EMPTY_USER: UserModel = {
@@ -33,7 +33,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	errorMessage = '';
 	tabs = {
 		BASIC_TAB: 0,
-		ROLES_TAB: 1
+		ROLES_TAB: 1,
 	};
 	activeTabId = this.tabs.BASIC_TAB; // 0 => Basic info | 1 => Roles
 	private subscriptions: Subscription[] = [];
@@ -41,9 +41,9 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	constructor(
 		private fb: FormBuilder,
 		private userService: UserService,
+		private readonly swalService: SwalService,
 		private router: Router,
-		private route: ActivatedRoute,
-		private translateService: TranslateService
+		private route: ActivatedRoute
 	) {}
 
 	ngOnInit(): void {
@@ -52,7 +52,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 		this.subscriptions.push(
 			this.userService.errorMessage$
 				.pipe(filter((r) => r !== ''))
-				.subscribe((err) => notify(err, 'error', 1500))
+				.subscribe((err) => this.swalService.error(err))
 		);
 	}
 
@@ -137,6 +137,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 					Validators.maxLength(15),
 				]),
 			],
+			isActive: [this.user.isActive],
 		});
 	}
 
@@ -165,44 +166,43 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	}
 
 	edit() {
-		// const sbUpdate = this.sourceService
-		// 	.update(this.user)
-		// 	.pipe(
-		// 		tap(() => {
-		// 			this.messageDialogService.showSuccess(
-		// 				this.translateService.instant('COMMON.RESOURCE_UPDATED')
-		// 			);
-		// 			this.router.navigate([
-		// 				'/user-management',
-		// 				'users',
-		// 				this.user.id,
-		// 			]);
-		// 		})
-		// 	)
-		// 	.subscribe((res) => (this.user = res));
-		// this.subscriptions.push(sbUpdate);
+		const sbUpdate = this.userService
+			.update(this.user)
+			.pipe(
+				tap(() => {
+					// this.messageDialogService.showSuccess(
+					// 	this.translateService.instant('COMMON.RESOURCE_UPDATED')
+					// );
+					this.router.navigate([
+						'/user-management',
+						'users',
+						this.user.id,
+					]);
+				})
+			)
+			.subscribe((res) => (this.user = res));
+		this.subscriptions.push(sbUpdate);
 	}
 
 	create() {
-		// const sbCreate = this.sourceService
-		// 	.create(this.user)
-		// 	.pipe(
-		// 		tap(() => {
-		// 			this.messageDialogService.showSuccess(
-		// 				this.translateService.instant('COMMON.RESOURCE_CREATED')
-		// 			);
-		// 		})
-		// 	)
-		// 	.subscribe((res) => {
-		// 		this.source = res as SourceModel;
-		// 		console.log('res: ', this.source);
-		// 		this.router.navigate([
-		// 			'/management',
-		// 			'sources',
-		// 			this.source.id,
-		// 		]);
-		// 	});
-		// this.subscriptions.push(sbCreate);
+		const sbCreate = this.userService
+			.create(this.user)
+			.pipe(
+				tap(() => {
+					// this.messageDialogService.showSuccess(
+					// 	this.translateService.instant('COMMON.RESOURCE_CREATED')
+					// );
+				})
+			)
+			.subscribe((res) => {
+				this.user = res as UserModel;
+				this.router.navigate([
+					'/user-management',
+					'users',
+					this.user.id,
+				]);
+			});
+		this.subscriptions.push(sbCreate);
 	}
 
 	changeTab(tabId: number) {

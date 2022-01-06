@@ -1,0 +1,62 @@
+<!-- <ng-container *ngIf="isLoading$ | async">
+    <app-loading></app-loading>
+</ng-container> -->
+<div class="card-body" style="min-height: 250px">
+	<div class="form margin-b-10">
+		<div class="form-filtration">
+			<div class="row align-items-center">
+				<div class="col-md-12">
+					<label></label>
+					<button
+						type="button"
+						(click)="add()"
+						class="btn btn-primary font-weight-bold ml-2 mt-0"
+					>
+						{{ 'COMMON.ADD' | translate }}
+						{{ 'USER.ROLE' | translate }}
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- <div class="col-lg-8 col-sm-12 offset-lg-2 offset-sm-0"> -->
+	<div class="col-12">
+		<div class="table-responsive angular-bootstrap-table">
+			<table
+				class="table table-head-custom table-vertical-center overflow-hidden"
+			>
+				<thead>
+					<th style="min-width: 90px; width: 90px">
+						{{ 'COMMON.ACTIONS' | translate | uppercase }}
+					</th>
+					<th>
+						{{ 'USER.ROLE' | translate }}
+					</th>
+				</thead>
+				<tbody>
+					<tr *ngFor="let role of userRoles$ | async">
+						<td>
+							<a
+								title="Delete role"
+								class="btn btn-icon btn-light btn-hover-danger btn-sm"
+								(click)="remove(role)"
+							>
+								<span
+									style="pointer-events: none"
+									[inlineSVG]="
+										'./assets/media/svg/icons/General/Trash.svg'
+									"
+									cacheSVG="true"
+									class="svg-icon svg-icon-md svg-icon-danger"
+								>
+								</span>
+							</a>
+						</td>
+						<td>{{ role.roleName }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

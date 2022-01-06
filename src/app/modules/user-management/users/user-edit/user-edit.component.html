@@ -61,9 +61,7 @@
 					class="nav-link"
 					data-toggle="tab"
 					role="button"
-					[attr.aria-selected]="
-						activeTabId === tabs.ROLES_TAB
-					"
+					[attr.aria-selected]="activeTabId === tabs.ROLES_TAB"
 					[class.active]="activeTabId === tabs.ROLES_TAB"
 					>{{ 'USER.ROLES' | translate }}</a
 				>
@@ -218,127 +216,97 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<!-- <div class="col-lg-3">
+						<div class="col-lg-5">
 							<label
-								>{{ 'COMMON.ENTER' | translate }}
-								{{ 'SOURCE.API_KEY' | translate }}</label
-							>
+								><b>{{ 'USER.EMAIL' | translate }}</b>
+							</label>
 							<input
 								type="text"
 								class="form-control form-control-lg form-control-solid"
 								autocomplete="off"
-								placeholder="{{ 'SOURCE.API_KEY' | translate }}"
-								name="apiKey"
-								[class.is-invalid]="isControlInvalid('apiKey')"
-								[class.is-valid]="isControlValid('apiKey')"
-								formControlName="apiKey"
+								placeholder="{{ 'USER.EMAIL' | translate }}"
+								name="email"
+								[class.is-invalid]="isControlInvalid('email')"
+								formControlName="email"
 							/>
 							<div
-								class="feedback"
-								*ngIf="!isControlTouched('apiKey')"
-							>
-								{{ 'COMMON.PLEASE_ENTER' | translate }}
-								<b>{{ 'SOURCE.API_KEY' | translate }}</b>
-							</div>
-							<div
 								class="invalid-feedback"
-								*ngIf="controlHasError('required', 'apiKey')"
+								*ngIf="controlHasError('required', 'email')"
 							>
-								{{ 'SOURCE.API_KEY' | translate }}
+								<b>{{ 'USER.EMAIL' | translate }}</b>
 								{{ 'COMMON.REQUIRED' | translate }}
 							</div>
 							<div
 								class="invalid-feedback"
-								*ngIf="controlHasError('minlength', 'apiKey')"
+								*ngIf="controlHasError('minlength', 'email')"
 							>
-								{{ 'SOURCE.API_KEY' | translate }}
+								<b>{{ 'USER.EMAIL' | translate }}</b>
 								{{
 									'COMMON.SHOULTD_HAVE_AT_LEAST'
-										| translate
-											: {
-													min: 2
-											  }
+										| translate: { min: 10 }
 								}}
 							</div>
 							<div
 								class="invalid-feedback"
-								*ngIf="controlHasError('maxlength', 'apiKey')"
+								*ngIf="controlHasError('maxlength', 'email')"
 							>
-								{{ 'SOURCE.API_KEY' | translate }}
+								<b>{{ 'USER.EMAIL' | translate }}</b>
 								{{
 									'COMMON.SHOULTD_HAVE_MAXIMUM'
-										| translate
-											: {
-													max: 100
-											  }
+										| translate: { max: 255 }
 								}}
 							</div>
 						</div>
-						<div class="col-lg-3">
+						<div class="col-lg-4">
 							<label
-								>{{ 'COMMON.ENTER' | translate }}
-								{{ 'SOURCE.RESPONSE_KEY' | translate }}</label
-							>
+								><b>{{ 'USER.PHONE_NUMBER' | translate }}</b>
+							</label>
 							<input
 								type="text"
 								class="form-control form-control-lg form-control-solid"
 								autocomplete="off"
 								placeholder="{{
-									'SOURCE.RESPONSE_KEY' | translate
+									'USER.PHONE_NUMBER' | translate
 								}}"
-								name="responseKey"
+								name="phoneNumber"
 								[class.is-invalid]="
-									isControlInvalid('responseKey')
+									isControlInvalid('phoneNumber')
 								"
-								[class.is-valid]="isControlValid('responseKey')"
-								formControlName="responseKey"
+								formControlName="phoneNumber"
 							/>
 							<div
 								class="invalid-feedback"
 								*ngIf="
-									controlHasError('minlength', 'responseKey')
+									controlHasError('required', 'phoneNumber')
 								"
 							>
-								{{ 'SOURCE.RESPONSE_KEY' | translate }}
+								<b>{{ 'USER.PHONE_NUMBER' | translate }}</b>
+								{{ 'COMMON.REQUIRED' | translate }}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="
+									controlHasError('minlength', 'phoneNumber')
+								"
+							>
+								<b>{{ 'USER.PHONE_NUMBER' | translate }}</b>
 								{{
 									'COMMON.SHOULTD_HAVE_AT_LEAST'
-										| translate
-											: {
-													min: 2
-											  }
+										| translate: { min: 10 }
 								}}
 							</div>
 							<div
 								class="invalid-feedback"
 								*ngIf="
-									controlHasError('maxlength', 'responseKey')
+									controlHasError('maxlength', 'phoneNumber')
 								"
 							>
-								{{ 'SOURCE.RESPONSE_KEY' | translate }}
+								<b>{{ 'USER.PHONE_NUMBER' | translate }}</b>
 								{{
 									'COMMON.SHOULTD_HAVE_MAXIMUM'
-										| translate
-											: {
-													max: 100
-											  }
+										| translate: { max: 15 }
 								}}
 							</div>
-						</div>
-						<div class="col-lg-3">
-							<label
-								>{{ 'COMMON.ENTER' | translate }}
-								{{ 'SOURCE.ORDER' | translate }}</label
-							>
-							<input
-								type="text"
-								class="form-control form-control-lg form-control-solid"
-								autocomplete="off"
-								placeholder="{{ 'SOURCE.ORDER' | translate }}"
-								name="responseKey"
-								[class.is-invalid]="isControlInvalid('order')"
-								[class.is-valid]="isControlValid('order')"
-								formControlName="order"
-							/>
 						</div>
 						<div class="col-lg-2">
 							<label class="form-label">{{
@@ -351,22 +319,13 @@
 								/>
 								<span></span>
 							</label>
-						</div> -->
+						</div>
 					</div>
 				</form>
 			</div>
 		</ng-container>
-		<!-- <ng-container *ngIf="activeTabId === tabs.INPUT_PARAMETER_TAB && source && source.id">
-            <app-add-input-parameter [sourceId]="source.id"></app-add-input-parameter>
-        </ng-container>
-        <ng-container *ngIf="activeTabId === tabs.COUNTRIES_TAB && source && source.id">
-            <app-add-country [sourceId]="source.id"></app-add-country>
-        </ng-container>
-        <ng-container *ngIf="activeTabId === tabs.DOCUMENT_TYPES_TAB && source && source.id">
-            <app-add-document-type-source [sourceId]="source.id"></app-add-document-type-source>
-        </ng-container>
-        <ng-container *ngIf="activeTabId === tabs.RESPONSE_TAB && source && source.id">
-            <app-source-response [sourceId]="source.id"></app-source-response>
-        </ng-container> -->
+		<ng-container *ngIf="activeTabId === tabs.ROLES_TAB && user && user.id">
+			<app-user-role [userId]="user.id"></app-user-role>
+		</ng-container>
 	</div>
 </div>

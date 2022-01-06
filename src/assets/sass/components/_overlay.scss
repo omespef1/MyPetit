@@ -5,7 +5,8 @@
 
 .overlay  {
     position: relative;
-
+    // filter: blur(8px);
+    // -webkit-filter: blur(8px);
     .overlay-wrapper {
 
     }
@@ -21,7 +22,11 @@
         align-items: center;
         background-color: rgba($black, 0.05);
         transition: all 0.3s ease;
-        opacity: 0;
+        z-index: 5;
+        // opacity: 0;
+
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
     }
 
     &.overlay-block,

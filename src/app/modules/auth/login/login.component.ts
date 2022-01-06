@@ -5,6 +5,7 @@ import { catchError, first } from 'rxjs/operators';
 import { UserModel } from '../_models/user.model';
 import { AuthService } from '../_services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ErrorUtil } from 'src/app/_metronic/core/utils/error.util';
 
 @Component({
 	selector: 'app-login',
@@ -86,7 +87,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 				first(),
 				catchError((err) => {
 					console.log(err);
-					this.errorMessage = err.message; //ErrorUtil.getMessage(err);
+					this.errorMessage = ErrorUtil.getMessage(err);
 					return of(undefined);
 				})
 			)

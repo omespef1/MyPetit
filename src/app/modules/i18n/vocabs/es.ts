@@ -81,9 +81,11 @@ export const locale = {
 			NEW: 'Nuevo usuario',
 			STATE: 'Estado',
 			USER: 'Usuario',
-      FIRST_NAMES: 'Nombres',
-      LAST_NAMES: 'Apellidos',
-      ROLES: 'Roles'
+			FIRST_NAMES: 'Nombres',
+			LAST_NAMES: 'Apellidos',
+			ROLES: 'Roles',
+			ROLE: 'Rol',
+			PHONE_NUMBER: 'Teléfono'
 		},
 		MENU: {
 			NEW: 'nuevo',

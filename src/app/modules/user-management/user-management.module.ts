@@ -12,9 +12,11 @@ import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatButtonModule } from '@angular/material/button';
 import { ComponentsModule } from '../components/components.module';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
+import { UserRoleComponent } from './users/user-role/user-role.component';
+import { AddRoleModalComponent } from './users/add-role-modal/add-role-modal.component';
 
 @NgModule({
-	declarations: [UsersComponent, RolesComponent, UserManagementComponent, UserEditComponent],
+	declarations: [UsersComponent, RolesComponent, UserManagementComponent, UserEditComponent, UserRoleComponent, AddRoleModalComponent],
 	imports: [
 		UserManagementRoutingModule,
 		CommonModule,

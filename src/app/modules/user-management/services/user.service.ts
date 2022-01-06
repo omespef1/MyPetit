@@ -50,11 +50,37 @@ export class UserService extends TableService<UserModel> implements OnDestroy {
 		);
 	}
 
-	getRolesByUserId(userId: string) {
+	getRolesByUserId(userId: number) {
 		this._isLoading$.next(true);
 		this._errorMessage.next('');
 		const url = `${this.API_URL}/roles/${userId}`;
 		return this.http.get<UserRoleModel[]>(url).pipe(
+			catchError((err) => {
+				this._errorMessage.next(ErrorUtil.getMessage(err));
+				throw err;
+			}),
+			finalize(() => this._isLoading$.next(false))
+		);
+	}
+
+	createUserRole(userId: number, userRole: UserRoleModel) {
+		this._isLoading$.next(true);
+		this._errorMessage.next('');
+		const url = `${this.API_URL}/roles/${userId}`;
+		return this.http.post<UserRoleModel>(url, userRole).pipe(
+			catchError((err) => {
+				this._errorMessage.next(ErrorUtil.getMessage(err));
+				throw err;
+			}),
+			finalize(() => this._isLoading$.next(false))
+		);
+	}
+
+	removeRole(role: UserRoleModel) {
+		this._isLoading$.next(true);
+		this._errorMessage.next('');
+		const url = `${this.API_URL}/roles/${role.userId}/${role.roleId}`;
+		return this.http.delete(url).pipe(
 			catchError((err) => {
 				this._errorMessage.next(ErrorUtil.getMessage(err));
 				throw err;
