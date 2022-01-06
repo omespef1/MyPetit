@@ -121,12 +121,6 @@
 				<div class="menu-submenu">
 					<i class="menu-arrow"></i>
 					<ul class="menu-subnav">
-						<!-- <li class="menu-item menu-item-parent" aria-haspopup="true">
-              <span class="menu-link">
-                <span class="menu-text">User Management</span>
-              </span>
-            </li> -->
-
 						<!-- begin::2 Level -->
 						<li
 							class="menu-item"
@@ -169,6 +163,72 @@
 				</div>
 			</li>
 			<!-- end::1 Level -->
+
+			<li
+				class="menu-item menu-item-submenu"
+				aria-haspopup="true"
+				data-menu-toggle="hover"
+				routerLinkActive="menu-item-open"
+			>
+				<a
+					class="menu-link menu-toggle"
+					routerLinkActive="active"
+					href="/user-management"
+				>
+					<span
+						[inlineSVG]="
+							'./assets/media/svg/icons/General/User.svg'
+						"
+						cacheSVG="true"
+						class="svg-icon menu-icon"
+					></span>
+					<span class="menu-text">Pet Management</span>
+					<i class="menu-arrow"></i>
+				</a>
+				<div class="menu-submenu">
+					<i class="menu-arrow"></i>
+					<ul class="menu-subnav">
+						<!-- begin::2 Level -->
+						<li
+							class="menu-item"
+							routerLinkActive="menu-item-active"
+							aria-haspopup="true"
+							data-menu-toggle="hover"
+						>
+							<a
+								class="menu-link"
+								routerLink="/user-management/users"
+								routerLinkActive="active"
+							>
+								<i class="menu-bullet menu-bullet-dot">
+									<span></span>
+								</i>
+								<span class="menu-text">Types</span>
+							</a>
+						</li>
+						<!-- end::2 Level -->
+						<!-- begin::2 Level -->
+						<li
+							class="menu-item"
+							routerLinkActive="menu-item-active"
+							aria-haspopup="true"
+							data-menu-toggle="hover"
+						>
+							<a
+								class="menu-link"
+								routerLink="/user-management/roles"
+								routerLinkActive="active"
+							>
+								<i class="menu-bullet menu-bullet-dot">
+									<span></span>
+								</i>
+								<span class="menu-text">Tags</span>
+							</a>
+						</li>
+						<!-- end::2 Level -->
+					</ul>
+				</div>
+			</li>
 
 			<!-- begin::1 Level -->
 			<li

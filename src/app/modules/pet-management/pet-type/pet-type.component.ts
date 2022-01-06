@@ -5,14 +5,14 @@ import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { ITableState } from 'src/app/_metronic/shared/crud-table';
 import { ColumnInfo } from '../../components/grid-control/grid-control.component';
-import { UserService } from '../services/user.service';
+import { PetTypeService } from '../services/pet-type.service';
 
 @Component({
-	selector: 'app-users',
-	templateUrl: './users.component.html',
-	styleUrls: ['./users.component.scss'],
+	selector: 'app-pet-type',
+	templateUrl: './pet-type.component.html',
+	styleUrls: ['./pet-type.component.scss'],
 })
-export class UsersComponent implements OnInit, OnDestroy {
+export class PetTypeComponent implements OnInit, OnDestroy {
 	columns: ColumnInfo[] = [
 		{
 			columnName: 'userName',
@@ -58,31 +58,31 @@ export class UsersComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private fb: FormBuilder,
-		public userService: UserService,
+		public petTypeService: PetTypeService,
 		private swalService: SwalService
 	) {}
 
 	ngOnDestroy(): void {
-		this.userService.ngOnDestroy();
+		this.petTypeService.ngOnDestroy();
 		this.subscriptions.forEach((m) => m.unsubscribe());
 	}
 
 	ngOnInit(): void {
 		this.searchForm();
 		this.subscriptions.push(
-			this.userService.errorMessage$
+			this.petTypeService.errorMessage$
 				.pipe(filter((r) => r !== ''))
 				.subscribe((err) => this.swalService.error(err))
 		);
 	}
 
 	fetch(patch: Partial<ITableState>) {
-		this.userService.fetch();
+		this.petTypeService.fetch();
 	}
 
 	searchForm(): void {
 		this.searchGroup = this.fb.group({
-			searchTerm: [this.userService.searchTerm],
+			searchTerm: [this.petTypeService.searchTerm],
 		});
 		const searchEvent = this.searchGroup.controls.searchTerm.valueChanges
 			.pipe(debounceTime(150), distinctUntilChanged())
@@ -91,6 +91,6 @@ export class UsersComponent implements OnInit, OnDestroy {
 	}
 
 	search(searchTerm: string): void {
-		this.userService.patchState({ searchTerm });
+		this.petTypeService.patchState({ searchTerm });
 	}
 }
