@@ -15,41 +15,9 @@ import { PetTypeService } from '../services/pet-type.service';
 export class PetTypeComponent implements OnInit, OnDestroy {
 	columns: ColumnInfo[] = [
 		{
-			columnName: 'userName',
-			columnTitle: 'USER.USERNAME',
+			columnName: 'name',
+			columnTitle: 'PET_TYPE.NAME',
 			sortable: true,
-		},
-		{
-			columnName: 'fullName',
-			columnTitle: 'USER.FULL_NAME',
-			sortable: true,
-		},
-		{
-			columnName: 'email',
-			columnTitle: 'USER.EMAIL',
-			sortable: true,
-		},
-		{
-			columnName: 'phoneNumber',
-			columnTitle: 'USER.PHONE_NUMBER',
-			sortable: true,
-		},
-		{
-			columnName: 'isActive',
-			columnTitle: 'USER.STATE',
-			sortable: false,
-			customOptions: [
-				{
-					value: true,
-					text: 'COMMON.ACTIVE',
-					class: 'label-light-success',
-				},
-				{
-					value: false,
-					text: 'COMMON.INACTIVE',
-					class: 'label-light-danger',
-				},
-			],
 		},
 	];
 	searchGroup: FormGroup;

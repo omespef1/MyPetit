@@ -87,6 +87,11 @@ export const locale = {
 			ROLE: 'Rol',
 			PHONE_NUMBER: 'Teléfono'
 		},
+		PET_TYPE: {
+			NAME: 'Tipo de Mascota',
+			BREEDS: 'Razas',
+			BREED: 'Raza'
+		},
 		MENU: {
 			NEW: 'nuevo',
 			ACTIONS: 'Comportamiento',

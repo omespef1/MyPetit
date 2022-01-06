@@ -1,0 +1,104 @@
+<ng-container *ngIf="isLoading$ | async">
+	<app-loading></app-loading>
+</ng-container>
+<div class="card-body" style="min-height: 250px">
+	<div class="form margin-b-10">
+		<div class="form-filtration">
+			<div class="row align-items-center" [formGroup]="breedGroup">
+				<div class="col-md-4 col-sm-12 margin-bottom-10-mobile">
+					<label>
+						<b>{{ 'PET_TYPE.BREED' | translate }}</b></label
+					>
+					<input
+						type="text"
+						class="form-control form-control-lg form-control-solid"
+						autocomplete="off"
+						placeholder="{{ 'PET_TYPE.BREED' | translate }}"
+						name="name"
+						[class.is-invalid]="isControlInvalid('name')"
+						formControlName="name"
+					/>
+
+					<!-- <div
+						class="invalid-feedback"
+						*ngIf="controlHasError('required', 'name')"
+					>
+						<b>{{ 'PET_TYPE.BREED' | translate }}</b>
+						{{ 'COMMON.REQUIRED' | translate }}
+					</div> -->
+					<div
+						class="invalid-feedback"
+						*ngIf="controlHasError('minlength', 'name')"
+					>
+						<b>{{ 'PET_TYPE.BREED' | translate }}</b>
+						{{
+							'COMMON.SHOULTD_HAVE_AT_LEAST'
+								| translate: { min: 2 }
+						}}
+					</div>
+					<div
+						class="invalid-feedback"
+						*ngIf="controlHasError('maxlength', 'name')"
+					>
+						<b>{{ 'PET_TYPE.BREED' | translate }}</b>
+						{{
+							'COMMON.SHOULTD_HAVE_MAXIMUM'
+								| translate: { max: 50 }
+						}}
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-12">
+					<label></label>
+					<button
+						[disabled]="breedGroup.invalid || (isLoading$ | async)"
+						type="button"
+						(click)="add()"
+						class="btn btn-primary font-weight-bold ml-2 mt-7"
+					>
+						{{ 'COMMON.ADD' | translate }}
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- <div class="col-lg-8 col-sm-12 offset-lg-2 offset-sm-0"> -->
+	<div class="col-12">
+		<div class="table-responsive angular-bootstrap-table">
+			<table
+				class="table table-head-custom table-vertical-center overflow-hidden"
+			>
+				<thead>
+					<th style="min-width: 120px; width: 120px">
+						{{ 'COMMON.ACTIONS' | translate | uppercase }}
+					</th>
+					<th>
+						{{ 'PET_TYPE.BREED' | translate }}
+					</th>
+				</thead>
+				<tbody>
+					<tr *ngFor="let breed of breeds$ | async">
+						<td>
+							<a
+								title="Delete breed"
+								class="btn btn-icon btn-light btn-hover-danger btn-sm"
+								(click)="remove(breed)"
+							>
+								<span
+									style="pointer-events: none"
+									[inlineSVG]="
+										'./assets/media/svg/icons/General/Trash.svg'
+									"
+									cacheSVG="true"
+									class="svg-icon svg-icon-md svg-icon-danger"
+								>
+								</span>
+							</a>
+						</td>
+						<td>{{ breed.name }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

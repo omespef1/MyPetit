@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PetManagementComponent } from './pet-management.component';
+import { EditTypeComponent } from './pet-type/edit-type/edit-type.component';
 import { PetTypeComponent } from './pet-type/pet-type.component';
 import { TagsComponent } from './tags/tags.component';
 
@@ -16,10 +17,10 @@ const routes: Routes = [
 						path: '',
 						component: PetTypeComponent,
 					},
-					// {
-					// 	path: ':id',
-					// 	component: UserEditComponent,
-					// },
+					{
+						path: ':id',
+						component: EditTypeComponent,
+					},
 				],
 			},
 			{

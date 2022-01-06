@@ -11,9 +11,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 import { PetTypeComponent } from './pet-type/pet-type.component';
 import { TagsComponent } from './tags/tags.component';
+import { EditTypeComponent } from './pet-type/edit-type/edit-type.component';
+import { AddBreedComponent } from './pet-type/add-breed/add-breed.component';
 
 @NgModule({
-	declarations: [PetManagementComponent, PetTypeComponent, TagsComponent],
+	declarations: [PetManagementComponent, PetTypeComponent, TagsComponent, EditTypeComponent, AddBreedComponent],
 	imports: [
 		PetManagementRoutingModule,
 		CommonModule,
