@@ -8,9 +8,8 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateService } from '@ngx-translate/core';
-import { Observable, of, Subscription } from 'rxjs';
-import { catchError, filter, first, tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
 import { RoleModel } from 'src/app/_metronic/core/models/role.model';
 import { UserRoleModel } from 'src/app/_metronic/core/models/user-role.model';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';

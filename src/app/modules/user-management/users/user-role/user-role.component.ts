@@ -25,6 +25,7 @@ export class UserRoleComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
+		this.isLoading$ = this.userService.isLoading$;
 		this.searchUserRoles();
 	}
 

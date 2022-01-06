@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { catchError, filter, switchMap, tap } from 'rxjs/operators';
 import { UserModel } from 'src/app/_metronic/core/models/user.model';
@@ -16,7 +15,7 @@ const EMPTY_USER: UserModel = {
 	password: undefined,
 	userName: '',
 	isActive: true,
-	phoneNumber: '+57',
+	phoneNumber: '',
 };
 
 @Component({
@@ -47,7 +46,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	) {}
 
 	ngOnInit(): void {
-		this.isLoading$ = this.userService.isLoading$;
+		this.isLoading$ = this.userService.isLoading$.pipe(tap(console.log));
 		this.loadUser();
 		this.subscriptions.push(
 			this.userService.errorMessage$
@@ -170,9 +169,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 			.update(this.user)
 			.pipe(
 				tap(() => {
-					// this.messageDialogService.showSuccess(
-					// 	this.translateService.instant('COMMON.RESOURCE_UPDATED')
-					// );
+					this.swalService.success('COMMON.RESOURCE_UPDATED');
 					this.router.navigate([
 						'/user-management',
 						'users',
@@ -189,9 +186,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 			.create(this.user)
 			.pipe(
 				tap(() => {
-					// this.messageDialogService.showSuccess(
-					// 	this.translateService.instant('COMMON.RESOURCE_CREATED')
-					// );
+					this.swalService.success('COMMON.RESOURCE_CREATED');
 				})
 			)
 			.subscribe((res) => {

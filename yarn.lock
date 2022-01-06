@@ -6346,7 +6346,7 @@
   dependencies:
     "tslib" "^1.10.0"
 
-"ngx-window-token@>=3.0.0":
+"ngx-window-token@^5.0.0", "ngx-window-token@>=3.0.0":
   "integrity" "sha512-DhigCrm9QO8R29lqJYzBC9aaTU0KiWgdnt8RNcTN/DvMaS7shfzAqyvUtxSIm/+JR4gW5JKqR/JODU8760nJMw=="
   "resolved" "https://registry.npmjs.org/ngx-window-token/-/ngx-window-token-5.0.0.tgz"
   "version" "5.0.0"
@@ -8966,6 +8966,11 @@
     "stable" "^0.1.8"
     "unquote" "~1.1.1"
     "util.promisify" "~1.0.0"
+
+"sweetalert2@^10.15.5":
+  "integrity" "sha512-oNe+md5tmmS3fGfVHa7gVPlun7Td2oANSacnZCeghnrr3OHBi6UPVPU+GFrymwaDqwQspACilLRmRnM7aTjNPA=="
+  "resolved" "https://registry.npmjs.org/sweetalert2/-/sweetalert2-10.16.9.tgz"
+  "version" "10.16.9"
 
 "symbol-observable@2.0.3":
   "integrity" "sha512-sQV7phh2WCYAn81oAkakC5qjq2Ml0g8ozqz03wOGnx9dDlG1de6yrF+0RAzSJD8fPUow3PTSMf2SAbOGxb93BA=="
