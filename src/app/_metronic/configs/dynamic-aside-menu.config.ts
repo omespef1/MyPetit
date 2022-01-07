@@ -69,7 +69,7 @@ export const DynamicAsideMenuConfig = {
       root: true,
       icon: 'flaticon2-architecture-and-city',
       svg: './assets/media/svg/icons/Menu/Person.svg',
-      page: '/owners',
+      page: '/owner/owners',
       translate: 'MENU.OWNERS',
       bullet: 'dot',
     },
