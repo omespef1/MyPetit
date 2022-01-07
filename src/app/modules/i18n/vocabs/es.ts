@@ -85,12 +85,19 @@ export const locale = {
 			LAST_NAMES: 'Apellidos',
 			ROLES: 'Roles',
 			ROLE: 'Rol',
-			PHONE_NUMBER: 'Teléfono'
+			PHONE_NUMBER: 'Teléfono',
 		},
 		PET_TYPE: {
 			NAME: 'Tipo de Mascota',
 			BREEDS: 'Razas',
-			BREED: 'Raza'
+			BREED: 'Raza',
+			NEW: 'Nuevo Tipo de mascota',
+			TITLE: 'Tipos de mascota',
+		},
+		TAG: {
+			TITLE: 'Tags',
+			NEW: 'Nuevo Tag',
+			NAME: 'Tag'
 		},
 		MENU: {
 			NEW: 'nuevo',

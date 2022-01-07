@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PetManagementComponent } from './pet-management.component';
 import { EditTypeComponent } from './pet-type/edit-type/edit-type.component';
 import { PetTypeComponent } from './pet-type/pet-type.component';
+import { TagEditComponent } from './tags/tag-edit/tag-edit.component';
 import { TagsComponent } from './tags/tags.component';
 
 const routes: Routes = [
@@ -30,10 +31,10 @@ const routes: Routes = [
 						path: '',
 						component: TagsComponent,
 					},
-					// {
-					// 	path: ':id',
-					// 	component: UserEditComponent,
-					// },
+					{
+						path: ':id',
+						component: TagEditComponent,
+					},
 				],
 			},
 			{ path: '', redirectTo: 'types', pathMatch: 'full' },

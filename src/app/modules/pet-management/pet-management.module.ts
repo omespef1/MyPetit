@@ -13,9 +13,10 @@ import { PetTypeComponent } from './pet-type/pet-type.component';
 import { TagsComponent } from './tags/tags.component';
 import { EditTypeComponent } from './pet-type/edit-type/edit-type.component';
 import { AddBreedComponent } from './pet-type/add-breed/add-breed.component';
+import { TagEditComponent } from './tags/tag-edit/tag-edit.component';
 
 @NgModule({
-	declarations: [PetManagementComponent, PetTypeComponent, TagsComponent, EditTypeComponent, AddBreedComponent],
+	declarations: [PetManagementComponent, PetTypeComponent, TagsComponent, EditTypeComponent, AddBreedComponent, TagEditComponent],
 	imports: [
 		PetManagementRoutingModule,
 		CommonModule,

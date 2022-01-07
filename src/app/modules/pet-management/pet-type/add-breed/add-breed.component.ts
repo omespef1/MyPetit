@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { BreedModel } from 'src/app/_metronic/core/models/breed.model';
-import { UserRoleModel } from 'src/app/_metronic/core/models/user-role.model';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { PetTypeService } from '../../services/pet-type.service';
 
@@ -21,7 +20,7 @@ export class AddBreedComponent implements OnInit {
 
 	constructor(
 		private readonly fb: FormBuilder,
-		private petTypeService: PetTypeService,
+		private readonly petTypeService: PetTypeService,
 		private readonly swalService: SwalService
 	) {}
 
