@@ -99,6 +99,11 @@ export const locale = {
 			NEW: 'Nuevo Tag',
 			NAME: 'Tag'
 		},
+		HAIR: {
+			TITLE: ' Tamaños de Pelo',
+			NEW: 'Nuevo tamaño de pelo',
+			NAME: 'Tamaño de pelo'
+		},
 		MENU: {
 			NEW: 'nuevo',
 			ACTIONS: 'Comportamiento',
@@ -107,6 +112,13 @@ export const locale = {
 			FEATURES: 'Caracteristicas',
 			APPS: 'Aplicaciones',
 			DASHBOARD: 'Tablero',
+			USER_MANAGEMENT: 'Gestión de Usuarios',
+			PET_MANAGEMENT: 'Gestión de Mascotas',
+			USERS: 'Usuarios',
+			ROLES: 'Roles',
+			PET_TYPES: 'Tipos Mascotas',
+			TAGS: 'Tags',
+			HAIR_LENGTHS: 'Tamaños de Pelo'
 		},
 		AUTH: {
 			GENERAL: {

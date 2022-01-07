@@ -19,6 +19,7 @@ export const DynamicAsideMenuConfig = {
     { section: 'Configuration' },
     {
       title: 'User Management',
+      translate: 'MENU.USER_MANAGEMENT',
       root: true,
       bullet: 'dot',
       icon: 'flaticon2-user-outline-symbol',
@@ -27,16 +28,19 @@ export const DynamicAsideMenuConfig = {
       submenu: [
         {
           title: 'Users',
+          translate: 'MENU.USERS',
           page: '/user-management/users'
         },
         {
           title: 'Roles',
+          translate: 'MENU.ROLES',
           page: '/user-management/roles'
         }
       ]
     },
     {
       title: 'Pet Management',
+      translate: 'MENU.PET_MANAGEMENT',
       root: true,
       bullet: 'dot',
       icon: 'flaticon2-correct',
@@ -45,14 +49,17 @@ export const DynamicAsideMenuConfig = {
       submenu: [
         {
           title: 'Types',
+          translate: 'MENU.PET_TYPES',
           page: '/pet-management/types'
         },
         {
           title: 'Tags',
+          translate: 'MENU.TAGS',
           page: '/pet-management/tags'
         },
         {
           title: 'Hairs Lengths',
+          translate: 'MENU.HAIR_LENGTHS',
           page: '/pet-management/hair-lengths'
         }
       ]

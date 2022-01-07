@@ -3,25 +3,25 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, Subscription } from 'rxjs';
 import { catchError, filter, switchMap, tap } from 'rxjs/operators';
-import { TagModel } from 'src/app/_metronic/core/models/tag.model';
+import { HairModel } from 'src/app/_metronic/core/models/hair.model';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
-import { PetTypeService } from '../../services/pet-type.service';
+import { HairService } from '../../services/hair.service';
 import { TagService } from '../../services/tag.service';
 
-const EMPTY_TAG: TagModel = {
+const EMPTY_HAIR: HairModel = {
 	id: undefined,
-	description: '',
+	name: '',
 };
 
 @Component({
-	selector: 'app-tag-edit',
-	templateUrl: './tag-edit.component.html',
-	styleUrls: ['./tag-edit.component.scss'],
+	selector: 'app-hair-length-edit',
+	templateUrl: './hair-length-edit.component.html',
+	styleUrls: ['./hair-length-edit.component.scss'],
 })
-export class TagEditComponent implements OnInit, OnDestroy {
+export class HairLengthEditComponent implements OnInit, OnDestroy {
 	id: number;
-	tag: TagModel;
-	previous: TagModel;
+	hair: HairModel;
+	previous: HairModel;
 	formGroup: FormGroup;
 	isLoading$: Observable<boolean>;
 	errorMessage = '';
@@ -33,24 +33,24 @@ export class TagEditComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private fb: FormBuilder,
-		private tagService: TagService,
+		private hairService: HairService,
 		private readonly swalService: SwalService,
 		private router: Router,
 		private route: ActivatedRoute
 	) {}
 
 	ngOnInit(): void {
-		this.isLoading$ = this.tagService.isLoading$;
+		this.isLoading$ = this.hairService.isLoading$;
 		this.loadUser();
 		this.subscriptions.push(
-			this.tagService.errorMessage$
+			this.hairService.errorMessage$
 				.pipe(filter((r) => r !== ''))
 				.subscribe((err) => this.swalService.error(err))
 		);
 	}
 
 	getNewInstance() {
-		return { ...EMPTY_TAG };
+		return { ...EMPTY_HAIR };
 	}
 
 	loadUser() {
@@ -59,7 +59,7 @@ export class TagEditComponent implements OnInit, OnDestroy {
 				switchMap((params) => {
 					this.id = Number(params.get('id'));
 					if (this.id || this.id > 0) {
-						return this.tagService.getItemById(this.id);
+						return this.hairService.getItemById(this.id);
 					}
 					console.log(this.id);
 					return of(this.getNewInstance());
@@ -69,14 +69,14 @@ export class TagEditComponent implements OnInit, OnDestroy {
 					return of(undefined);
 				})
 			)
-			.subscribe((res: TagModel) => {
+			.subscribe((res: HairModel) => {
 				if (!res) {
-					this.router.navigate(['/pet-management', 'types'], {
+					this.router.navigate(['/pet-management', 'hair-lengths'], {
 						relativeTo: this.route,
 					});
 				}
 
-				this.tag = res;
+				this.hair = res;
 				this.previous = Object.assign({}, res);
 				this.loadForm();
 			});
@@ -84,17 +84,17 @@ export class TagEditComponent implements OnInit, OnDestroy {
 	}
 
 	loadForm() {
-		if (!this.tag) {
+		if (!this.hair) {
 			return;
 		}
 
 		this.formGroup = this.fb.group({
-			description: [
-				this.tag.description,
+			name: [
+				this.hair.name,
 				Validators.compose([
 					Validators.required,
 					Validators.minLength(2),
-					Validators.maxLength(255),
+					Validators.maxLength(50),
 				]),
 			],
 		});
@@ -105,7 +105,7 @@ export class TagEditComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		this.tag = Object.assign({}, this.previous);
+		this.hair = Object.assign({}, this.previous);
 		this.loadForm();
 	}
 
@@ -116,7 +116,7 @@ export class TagEditComponent implements OnInit, OnDestroy {
 		}
 
 		const formValues = this.formGroup.value;
-		this.tag = Object.assign(this.tag, formValues);
+		this.hair = Object.assign(this.hair, formValues);
 		if (this.id) {
 			this.edit();
 		} else {
@@ -125,31 +125,35 @@ export class TagEditComponent implements OnInit, OnDestroy {
 	}
 
 	edit() {
-		const sbUpdate = this.tagService
-			.update(this.tag)
+		const sbUpdate = this.hairService
+			.update(this.hair)
 			.pipe(
 				tap(() => {
 					this.swalService.success('COMMON.RESOURCE_UPDATED');
 					this.reset();
-					this.router.navigate(['/pet-management', 'tags', 0]);
+					this.router.navigate([
+						'/pet-management',
+						'hair-lengths',
+						0,
+					]);
 				})
 			)
-			.subscribe((res) => (this.tag = res));
+			.subscribe((res) => (this.hair = res));
 		this.subscriptions.push(sbUpdate);
 	}
 
 	create() {
-		const sbCreate = this.tagService
-			.create(this.tag)
+		const sbCreate = this.hairService
+			.create(this.hair)
 			.pipe(
 				tap(() => {
 					this.swalService.success('COMMON.RESOURCE_CREATED');
 				})
 			)
 			.subscribe((res) => {
-				this.tag = res as TagModel;
+				this.hair = res as HairModel;
 				this.reset();
-				this.router.navigate(['/pet-management', 'tags', 0]);
+				this.router.navigate(['/pet-management', 'hair-lengths', 0]);
 			});
 		this.subscriptions.push(sbCreate);
 	}
