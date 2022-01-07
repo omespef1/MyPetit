@@ -64,6 +64,15 @@ export const DynamicAsideMenuConfig = {
         }
       ]
     },
+    {
+      title: 'Owners',
+      root: true,
+      icon: 'flaticon2-architecture-and-city',
+      svg: './assets/media/svg/icons/Menu/Person.svg',
+      page: '/owners',
+      translate: 'MENU.OWNERS',
+      bullet: 'dot',
+    },
     // {
     //   title: 'User Profile',
     //   root: true,

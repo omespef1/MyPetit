@@ -112,13 +112,14 @@ export const locale = {
 			FEATURES: 'Caracteristicas',
 			APPS: 'Aplicaciones',
 			DASHBOARD: 'Tablero',
-			USER_MANAGEMENT: 'Gestión de Usuarios',
-			PET_MANAGEMENT: 'Gestión de Mascotas',
+			USER_MANAGEMENT: 'Usuarios',
+			PET_MANAGEMENT: 'Mascotas',
 			USERS: 'Usuarios',
 			ROLES: 'Roles',
 			PET_TYPES: 'Tipos Mascotas',
 			TAGS: 'Tags',
-			HAIR_LENGTHS: 'Tamaños de Pelo'
+			HAIR_LENGTHS: 'Tamaños de Pelo',
+			OWNERS: 'Propietarios'
 		},
 		AUTH: {
 			GENERAL: {
