@@ -1,1 +1,42 @@
-<p>owners works!</p>
+<div class="card card-custom gutter-b">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="card-label">{{ 'OWNER.TITLE' | translate }}</h3>
+		</div>
+		<div class="card-toolbar">
+			<button type="button" class="btn btn-primary" routerLink="0">
+				{{ 'OWNER.NEW' | translate }}
+			</button>
+		</div>
+	</div>
+	<div class="card-body">
+		<div class="form form-label-right">
+			<div class="form-group row">
+				<div class="col-lg-2" [formGroup]="searchGroup">
+					<input
+						type="text"
+						class="form-control"
+						name="searchText"
+						placeholder="{{ 'COMMON.SEARCH' | translate }}"
+						value=""
+						formControlName="searchTerm"
+					/><small class="form-text text-muted"
+						><b>{{ 'COMMON.SEARCH' | translate }}</b>
+						{{ 'COMMON.IN_ALL_FIELDS' | translate }}</small
+					>
+				</div>
+			</div>
+		</div>
+		<app-grid-control
+			[table_name]="'owners'"
+			[columns]="columns"
+			[widthActions]="120"
+			[entityService]="ownerService"
+			[showEdit]="true"
+			(patchState)="fetch($event)"
+			[routerLinkPath]="'./'"
+			[propertyLink]="'id'"
+		>
+		</app-grid-control>
+	</div>
+</div>

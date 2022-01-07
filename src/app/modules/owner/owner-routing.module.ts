@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { OwnerComponent } from './owner.component';
+import { OwnerEditComponent } from './owners/owner-edit/owner-edit.component';
 import { OwnersComponent } from './owners/owners.component';
 
 const routes: Routes = [
@@ -15,10 +16,10 @@ const routes: Routes = [
 						path: '',
 						component: OwnersComponent,
 					},
-					// {
-					// 	path: ':id',
-					// 	component: EditTypeComponent,
-					// },
+					{
+						path: ':id',
+						component: OwnerEditComponent,
+					},
 				],
 			},
 			{ path: '', redirectTo: 'types', pathMatch: 'full' },

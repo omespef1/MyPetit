@@ -9,9 +9,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ComponentsModule } from '../components/components.module';
 import { MatButtonModule } from '@angular/material/button';
 import { OwnersComponent } from './owners/owners.component';
+import { OwnerComponent } from './owner.component';
+import { OwnerEditComponent } from './owners/owner-edit/owner-edit.component';
+import { OwnerPetsComponent } from './owners/owner-pets/owner-pets.component';
+import { CardPetComponent } from './owners/owner-pets/card-pet/card-pet.component';
 
 @NgModule({
-	declarations: [OwnersComponent],
+	declarations: [OwnerComponent, OwnersComponent, OwnerEditComponent, OwnerPetsComponent, CardPetComponent],
 	imports: [
 		OwnerRoutingModule,
 		CommonModule,

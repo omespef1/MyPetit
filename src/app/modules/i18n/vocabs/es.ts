@@ -97,12 +97,26 @@ export const locale = {
 		TAG: {
 			TITLE: 'Tags',
 			NEW: 'Nuevo Tag',
-			NAME: 'Tag'
+			NAME: 'Tag',
 		},
 		HAIR: {
 			TITLE: ' Tamaños de Pelo',
 			NEW: 'Nuevo tamaño de pelo',
-			NAME: 'Tamaño de pelo'
+			NAME: 'Tamaño de pelo',
+		},
+		OWNER: {
+			TITLE: 'Propietarios',
+			NEW: 'Nuevo propietario',
+			OWNER: 'Propietario',
+			DOCUMENT_NUMBER: 'Documento',
+			NAMES: 'Nombres',
+			LAST_NAMES: 'Apellidos',
+			EMAIL: 'Correo',
+			PHONE_NUMBER: 'Celular',
+			ADDRESS1: 'Dirección 1',
+			ADDRESS2: 'Dirección 2',
+			PETS: 'Mascotas',
+			CITY: 'Ciudad',
 		},
 		MENU: {
 			NEW: 'nuevo',
@@ -119,7 +133,7 @@ export const locale = {
 			PET_TYPES: 'Tipos Mascotas',
 			TAGS: 'Tags',
 			HAIR_LENGTHS: 'Tamaños de Pelo',
-			OWNERS: 'Propietarios'
+			OWNERS: 'Propietarios',
 		},
 		AUTH: {
 			GENERAL: {
