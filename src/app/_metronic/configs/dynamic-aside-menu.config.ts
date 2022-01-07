@@ -50,6 +50,10 @@ export const DynamicAsideMenuConfig = {
         {
           title: 'Tags',
           page: '/pet-management/tags'
+        },
+        {
+          title: 'Hairs Lengths',
+          page: '/pet-management/hair-lengths'
         }
       ]
     },

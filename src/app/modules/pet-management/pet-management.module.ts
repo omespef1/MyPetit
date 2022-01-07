@@ -14,9 +14,10 @@ import { TagsComponent } from './tags/tags.component';
 import { EditTypeComponent } from './pet-type/edit-type/edit-type.component';
 import { AddBreedComponent } from './pet-type/add-breed/add-breed.component';
 import { TagEditComponent } from './tags/tag-edit/tag-edit.component';
+import { HairLengthsComponent } from './hair-lengths/hair-lengths.component';
 
 @NgModule({
-	declarations: [PetManagementComponent, PetTypeComponent, TagsComponent, EditTypeComponent, AddBreedComponent, TagEditComponent],
+	declarations: [PetManagementComponent, PetTypeComponent, TagsComponent, EditTypeComponent, AddBreedComponent, TagEditComponent, HairLengthsComponent],
 	imports: [
 		PetManagementRoutingModule,
 		CommonModule,

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { HairLengthsComponent } from './hair-lengths/hair-lengths.component';
 import { PetManagementComponent } from './pet-management.component';
 import { EditTypeComponent } from './pet-type/edit-type/edit-type.component';
 import { PetTypeComponent } from './pet-type/pet-type.component';
@@ -35,6 +36,19 @@ const routes: Routes = [
 						path: ':id',
 						component: TagEditComponent,
 					},
+				],
+			},
+			{
+				path: 'hair-lengths',
+				children: [
+					{
+						path: '',
+						component: HairLengthsComponent,
+					},
+					// {
+					// 	path: ':id',
+					// 	component: TagEditComponent,
+					// },
 				],
 			},
 			{ path: '', redirectTo: 'types', pathMatch: 'full' },
