@@ -10,4 +10,8 @@ export class PetModel {
 	public birthDate: Date;
 	public pic: string;
 	public observations: string;
+
+	public petTypeName: string;
+	public breedName: string;
+	public hairLengthName: string;
 }

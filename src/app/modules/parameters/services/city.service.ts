@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
-import { HairModel } from 'src/app/_metronic/core/models/hair.model';
+import { CityModel } from 'src/app/_metronic/core/models/city.model';
 import { ErrorUtil } from 'src/app/_metronic/core/utils/error.util';
 import { TableService } from 'src/app/_metronic/shared/crud-table';
 import { environment } from 'src/environments/environment';
@@ -10,9 +9,8 @@ import { environment } from 'src/environments/environment';
 @Injectable({
 	providedIn: 'root',
 })
-export class HairService extends TableService<HairModel> implements OnDestroy {
-	API_URL = `${environment.apiUrl}/hairLength`;
-	hairLengths$ = new BehaviorSubject<HairModel[]>([]);
+export class CityService extends TableService<CityModel> implements OnDestroy {
+	API_URL = `${environment.apiUrl}/city`;
 
 	constructor(@Inject(HttpClient) http) {
 		super(http);
@@ -23,13 +21,11 @@ export class HairService extends TableService<HairModel> implements OnDestroy {
 		this.subscriptions.forEach((sb) => sb.unsubscribe());
 	}
 
-	getAll() {
-		if (this.hairLengths$.value.length > 0) return this.hairLengths$;
-
+	getAllByStateId(stateId: number) {
 		this._isLoading$.next(true);
 		this._errorMessage.next('');
-		const url = `${this.API_URL}`;
-		return this.http.get<HairModel[]>(url).pipe(
+		const url = `${this.API_URL}/state/${stateId}`;
+		return this.http.get<CityModel[]>(url).pipe(
 			catchError((err) => {
 				this._errorMessage.next(ErrorUtil.getMessage(err));
 				throw err;

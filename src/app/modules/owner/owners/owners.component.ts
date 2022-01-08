@@ -29,17 +29,17 @@ export class OwnersComponent implements OnInit, OnDestroy {
 			columnTitle: 'OWNER.LAST_NAMES',
 			sortable: true,
 		},
-    {
+		{
 			columnName: 'email',
 			columnTitle: 'OWNER.EMAIL',
 			sortable: true,
 		},
-    {
+		{
 			columnName: 'phoneNumber',
 			columnTitle: 'OWNER.PHONE_NUMBER',
 			sortable: true,
 		},
-    {
+		{
 			columnName: 'address1',
 			columnTitle: 'OWNER.ADDRESS1',
 			sortable: true,

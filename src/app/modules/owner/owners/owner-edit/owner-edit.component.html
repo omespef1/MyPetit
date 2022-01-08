@@ -37,7 +37,7 @@
 					type="button"
 					(click)="addPet(0)"
 					class="btn btn-primary font-weight-bold ml-2"
-					[disabled]="formGroup.invalid || (isLoading$ | async)"
+					[disabled]="isLoading$ | async"
 				>
 					{{ 'OWNER.NEW_PET' | translate }}
 				</button>
@@ -332,25 +332,18 @@
 							</div>
 						</div>
 						<div class="col-lg-4">
-							<label
-								><b>{{ 'OWNER.CITY' | translate }}</b>
-							</label>
-							<input
-								type="text"
-								class="form-control form-control-lg form-control-solid"
-								autocomplete="off"
-								placeholder="{{ 'OWNER.CITY' | translate }}"
+							<search-lookup
+								label="OWNER.CITY"
+								propertyText="name"
+								propertyValue="id"
+								[data]="cities"
+								[formControl]="formGroup.controls['cityId']"
+								[formatter]="city_formatter"
 								name="cityId"
-								[class.is-invalid]="isControlInvalid('cityId')"
-								formControlName="cityId"
-							/>
-							<div
-								class="invalid-feedback"
-								*ngIf="controlHasError('required', 'cityId')"
+								[resultTemplate]="city_template"
+								placeholder="OWNER.CITY"
 							>
-								<b>{{ 'OWNER.CITY' | translate }}</b>
-								{{ 'COMMON.REQUIRED' | translate }}
-							</div>
+							</search-lookup>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -444,3 +437,6 @@
 		</ng-container>
 	</div>
 </div>
+<ng-template #city_template let-r="result">
+	{{ r.name }}
+</ng-template>

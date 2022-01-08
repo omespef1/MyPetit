@@ -1,0 +1,8 @@
+<ng-container *ngIf="label">
+    <label [for]="name">{{ label | translate }}</label>
+</ng-container>
+<input [id]="name" autocomplete="off" type="text" class="form-control form-control-lg form-control-solid" [ngbTypeahead]="search"
+    [formControl]="formControl" (focus)="focus$.next($event.target.value)" [resultTemplate]="resultTemplate"
+    (click)="click$.next($event.target.value)" #instance="ngbTypeahead" [inputFormatter]="formatter"
+    [resultFormatter]="result_formatter" (selectItem)="selectItem($event)" [placeholder]="placeholder | translate"
+    (ngModelChange)="changeData($event)" />

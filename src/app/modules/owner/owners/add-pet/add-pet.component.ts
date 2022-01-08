@@ -8,8 +8,14 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable, Subscription } from 'rxjs';
+import * as moment from 'moment';
+import { forkJoin, Observable, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
+import { HairService } from 'src/app/modules/pet-management/services/hair.service';
+import { PetTypeService } from 'src/app/modules/pet-management/services/pet-type.service';
+import { BreedModel } from 'src/app/_metronic/core/models/breed.model';
+import { HairModel } from 'src/app/_metronic/core/models/hair.model';
+import { PetTypeModel } from 'src/app/_metronic/core/models/pet-type.model';
 import { PetModel } from 'src/app/_metronic/core/models/pet.model';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { OwnerService } from '../../services/owner.service';
@@ -26,6 +32,10 @@ const EMPTY_PET: PetModel = {
 	pic: '',
 	weight: 0,
 	birthDate: new Date(),
+
+	breedName: '',
+	hairLengthName: '',
+	petTypeName: '',
 };
 
 @Component({
@@ -34,23 +44,30 @@ const EMPTY_PET: PetModel = {
 	styleUrls: ['./add-pet.component.scss'],
 })
 export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
+	@Input() ownerId: number;
 	@Input() petId: number;
 	isLoading$: Observable<boolean>;
 	formGroup: FormGroup;
 	pet: PetModel;
+	petTypes: PetTypeModel[] = [];
+	hairLengths: HairModel[] = [];
+	breeds: BreedModel[] = [];
 	private subscriptions: Subscription[] = [];
+
+	pettype_formatter = (x: PetTypeModel) => x.name;
+	hairlength_formatter = (x: HairModel) => x.name;
+	breed_formatter = (x: BreedModel) => x.name;
 
 	constructor(
 		private readonly ownerService: OwnerService,
+		private readonly petTypeService: PetTypeService,
+		private readonly hairLengthService: HairService,
 		private readonly swalService: SwalService,
 		private fb: FormBuilder,
 		public modal: NgbActiveModal,
 		private readonly cdr: ChangeDetectorRef
 	) {
 		this.isLoading$ = this.ownerService.isLoading$;
-		// this.subscriptions.push(
-		// 	this.ownerService.getAllBreeds().subscribe((p) => (this.breeds = p))
-		// );
 		this.subscriptions.push(
 			this.ownerService.errorMessage$
 				.pipe(filter((r) => r !== ''))
@@ -59,12 +76,38 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 	}
 
 	ngOnInit(): void {
-		this.pet = this.getNewInstance();
-		this.loadForm();
+		forkJoin([
+			this.searchPet(),
+			this.searchPetTypes(),
+			this.searchHairLengths(),
+		]);
 	}
 
 	ngAfterContentChecked() {
 		this.cdr.detectChanges();
+	}
+
+	searchPetTypes() {
+		this.petTypeService.getAll().subscribe((pt) => (this.petTypes = pt));
+	}
+
+	searchHairLengths() {
+		return this.hairLengthService
+			.getAll()
+			.subscribe((hl) => (this.hairLengths = hl));
+	}
+
+	searchPet() {
+		if (this.petId === 0) {
+			this.pet = this.getNewInstance();
+			this.loadForm();
+		} else {
+			this.ownerService.getPetById(this.petId).subscribe((p) => {
+				this.pet = p;
+				this.loadForm();
+				this.searchBreedsByPetTypeId(this.pet.petTypeId);
+			});
+		}
 	}
 
 	getNewInstance() {
@@ -98,40 +141,74 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 				Validators.compose([Validators.required]),
 			],
 			gender: [
-				this.pet.gender,
+				`${this.pet.gender}`,
 				Validators.compose([Validators.required]),
 			],
 			birthDate: [
-				this.pet.birthDate,
+				moment(this.pet.birthDate).format('YYYY-MM-DD'),
 				Validators.compose([Validators.required]),
 			],
 			observations: [this.pet.observations, Validators.compose([])],
 			pic: [this.pet.pic],
 		});
+
+		this.formGroup.controls.pic.setValue(this.pet.pic);
+		this.formGroup.controls.petTypeId.valueChanges.subscribe((v) =>
+			this.searchBreedsByPetTypeId(v)
+		);
 	}
 
-	changePic(pic) {
+	searchBreedsByPetTypeId(petTypeId: number) {
+		this.petTypeService
+			.getBreedsByPetTypeId(petTypeId)
+			.subscribe((br) => (this.breeds = br));
+	}
+
+	changePic(pic: string) {
 		this.formGroup.controls.pic.setValue(pic);
 	}
 
 	save() {
-		this.create();
+		this.formGroup.markAllAsTouched();
+		if (!this.formGroup.valid) {
+			return;
+		}
+
+		const formValues = this.formGroup.value;
+		this.pet = Object.assign(this.pet, this.formGroup.value);
+		if (this.petId > 0) {
+			this.edit();
+		} else {
+			this.create();
+		}
 	}
 
 	create() {
-		console.log(this.formGroup.value);
-		// this.userRole.roleId = this.formGroup.controls.roleId.value;
-		// const sbCreate = this.userService
-		// 	.createUserRole(this.userId, this.userRole)
-		// 	.pipe(
-		// 		tap(() => {
-		// 			this.swalService.success('COMMON.RESOURCE_CREATED');
-		// 		})
-		// 	)
-		// 	.subscribe((res) => {
-		// 		this.modal.close();
-		// 	});
-		// this.subscriptions.push(sbCreate);
+		const sbCreate = this.ownerService
+			.createPet(this.ownerId, this.pet)
+			.pipe(
+				tap(() => {
+					this.swalService.success('COMMON.RESOURCE_CREATED');
+				})
+			)
+			.subscribe((res) => {
+				this.modal.close();
+			});
+		this.subscriptions.push(sbCreate);
+	}
+
+	edit() {
+		const sbCreate = this.ownerService
+			.updatePet(this.ownerId, this.petId, this.pet)
+			.pipe(
+				tap(() => {
+					this.swalService.success('COMMON.RESOURCE_UPDATED');
+				})
+			)
+			.subscribe((res) => {
+				this.modal.close();
+			});
+		this.subscriptions.push(sbCreate);
 	}
 
 	ngOnDestroy(): void {

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, OnDestroy } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { TagModel } from 'src/app/_metronic/core/models/tag.model';
 import { ErrorUtil } from 'src/app/_metronic/core/utils/error.util';
@@ -11,6 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class TagService extends TableService<TagModel> implements OnDestroy {
 	API_URL = `${environment.apiUrl}/tag`;
+	tags$ = new BehaviorSubject<TagModel[]>([]);
 
 	constructor(@Inject(HttpClient) http) {
 		super(http);
@@ -22,6 +24,8 @@ export class TagService extends TableService<TagModel> implements OnDestroy {
 	}
 
 	getAll() {
+		if (this.tags$.value.length > 0) return this.tags$;
+
 		this._isLoading$.next(true);
 		this._errorMessage.next('');
 		const url = `${this.API_URL}`;

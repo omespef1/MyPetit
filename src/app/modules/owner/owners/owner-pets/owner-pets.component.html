@@ -1,74 +1,31 @@
 <div class="d-flex flex-column-fluid mt-5">
-	<!--begin::Container-->
+	<ng-container *ngIf="isLoading$ | async">
+		<app-loading></app-loading>
+	</ng-container>
 	<div class="container">
-		<!--begin::Row-->
 		<div class="row">
-			<!--begin::Col-->
-			<div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-				<!--begin::Card-->
-				<div class="card card-custom gutter-b card-stretch">
-					<!--begin::Body-->
-					<app-card-pet></app-card-pet>
-					<!--end::Body-->
-				</div>
-				<!--end::Card-->
-			</div>
-			<!--end::Col-->
-			<!--begin::Col-->
-			<div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-				<!--begin::Card-->
-				<div class="card card-custom gutter-b card-stretch">
-					<!--begin::Body-->
-					<app-card-pet></app-card-pet>
-					<!--end::Body-->
-				</div>
-				<!--end::Card-->
-			</div>
-			<!--end::Col-->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-				<!--begin::Card-->
-				<div class="card card-custom gutter-b card-stretch">
-					<!--begin::Body-->
-					<app-card-pet></app-card-pet>
-					<!--end::Body-->
-				</div>
-				<!--end::Card-->
-			</div>
+			<ng-container *ngIf="pets$ | async as _pets">
+				<ng-container *ngIf="_pets && _pets.length > 0; else noPets">
+					<ng-container *ngFor="let pet of _pets">
+						<div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+							<app-card-pet [pet]="pet" (edit)="editPet($event)" (delete)="deletePet($event)"></app-card-pet>
+						</div>
+					</ng-container>
+				</ng-container>
+				<ng-template #noPets>
+					<div
+						class="alert alert-custom alert-notice alert-light-danger fade show"
+						role="alert"
+					>
+						<div class="alert-icon">
+							<i class="flaticon-warning"></i>
+						</div>
+						<div class="alert-text">
+							{{ 'OWNER.PETS_NOT_FOUND' | translate }}
+						</div>
+					</div>
+				</ng-template>
+			</ng-container>
 		</div>
-		<!--end::Row-->
-		<!--begin::Row-->
-		<div class="row">
-			<!--begin::Col-->
-			<div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-				<!--begin::Card-->
-				<div class="card card-custom gutter-b card-stretch">
-					<!--begin::Body-->
-					<app-card-pet></app-card-pet>
-					<!--end::Body-->
-				</div>
-				<!--end::Card-->
-			</div>
-			<!--end::Col-->
-			<div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-				<!--begin::Card-->
-				<div class="card card-custom gutter-b card-stretch">
-					<!--begin::Body-->
-					<app-card-pet></app-card-pet>
-					<!--end::Body-->
-				</div>
-				<!--end::Card-->
-			</div>
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-				<!--begin::Card-->
-				<div class="card card-custom gutter-b card-stretch">
-					<!--begin::Body-->
-					<app-card-pet></app-card-pet>
-					<!--end::Body-->
-				</div>
-				<!--end::Card-->
-			</div>
-		</div>
-		<!--end::Row-->
 	</div>
-	<!--end::Container-->
 </div>

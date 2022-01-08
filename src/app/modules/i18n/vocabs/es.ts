@@ -119,6 +119,7 @@ export const locale = {
 			CITY: 'Ciudad',
 			NEW_PET: 'Nueva Mascota',
 			PET: 'Mascota',
+			PETS_NOT_FOUND: 'Mascotas no encontradas',
 		},
 		PET: {
 			HAIR_LENGTH: 'Tamaño de Pelo',
@@ -127,7 +128,7 @@ export const locale = {
 			BIRTH_DATE: 'Cumpleaños',
 			OBSERVATIONS: 'Cuidados especiales',
 			GENDER_MALE: 'Macho',
-			GENDER_FEMALE: 'Hembra'
+			GENDER_FEMALE: 'Hembra',
 		},
 		MENU: {
 			NEW: 'nuevo',

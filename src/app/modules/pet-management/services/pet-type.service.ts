@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, OnDestroy } from '@angular/core';
-import { catchError, finalize } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
+import { catchError, finalize, tap } from 'rxjs/operators';
 import { BreedModel } from 'src/app/_metronic/core/models/breed.model';
 import { PetTypeModel } from 'src/app/_metronic/core/models/pet-type.model';
 import { RoleModel } from 'src/app/_metronic/core/models/role.model';
@@ -16,6 +17,7 @@ export class PetTypeService
 	implements OnDestroy
 {
 	API_URL = `${environment.apiUrl}/petType`;
+	petTypes$ = new BehaviorSubject<PetTypeModel[]>([]);
 
 	constructor(@Inject(HttpClient) http) {
 		super(http);
@@ -27,10 +29,13 @@ export class PetTypeService
 	}
 
 	getAll() {
+		if (this.petTypes$.value.length > 0) return this.petTypes$;
+		
 		this._isLoading$.next(true);
 		this._errorMessage.next('');
 		const url = `${this.API_URL}`;
 		return this.http.get<PetTypeModel[]>(url).pipe(
+			tap((pt) => this.petTypes$.next(pt)),
 			catchError((err) => {
 				this._errorMessage.next(ErrorUtil.getMessage(err));
 				throw err;

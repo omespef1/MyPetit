@@ -1,13 +1,23 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+	AfterViewChecked,
+	AfterViewInit,
+	ChangeDetectorRef,
+	Component,
+	OnDestroy,
+	OnInit,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable, of, Subscription } from 'rxjs';
+import { forkJoin, Observable, of, Subscription } from 'rxjs';
 import { catchError, filter, switchMap, tap } from 'rxjs/operators';
+import { CityService } from 'src/app/modules/parameters/services/city.service';
+import { CityModel } from 'src/app/_metronic/core/models/city.model';
 import { OwnerModel } from 'src/app/_metronic/core/models/owner.model';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { OwnerService } from '../../services/owner.service';
 import { AddPetComponent } from '../add-pet/add-pet.component';
+import { OwnerPetService } from '../owner-pets/owner-pet.service';
 
 const EMPTY_OWNER: OwnerModel = {
 	id: undefined,
@@ -27,7 +37,9 @@ const EMPTY_OWNER: OwnerModel = {
 	templateUrl: './owner-edit.component.html',
 	styleUrls: ['./owner-edit.component.scss'],
 })
-export class OwnerEditComponent implements OnInit, OnDestroy {
+export class OwnerEditComponent
+	implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked
+{
 	id: number;
 	owner: OwnerModel;
 	previous: OwnerModel;
@@ -39,25 +51,46 @@ export class OwnerEditComponent implements OnInit, OnDestroy {
 		PETS_TAB: 1,
 	};
 	activeTabId = this.tabs.BASIC_TAB; // 0 => Basic info | 1 => Roles
+	cities: CityModel[] = [];
 	private subscriptions: Subscription[] = [];
+
+	city_formatter = (x: CityModel) => x.name;
 
 	constructor(
 		private fb: FormBuilder,
 		private ownerService: OwnerService,
 		private readonly swalService: SwalService,
 		private readonly modalService: NgbModal,
+		private readonly ownerPetService: OwnerPetService,
+		private readonly cityService: CityService,
 		private router: Router,
-		private route: ActivatedRoute
+		private route: ActivatedRoute,
+		private readonly cdr: ChangeDetectorRef
 	) {}
+
+	ngAfterViewChecked(): void {
+		this.cdr.detectChanges();
+	}
+
+	ngAfterViewInit(): void {
+		this.cdr.detectChanges();
+	}
 
 	ngOnInit(): void {
 		this.isLoading$ = this.ownerService.isLoading$;
-		this.loadUser();
+		forkJoin([this.loadUser(), this.findCities()]);
 		this.subscriptions.push(
 			this.ownerService.errorMessage$
 				.pipe(filter((r) => r !== ''))
 				.subscribe((err) => this.swalService.error(err))
 		);
+	}
+
+	findCities() {
+		this.cityService.getAllByStateId(1).subscribe((cities) => {
+			this.cities = cities;
+			this.cdr.detectChanges();
+		});
 	}
 
 	getNewInstance() {
@@ -176,9 +209,10 @@ export class OwnerEditComponent implements OnInit, OnDestroy {
 		const modalRef = this.modalService.open(AddPetComponent, {
 			size: 'lg',
 		});
+		modalRef.componentInstance.ownerId = this.id;
 		modalRef.componentInstance.petId = petId;
 		modalRef.result.then(
-			() => {},
+			() => this.ownerPetService.refresData$.next(),
 			() => {}
 		);
 	}

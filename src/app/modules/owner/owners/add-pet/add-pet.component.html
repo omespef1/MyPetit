@@ -23,6 +23,7 @@
 				<div class="form-group row">
 					<div class="col-lg-6">
 						<app-pic-select
+							[pic]="pet.pic"
 							(changePic)="changePic($event)"
 						></app-pic-select>
 					</div>
@@ -74,7 +75,21 @@
 						</div>
 						<div class="form-group row">
 							<div class="col-lg-12">
-								<label
+								<search-lookup
+									label="PET_TYPE.NAME"
+									propertyText="name"
+									propertyValue="id"
+									[data]="petTypes"
+									[formControl]="
+										formGroup.controls['petTypeId']
+									"
+									[formatter]="pettype_formatter"
+									name="petTypeId"
+									[resultTemplate]="pettype_template"
+									placeholder="PET_TYPE.NAME"
+								>
+								</search-lookup>
+								<!-- <label
 									><b>{{
 										'PET_TYPE.NAME' | translate
 									}}</b></label
@@ -100,38 +115,26 @@
 								>
 									<b>{{ 'PET_TYPE.NAME' | translate }}</b>
 									{{ 'COMMON.REQUIRED' | translate }}
-								</div>
+								</div> -->
 							</div>
 						</div>
 					</div>
 				</div>
-				<!-- <div class="form-group row">
-					<div class="col-12 margin-bottom-10-mobile">
-						<label
-							>{{ 'COMMON.SELECT' | translate }}
-							<b>{{ 'USER.ROLE' | translate }}</b></label
-						>
-						<select
-							class="form-control form-control-lg form-control-solid"
-							name="roleId"
-							autocomplete="off"
-							formControlName="roleId"
-						>
-							<option value="null">
-								--{{ 'COMMON.SELECT' | translate }}--
-							</option>
-							<option
-								[value]="role.id"
-								*ngFor="let role of roles"
-							>
-								{{ role.name }}
-							</option>
-						</select>
-					</div> 
-				</div>-->
 				<div class="form-group row">
 					<div class="col-lg-6">
-						<label
+						<search-lookup
+							label="PET_TYPE.BREED"
+							propertyText="name"
+							propertyValue="id"
+							[data]="breeds"
+							[formControl]="formGroup.controls['breedId']"
+							[formatter]="breed_formatter"
+							name="breedId"
+							[resultTemplate]="breed_template"
+							placeholder="PET_TYPE.BREED"
+						>
+						</search-lookup>
+						<!-- <label
 							><b>{{ 'PET_TYPE.BREED' | translate }}</b></label
 						>
 						<input
@@ -149,10 +152,22 @@
 						>
 							<b>{{ 'PET_TYPE.BREED' | translate }}</b>
 							{{ 'COMMON.REQUIRED' | translate }}
-						</div>
+						</div> -->
 					</div>
 					<div class="col-lg-6">
-						<label
+						<search-lookup
+							label="PET.HAIR_LENGTH"
+							propertyText="name"
+							propertyValue="id"
+							[data]="hairLengths"
+							[formControl]="formGroup.controls['hairLengthId']"
+							[formatter]="hairlength_formatter"
+							name="hairLengthId"
+							[resultTemplate]="hairlength_template"
+							placeholder="PET.HAIR_LENGTH"
+						>
+						</search-lookup>
+						<!-- <label
 							><b>{{ 'PET.HAIR_LENGTH' | translate }}</b></label
 						>
 						<input
@@ -172,7 +187,7 @@
 						>
 							<b>{{ 'PET.HAIR_LENGTH' | translate }}</b>
 							{{ 'COMMON.REQUIRED' | translate }}
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<div class="form-group row">
@@ -185,14 +200,18 @@
 								<label class="radio radio-lg">
 									<input
 										type="radio"
-										checked="checked"
-										name="radios3_1"
+										value="1"
+										formControlName="gender"
 									/>
 									<span></span
 									>{{ 'PET.GENDER_MALE' | translate }}</label
 								>
 								<label class="radio radio-lg">
-									<input type="radio" name="radios3_1" />
+									<input
+										type="radio"
+										value="2"
+										formControlName="gender"
+									/>
 									<span></span
 									>{{
 										'PET.GENDER_FEMALE' | translate
@@ -263,6 +282,7 @@
 							autocomplete="off"
 							placeholder="{{ 'PET.BIRTH_DATE' | translate }}"
 							name="birthDate"
+							datetime="yyyy-MM-dd HH:mm:ss"
 							[class.is-invalid]="isControlInvalid('birthDate')"
 							formControlName="birthDate"
 						/>
@@ -317,3 +337,12 @@
 		</ng-container>
 	</div>
 </div>
+<ng-template #pettype_template let-r="result">
+	{{ r.name }}
+</ng-template>
+<ng-template #hairlength_template let-r="result">
+	{{ r.name }}
+</ng-template>
+<ng-template #breed_template let-r="result">
+	{{ r.name }}
+</ng-template>
