@@ -32,6 +32,16 @@
 					{{ 'COMMON.SAVE' | translate }}
 				</button>
 			</ng-container>
+			<ng-container *ngIf="owner && activeTabId === tabs.PETS_TAB">
+				<button
+					type="button"
+					(click)="addPet(0)"
+					class="btn btn-primary font-weight-bold ml-2"
+					[disabled]="formGroup.invalid || (isLoading$ | async)"
+				>
+					{{ 'OWNER.NEW_PET' | translate }}
+				</button>
+			</ng-container>
 		</div>
 	</div>
 	<div class="card-body">

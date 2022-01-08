@@ -20,6 +20,7 @@ import { CoreModule } from 'src/app/_metronic/core';
 import { CRUDTableModule } from 'src/app/_metronic/shared/crud-table';
 import { GridControlComponent } from './grid-control/grid-control.component';
 import { LoadingComponent } from './loading/loading.component';
+import { PicSelectComponent } from './pic-select/pic-select.component';
 
 @Injectable()
 export class CustomDateAdapter extends NgbDateAdapter<string> {
@@ -72,7 +73,7 @@ export class CustomDateParserFormatter {
 }
 
 @NgModule({
-	declarations: [GridControlComponent, LoadingComponent],
+	declarations: [GridControlComponent, LoadingComponent, PicSelectComponent],
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
@@ -97,6 +98,6 @@ export class CustomDateParserFormatter {
 		// 	useClass: CustomDateParserFormatter,
 		// },
 	],
-	exports: [GridControlComponent, LoadingComponent],
+	exports: [GridControlComponent, LoadingComponent, PicSelectComponent],
 })
 export class ComponentsModule {}

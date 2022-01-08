@@ -117,6 +117,17 @@ export const locale = {
 			ADDRESS2: 'Dirección 2',
 			PETS: 'Mascotas',
 			CITY: 'Ciudad',
+			NEW_PET: 'Nueva Mascota',
+			PET: 'Mascota',
+		},
+		PET: {
+			HAIR_LENGTH: 'Tamaño de Pelo',
+			GENDER: 'Género',
+			WEIGHT: 'Peso',
+			BIRTH_DATE: 'Cumpleaños',
+			OBSERVATIONS: 'Cuidados especiales',
+			GENDER_MALE: 'Macho',
+			GENDER_FEMALE: 'Hembra'
 		},
 		MENU: {
 			NEW: 'nuevo',

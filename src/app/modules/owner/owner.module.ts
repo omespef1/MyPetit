@@ -13,9 +13,10 @@ import { OwnerComponent } from './owner.component';
 import { OwnerEditComponent } from './owners/owner-edit/owner-edit.component';
 import { OwnerPetsComponent } from './owners/owner-pets/owner-pets.component';
 import { CardPetComponent } from './owners/owner-pets/card-pet/card-pet.component';
+import { AddPetComponent } from './owners/add-pet/add-pet.component';
 
 @NgModule({
-	declarations: [OwnerComponent, OwnersComponent, OwnerEditComponent, OwnerPetsComponent, CardPetComponent],
+	declarations: [OwnerComponent, OwnersComponent, OwnerEditComponent, OwnerPetsComponent, CardPetComponent, AddPetComponent],
 	imports: [
 		OwnerRoutingModule,
 		CommonModule,

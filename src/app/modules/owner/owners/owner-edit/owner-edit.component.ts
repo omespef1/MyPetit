@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of, Subscription } from 'rxjs';
 import { catchError, filter, switchMap, tap } from 'rxjs/operators';
 import { OwnerModel } from 'src/app/_metronic/core/models/owner.model';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { OwnerService } from '../../services/owner.service';
+import { AddPetComponent } from '../add-pet/add-pet.component';
 
 const EMPTY_OWNER: OwnerModel = {
 	id: undefined,
@@ -43,6 +45,7 @@ export class OwnerEditComponent implements OnInit, OnDestroy {
 		private fb: FormBuilder,
 		private ownerService: OwnerService,
 		private readonly swalService: SwalService,
+		private readonly modalService: NgbModal,
 		private router: Router,
 		private route: ActivatedRoute
 	) {}
@@ -167,6 +170,17 @@ export class OwnerEditComponent implements OnInit, OnDestroy {
 
 		this.owner = Object.assign({}, this.previous);
 		this.loadForm();
+	}
+
+	addPet(petId: number) {
+		const modalRef = this.modalService.open(AddPetComponent, {
+			size: 'lg',
+		});
+		modalRef.componentInstance.petId = petId;
+		modalRef.result.then(
+			() => {},
+			() => {}
+		);
 	}
 
 	save() {

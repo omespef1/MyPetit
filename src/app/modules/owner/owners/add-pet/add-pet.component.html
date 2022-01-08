@@ -1,0 +1,319 @@
+<div class="modal-content">
+	<div class="modal-header">
+		<div class="modal-title h4" id="example-modal-sizes-title-lg">
+			<ng-container *ngIf="pet">
+				<ng-container>{{
+					(pet.id ? 'COMMON.EDIT' : 'COMMON.NEW') | translate
+				}}</ng-container>
+				{{ 'OWNER.PET' | translate }}
+			</ng-container>
+		</div>
+	</div>
+	<div class="modal-body" style="min-height: 180px">
+		<ng-container *ngIf="isLoading$ | async">
+			<app-loading></app-loading>
+		</ng-container>
+
+		<ng-container *ngIf="pet && !(isLoading$ | async)">
+			<form
+				action="#"
+				class="form form-label-right"
+				[formGroup]="formGroup"
+			>
+				<div class="form-group row">
+					<div class="col-lg-6">
+						<app-pic-select
+							(changePic)="changePic($event)"
+						></app-pic-select>
+					</div>
+					<div class="col-lg-6">
+						<div class="row">
+							<div class="col-lg-12">
+								<label
+									><b>{{ 'OWNER.PET' | translate }}</b></label
+								>
+								<input
+									type="text"
+									class="form-control form-control-lg form-control-solid"
+									autocomplete="off"
+									placeholder="{{ 'OWNER.PET' | translate }}"
+									name="name"
+									[class.is-invalid]="
+										isControlInvalid('name')
+									"
+									formControlName="name"
+								/>
+								<div
+									class="invalid-feedback"
+									*ngIf="controlHasError('required', 'name')"
+								>
+									<b>{{ 'OWNER.PET' | translate }}</b>
+									{{ 'COMMON.REQUIRED' | translate }}
+								</div>
+								<div
+									class="invalid-feedback"
+									*ngIf="controlHasError('minlength', 'name')"
+								>
+									<b>{{ 'OWNER.PET' | translate }}</b>
+									{{
+										'COMMON.SHOULTD_HAVE_AT_LEAST'
+											| translate: { min: 2 }
+									}}
+								</div>
+								<div
+									class="invalid-feedback"
+									*ngIf="controlHasError('maxlength', 'name')"
+								>
+									<b>{{ 'OWNER.PET' | translate }}</b>
+									{{
+										'COMMON.SHOULTD_HAVE_MAXIMUM'
+											| translate: { max: 250 }
+									}}
+								</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-lg-12">
+								<label
+									><b>{{
+										'PET_TYPE.NAME' | translate
+									}}</b></label
+								>
+								<input
+									type="text"
+									class="form-control form-control-lg form-control-solid"
+									autocomplete="off"
+									placeholder="{{
+										'PET_TYPE.NAME' | translate
+									}}"
+									name="petTypeId"
+									[class.is-invalid]="
+										isControlInvalid('petTypeId')
+									"
+									formControlName="petTypeId"
+								/>
+								<div
+									class="invalid-feedback"
+									*ngIf="
+										controlHasError('required', 'petTypeId')
+									"
+								>
+									<b>{{ 'PET_TYPE.NAME' | translate }}</b>
+									{{ 'COMMON.REQUIRED' | translate }}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="form-group row">
+					<div class="col-12 margin-bottom-10-mobile">
+						<label
+							>{{ 'COMMON.SELECT' | translate }}
+							<b>{{ 'USER.ROLE' | translate }}</b></label
+						>
+						<select
+							class="form-control form-control-lg form-control-solid"
+							name="roleId"
+							autocomplete="off"
+							formControlName="roleId"
+						>
+							<option value="null">
+								--{{ 'COMMON.SELECT' | translate }}--
+							</option>
+							<option
+								[value]="role.id"
+								*ngFor="let role of roles"
+							>
+								{{ role.name }}
+							</option>
+						</select>
+					</div> 
+				</div>-->
+				<div class="form-group row">
+					<div class="col-lg-6">
+						<label
+							><b>{{ 'PET_TYPE.BREED' | translate }}</b></label
+						>
+						<input
+							type="text"
+							class="form-control form-control-lg form-control-solid"
+							autocomplete="off"
+							placeholder="{{ 'PET_TYPE.BREED' | translate }}"
+							name="breedId"
+							[class.is-invalid]="isControlInvalid('breedId')"
+							formControlName="breedId"
+						/>
+						<div
+							class="invalid-feedback"
+							*ngIf="controlHasError('required', 'breedId')"
+						>
+							<b>{{ 'PET_TYPE.BREED' | translate }}</b>
+							{{ 'COMMON.REQUIRED' | translate }}
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<label
+							><b>{{ 'PET.HAIR_LENGTH' | translate }}</b></label
+						>
+						<input
+							type="text"
+							class="form-control form-control-lg form-control-solid"
+							autocomplete="off"
+							placeholder="{{ 'PET.HAIR_LENGTH' | translate }}"
+							name="hairLengthId"
+							[class.is-invalid]="
+								isControlInvalid('hairLengthId')
+							"
+							formControlName="hairLengthId"
+						/>
+						<div
+							class="invalid-feedback"
+							*ngIf="controlHasError('required', 'hairLengthId')"
+						>
+							<b>{{ 'PET.HAIR_LENGTH' | translate }}</b>
+							{{ 'COMMON.REQUIRED' | translate }}
+						</div>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-lg-6">
+						<div class="form-group">
+							<label
+								><b>{{ 'PET.GENDER' | translate }}</b></label
+							>
+							<div class="radio-inline">
+								<label class="radio radio-lg">
+									<input
+										type="radio"
+										checked="checked"
+										name="radios3_1"
+									/>
+									<span></span
+									>{{ 'PET.GENDER_MALE' | translate }}</label
+								>
+								<label class="radio radio-lg">
+									<input type="radio" name="radios3_1" />
+									<span></span
+									>{{
+										'PET.GENDER_FEMALE' | translate
+									}}</label
+								>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="form-group">
+							<label
+								><b>{{ 'PET.WEIGHT' | translate }}</b></label
+							>
+							<div class="input-group">
+								<input
+									type="number"
+									autocomplete="off"
+									formControlName="weight"
+									name="weight"
+									class="form-control form-control-lg form-control-solid"
+									[class.is-invalid]="
+										isControlInvalid('weight')
+									"
+									placeholder="{{ 'PET.WEIGHT' | translate }}"
+									aria-describedby="basic-addon2"
+								/>
+								<div class="input-group-append">
+									<span class="input-group-text">Lb</span>
+								</div>
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="controlHasError('required', 'weight')"
+							>
+								<b>{{ 'PET.WEIGHT' | translate }}</b>
+								{{ 'COMMON.REQUIRED' | translate }}
+							</div>
+						</div>
+						<!-- <label
+							><b>{{ 'PET.WEIGHT' | translate }}</b></label
+						>
+						<input
+							type="number"
+							class="form-control form-control-lg form-control-solid"
+							autocomplete="off"
+							placeholder="{{ 'PET.WEIGHT' | translate }}"
+							name="weight"
+							[class.is-invalid]="isControlInvalid('weight')"
+							formControlName="weight"
+						/>
+						<div
+							class="invalid-feedback"
+							*ngIf="controlHasError('required', 'weight')"
+						>
+							<b>{{ 'PET.WEIGHT' | translate }}</b>
+							{{ 'COMMON.REQUIRED' | translate }}
+						</div> -->
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-lg-6">
+						<label
+							><b>{{ 'PET.BIRTH_DATE' | translate }}</b></label
+						>
+						<input
+							type="date"
+							class="form-control form-control-lg form-control-solid"
+							autocomplete="off"
+							placeholder="{{ 'PET.BIRTH_DATE' | translate }}"
+							name="birthDate"
+							[class.is-invalid]="isControlInvalid('birthDate')"
+							formControlName="birthDate"
+						/>
+						<div
+							class="invalid-feedback"
+							*ngIf="controlHasError('required', 'birthDate')"
+						>
+							<b>{{ 'PET.BIRTH_DATE' | translate }}</b>
+							{{ 'COMMON.REQUIRED' | translate }}
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<label
+							><b>{{ 'PET.OBSERVATIONS' | translate }}</b></label
+						>
+
+						<textarea
+							class="form-control form-control-solid"
+							name="observations"
+							formControlName="observations"
+							rows="3"
+						></textarea>
+						<div
+							class="invalid-feedback"
+							*ngIf="controlHasError('required', 'observations')"
+						>
+							<b>{{ 'PET.OBSERVATIONS' | translate }}</b>
+							{{ 'COMMON.REQUIRED' | translate }}
+						</div>
+					</div>
+				</div>
+			</form>
+		</ng-container>
+	</div>
+	<div class="modal-footer">
+		<button
+			type="button"
+			class="btn btn-light btn-elevate mr-2"
+			(click)="modal.dismiss()"
+		>
+			{{ 'COMMON.CANCEL' | translate }}
+		</button>
+		<ng-container *ngIf="pet">
+			<button
+				type="submit"
+				class="btn btn-primary btn-elevate"
+				(click)="save()"
+				[disabled]="formGroup.invalid || (isLoading$ | async)"
+			>
+				{{ 'COMMON.SAVE' | translate }}
+			</button>
+		</ng-container>
+	</div>
+</div>
