@@ -6,7 +6,13 @@ import {
 	OnDestroy,
 	OnInit,
 } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+	FormArray,
+	FormBuilder,
+	FormControl,
+	FormGroup,
+	Validators,
+} from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { forkJoin, Observable, Subscription } from 'rxjs';
@@ -33,11 +39,16 @@ const EMPTY_PET: PetModel = {
 	pic: '',
 	weight: 0,
 	birthDate: new Date(),
-
+	tags: [],
 	breedName: '',
 	hairLengthName: '',
 	petTypeName: '',
 };
+
+interface TagData {
+	value: string;
+	[key: string]: any;
+}
 
 @Component({
 	selector: 'app-add-pet',
@@ -59,6 +70,8 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 	pettype_formatter = (x: PetTypeModel) => x.name;
 	hairlength_formatter = (x: HairModel) => x.name;
 	breed_formatter = (x: BreedModel) => x.name;
+
+	tags: TagData[] = [{ value: 'foo' }];
 
 	constructor(
 		private readonly ownerService: OwnerService,
@@ -123,6 +136,7 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 		this.ownerService
 			.getVaccinesByPetId(petTypeId, this.pet.id)
 			.subscribe((vaccines) => {
+				this.vaccines.clear();
 				vaccines.forEach((v) => this.addVaccine(v));
 			});
 	}
@@ -168,6 +182,12 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 			observations: [this.pet.observations, Validators.compose([])],
 			pic: [this.pet.pic],
 			vaccines: this.fb.array([]),
+			tags: [
+				this.pet.tags.map((m) => {
+					return { value: m };
+				}),
+			],
+			// tags: [{ value: 'Reactive' }, { value: 'No Reactive' }],
 		});
 
 		this.formGroup.controls.pic.setValue(this.pet.pic);
@@ -177,6 +197,9 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 				this.searchVaccines(petTypeId);
 			}
 		);
+		this.formGroup.valueChanges.subscribe((value) => {
+			console.log('form value changed', value);
+		});
 	}
 
 	get vaccines() {
@@ -204,6 +227,8 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 
 		const formValues = this.formGroup.value;
 		this.pet = Object.assign(this.pet, formValues);
+		this.pet.tags = (<any[]>formValues.tags).map((m) => m.value);
+
 		if (this.petId > 0) {
 			this.edit();
 		} else {
@@ -243,7 +268,12 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 
 	edit() {
 		const sbCreate = this.ownerService
-			.updatePet(this.ownerId, this.petId, this.pet, this.addVaccinesToPet())
+			.updatePet(
+				this.ownerId,
+				this.petId,
+				this.pet,
+				this.addVaccinesToPet()
+			)
 			.pipe(
 				tap(() => {
 					this.swalService.success('COMMON.RESOURCE_UPDATED');

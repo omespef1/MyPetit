@@ -348,13 +348,15 @@
 					</div>
 				</div>
 
-				<!-- <div class="form-group row">
-					<label class="col-form-label text-right col-lg-3 col-sm-12">Whitelist examples</label>
-					<div class="col-lg-6 col-md-9 col-sm-12">
-						<input id="kt_tagify_2" class="form-control tagify" placeholder='type...' value='Back to the Future, Whiplash' data-blacklist='.NET,PHP' />
-						<div class="mt-3 text-muted">In this example, the field is pre-occupied with 3 tags, and last tag is not included in the whitelist, and will be removed because the enforce whitelist option flag is set to true</div>
+				<div class="form-group row">
+					<div class="col-lg-12">
+						<label
+							><b>{{ 'PET.TAGS' | translate }}</b></label
+						>
+						<br />
+						<tagify formControlName="tags"></tagify>
 					</div>
-				</div> -->
+				</div>
 			</form>
 		</ng-container>
 	</div>

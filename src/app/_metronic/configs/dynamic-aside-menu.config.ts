@@ -52,11 +52,11 @@ export const DynamicAsideMenuConfig = {
           translate: 'MENU.PET_TYPES',
           page: '/pet-management/types'
         },
-        {
-          title: 'Tags',
-          translate: 'MENU.TAGS',
-          page: '/pet-management/tags'
-        },
+        // {
+        //   title: 'Tags',
+        //   translate: 'MENU.TAGS',
+        //   page: '/pet-management/tags'
+        // },
         {
           title: 'Hairs Lengths',
           translate: 'MENU.HAIR_LENGTHS',

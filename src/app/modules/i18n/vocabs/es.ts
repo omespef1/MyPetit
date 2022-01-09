@@ -131,6 +131,7 @@ export const locale = {
 			OBSERVATIONS: 'Cuidados especiales',
 			GENDER_MALE: 'Macho',
 			GENDER_FEMALE: 'Hembra',
+			TAGS: 'Tags'
 		},
 		MENU: {
 			NEW: 'nuevo',
