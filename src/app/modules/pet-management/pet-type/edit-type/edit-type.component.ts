@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, Subscription } from 'rxjs';
 import { catchError, filter, switchMap, tap } from 'rxjs/operators';
 import { PetTypeModel } from 'src/app/_metronic/core/models/pet-type.model';
-import { UserModel } from 'src/app/_metronic/core/models/user.model';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { PetTypeService } from '../../services/pet-type.service';
 
@@ -27,6 +26,8 @@ export class EditTypeComponent implements OnInit, OnDestroy {
 	errorMessage = '';
 	tabs = {
 		BASIC_TAB: 0,
+		BREEDS_TAB: 1,
+		VACCINES_TAB: 2,
 	};
 	activeTabId = this.tabs.BASIC_TAB; // 0 => Basic info | 1 => Roles
 	private subscriptions: Subscription[] = [];

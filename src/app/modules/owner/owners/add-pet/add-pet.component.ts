@@ -6,7 +6,7 @@ import {
 	OnDestroy,
 	OnInit,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { forkJoin, Observable, Subscription } from 'rxjs';
@@ -16,6 +16,7 @@ import { PetTypeService } from 'src/app/modules/pet-management/services/pet-type
 import { BreedModel } from 'src/app/_metronic/core/models/breed.model';
 import { HairModel } from 'src/app/_metronic/core/models/hair.model';
 import { PetTypeModel } from 'src/app/_metronic/core/models/pet-type.model';
+import { PetVaccineModel } from 'src/app/_metronic/core/models/pet-vaccine.model';
 import { PetModel } from 'src/app/_metronic/core/models/pet.model';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { OwnerService } from '../../services/owner.service';
@@ -52,6 +53,7 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 	petTypes: PetTypeModel[] = [];
 	hairLengths: HairModel[] = [];
 	breeds: BreedModel[] = [];
+	// vaccines: PetVaccineModel[] = [];
 	private subscriptions: Subscription[] = [];
 
 	pettype_formatter = (x: PetTypeModel) => x.name;
@@ -106,8 +108,23 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 				this.pet = p;
 				this.loadForm();
 				this.searchBreedsByPetTypeId(this.pet.petTypeId);
+				this.searchVaccines(this.pet.petTypeId);
 			});
 		}
+	}
+
+	searchBreedsByPetTypeId(petTypeId: number) {
+		this.petTypeService
+			.getBreedsByPetTypeId(petTypeId)
+			.subscribe((br) => (this.breeds = br));
+	}
+
+	searchVaccines(petTypeId: number) {
+		this.ownerService
+			.getVaccinesByPetId(petTypeId, this.pet.id)
+			.subscribe((vaccines) => {
+				vaccines.forEach((v) => this.addVaccine(v));
+			});
 	}
 
 	getNewInstance() {
@@ -150,18 +167,29 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 			],
 			observations: [this.pet.observations, Validators.compose([])],
 			pic: [this.pet.pic],
+			vaccines: this.fb.array([]),
 		});
 
 		this.formGroup.controls.pic.setValue(this.pet.pic);
-		this.formGroup.controls.petTypeId.valueChanges.subscribe((v) =>
-			this.searchBreedsByPetTypeId(v)
+		this.formGroup.controls.petTypeId.valueChanges.subscribe(
+			(petTypeId) => {
+				this.searchBreedsByPetTypeId(petTypeId);
+				this.searchVaccines(petTypeId);
+			}
 		);
 	}
 
-	searchBreedsByPetTypeId(petTypeId: number) {
-		this.petTypeService
-			.getBreedsByPetTypeId(petTypeId)
-			.subscribe((br) => (this.breeds = br));
+	get vaccines() {
+		return this.formGroup.controls['vaccines'] as FormArray;
+	}
+
+	addVaccine(vaccine: PetVaccineModel) {
+		const vaccineForm = this.fb.group({
+			title: [vaccine.vaccineName],
+			vaccineId: [vaccine.vaccineId],
+			value: [vaccine.applied],
+		});
+		this.vaccines.push(vaccineForm);
 	}
 
 	changePic(pic: string) {
@@ -175,7 +203,7 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 		}
 
 		const formValues = this.formGroup.value;
-		this.pet = Object.assign(this.pet, this.formGroup.value);
+		this.pet = Object.assign(this.pet, formValues);
 		if (this.petId > 0) {
 			this.edit();
 		} else {
@@ -183,9 +211,25 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 		}
 	}
 
+	addVaccinesToPet() {
+		const petVaccines: PetVaccineModel[] = [];
+		const vaccines = this.vaccines;
+
+		vaccines.controls.forEach((fg: FormGroup) => {
+			const petVaccine: Partial<PetVaccineModel> = {
+				petId: this.pet.id,
+				vaccineId: fg.controls.vaccineId.value,
+				applied: fg.controls.value.value,
+			};
+			petVaccines.push(petVaccine as PetVaccineModel);
+		});
+
+		return petVaccines;
+	}
+
 	create() {
 		const sbCreate = this.ownerService
-			.createPet(this.ownerId, this.pet)
+			.createPet(this.ownerId, this.pet, this.addVaccinesToPet())
 			.pipe(
 				tap(() => {
 					this.swalService.success('COMMON.RESOURCE_CREATED');
@@ -199,7 +243,7 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 
 	edit() {
 		const sbCreate = this.ownerService
-			.updatePet(this.ownerId, this.petId, this.pet)
+			.updatePet(this.ownerId, this.petId, this.pet, this.addVaccinesToPet())
 			.pipe(
 				tap(() => {
 					this.swalService.success('COMMON.RESOURCE_UPDATED');

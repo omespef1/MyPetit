@@ -54,6 +54,34 @@
 					{{ 'COMMON.BASIC_INFO' | translate }}
 				</a>
 			</li>
+			<li
+				class="nav-item cursor-pointer"
+				(click)="changeTab(tabs.BREEDS_TAB)"
+			>
+				<a
+					class="nav-link"
+					data-toggle="tab"
+					role="tab"
+					[attr.aria-selected]="activeTabId === tabs.BREEDS_TAB"
+					[class.active]="activeTabId === tabs.BREEDS_TAB"
+				>
+					{{ 'PET_TYPE.BREEDS' | translate }}
+				</a>
+			</li>
+			<li
+				class="nav-item cursor-pointer"
+				(click)="changeTab(tabs.VACCINES_TAB)"
+			>
+				<a
+					class="nav-link"
+					data-toggle="tab"
+					role="tab"
+					[attr.aria-selected]="activeTabId === tabs.VACCINES_TAB"
+					[class.active]="activeTabId === tabs.VACCINES_TAB"
+				>
+					{{ 'PET_TYPE.VACCINES' | translate }}
+				</a>
+			</li>
 		</ul>
 
 		<ng-container *ngIf="activeTabId === tabs.BASIC_TAB">
@@ -110,15 +138,15 @@
 				</form>
 			</div>
 		</ng-container>
+		<ng-container
+			*ngIf="petType && petType.id && activeTabId === tabs.BREEDS_TAB"
+		>
+			<app-add-breed [petTypeId]="petType.id"></app-add-breed>
+		</ng-container>
+		<ng-container
+			*ngIf="petType && petType.id && activeTabId === tabs.VACCINES_TAB"
+		>
+			<app-add-vaccine [petTypeId]="petType.id"></app-add-vaccine>
+		</ng-container>
 	</div>
-	<ng-container *ngIf="petType && petType.id">
-		<hr />
-		<div class="card-header">
-			<div class="card-title">
-				<h3 class="card-label">{{ 'PET_TYPE.BREEDS' | translate }}</h3>
-			</div>
-		</div>
-
-		<app-add-breed [petTypeId]="petType.id"></app-add-breed>
-	</ng-container>
 </div>

@@ -93,6 +93,8 @@ export const locale = {
 			BREED: 'Raza',
 			NEW: 'Nuevo Tipo de mascota',
 			TITLE: 'Tipos de mascota',
+			VACCINES: 'Vacunas',
+			VACCINE: 'Vacuna'
 		},
 		TAG: {
 			TITLE: 'Tags',
