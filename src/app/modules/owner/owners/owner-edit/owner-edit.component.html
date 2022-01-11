@@ -333,6 +333,22 @@
 						</div>
 						<div class="col-lg-4">
 							<search-lookup
+								label="OWNER.STATE"
+								propertyText="name"
+								propertyValue="id"
+								[data]="states"
+								[formControl]="formGroup.controls['stateId']"
+								[formatter]="state_formatter"
+								name="stateId"
+								[resultTemplate]="state_template"
+								placeholder="OWNER.STATE"
+							>
+							</search-lookup>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-lg-4">
+							<search-lookup
 								label="OWNER.CITY"
 								propertyText="name"
 								propertyValue="id"
@@ -345,8 +361,6 @@
 							>
 							</search-lookup>
 						</div>
-					</div>
-					<div class="form-group row">
 						<div class="col-lg-4">
 							<label
 								><b>{{ 'OWNER.ADDRESS1' | translate }}</b>
@@ -438,5 +452,8 @@
 	</div>
 </div>
 <ng-template #city_template let-r="result">
+	{{ r.name }}
+</ng-template>
+<ng-template #state_template let-r="result">
 	{{ r.name }}
 </ng-template>

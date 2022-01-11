@@ -86,6 +86,7 @@ export const locale = {
 			ROLES: 'Roles',
 			ROLE: 'Rol',
 			PHONE_NUMBER: 'Teléfono',
+			PASSWORD: 'Contraseña',
 		},
 		PET_TYPE: {
 			NAME: 'Tipo de Mascota',
@@ -94,7 +95,7 @@ export const locale = {
 			NEW: 'Nuevo Tipo de mascota',
 			TITLE: 'Tipos de mascota',
 			VACCINES: 'Vacunas',
-			VACCINE: 'Vacuna'
+			VACCINE: 'Vacuna',
 		},
 		TAG: {
 			TITLE: 'Tags',
@@ -122,6 +123,7 @@ export const locale = {
 			NEW_PET: 'Nueva Mascota',
 			PET: 'Mascota',
 			PETS_NOT_FOUND: 'Mascotas no encontradas',
+			STATE: 'Estado',
 		},
 		PET: {
 			HAIR_LENGTH: 'Tamaño de Pelo',
@@ -131,7 +133,7 @@ export const locale = {
 			OBSERVATIONS: 'Cuidados especiales',
 			GENDER_MALE: 'Macho',
 			GENDER_FEMALE: 'Hembra',
-			TAGS: 'Tags'
+			TAGS: 'Tags',
 		},
 		MENU: {
 			NEW: 'nuevo',

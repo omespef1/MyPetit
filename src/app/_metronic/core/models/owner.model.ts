@@ -9,4 +9,5 @@ export class OwnerModel {
 	public cityName: string;
 	public address1: string;
 	public address2: string;
+	public stateId: number;
 }

@@ -12,8 +12,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of, Subscription } from 'rxjs';
 import { catchError, filter, switchMap, tap } from 'rxjs/operators';
 import { CityService } from 'src/app/modules/parameters/services/city.service';
+import { StateService } from 'src/app/modules/parameters/services/state.service';
 import { CityModel } from 'src/app/_metronic/core/models/city.model';
 import { OwnerModel } from 'src/app/_metronic/core/models/owner.model';
+import { StateModel } from 'src/app/_metronic/core/models/state.model';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { OwnerService } from '../../services/owner.service';
 import { AddPetComponent } from '../add-pet/add-pet.component';
@@ -30,6 +32,7 @@ const EMPTY_OWNER: OwnerModel = {
 	cityName: '',
 	address1: '',
 	address2: '',
+	stateId: undefined,
 };
 
 @Component({
@@ -52,9 +55,11 @@ export class OwnerEditComponent
 	};
 	activeTabId = this.tabs.BASIC_TAB; // 0 => Basic info | 1 => Roles
 	cities: CityModel[] = [];
+	states: StateModel[] = [];
 	private subscriptions: Subscription[] = [];
 
 	city_formatter = (x: CityModel) => x.name;
+	state_formatter = (x: StateModel) => x.name;
 
 	constructor(
 		private fb: FormBuilder,
@@ -63,6 +68,7 @@ export class OwnerEditComponent
 		private readonly modalService: NgbModal,
 		private readonly ownerPetService: OwnerPetService,
 		private readonly cityService: CityService,
+		private readonly stateService: StateService,
 		private router: Router,
 		private route: ActivatedRoute,
 		private readonly cdr: ChangeDetectorRef
@@ -78,7 +84,7 @@ export class OwnerEditComponent
 
 	ngOnInit(): void {
 		this.isLoading$ = this.ownerService.isLoading$;
-		forkJoin([this.loadUser(), this.findCities()]);
+		forkJoin([this.loadUser(), this.findStates()]);
 		this.subscriptions.push(
 			this.ownerService.errorMessage$
 				.pipe(filter((r) => r !== ''))
@@ -86,9 +92,16 @@ export class OwnerEditComponent
 		);
 	}
 
-	findCities() {
-		this.cityService.getAllByStateId(1).subscribe((cities) => {
+	findCities(stateId: number) {
+		this.cityService.getAllByStateId(stateId).subscribe((cities) => {
 			this.cities = cities;
+			this.cdr.detectChanges();
+		});
+	}
+
+	findStates() {
+		this.stateService.getAll().subscribe((s) => {
+			this.states = s;
 			this.cdr.detectChanges();
 		});
 	}
@@ -105,7 +118,7 @@ export class OwnerEditComponent
 					if (this.id || this.id > 0) {
 						return this.ownerService.getItemById(this.id);
 					}
-					console.log(this.id);
+
 					return of(this.getNewInstance());
 				}),
 				catchError((errorMessage) => {
@@ -120,6 +133,9 @@ export class OwnerEditComponent
 					});
 				}
 
+				if (res.id > 0) {
+					this.findCities(res.stateId);
+				}
 				this.owner = res;
 				this.previous = Object.assign({}, res);
 				this.loadForm();
@@ -174,6 +190,10 @@ export class OwnerEditComponent
 					Validators.maxLength(20),
 				]),
 			],
+			stateId: [
+				this.owner.stateId,
+				Validators.compose([Validators.required]),
+			],
 			cityId: [
 				this.owner.cityId,
 				Validators.compose([Validators.required]),
@@ -193,6 +213,10 @@ export class OwnerEditComponent
 					Validators.maxLength(250),
 				]),
 			],
+		});
+
+		this.formGroup.controls.stateId.valueChanges.subscribe((stateId) => {
+			this.findCities(stateId);
 		});
 	}
 

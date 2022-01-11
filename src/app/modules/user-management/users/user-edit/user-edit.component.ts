@@ -136,6 +136,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 					Validators.maxLength(15),
 				]),
 			],
+			password: [''],
 			isActive: [this.user.isActive],
 		});
 	}

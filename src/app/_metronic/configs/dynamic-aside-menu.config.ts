@@ -31,11 +31,11 @@ export const DynamicAsideMenuConfig = {
           translate: 'MENU.USERS',
           page: '/user-management/users'
         },
-        {
-          title: 'Roles',
-          translate: 'MENU.ROLES',
-          page: '/user-management/roles'
-        }
+        // {
+        //   title: 'Roles',
+        //   translate: 'MENU.ROLES',
+        //   page: '/user-management/roles'
+        // }
       ]
     },
     {

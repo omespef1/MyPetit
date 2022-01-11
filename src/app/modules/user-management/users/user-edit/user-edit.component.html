@@ -216,7 +216,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<div class="col-lg-5">
+						<div class="col-lg-4">
 							<label
 								><b>{{ 'USER.EMAIL' | translate }}</b>
 							</label>
@@ -257,7 +257,7 @@
 								}}
 							</div>
 						</div>
-						<div class="col-lg-4">
+						<div class="col-lg-3">
 							<label
 								><b>{{ 'USER.PHONE_NUMBER' | translate }}</b>
 							</label>
@@ -308,6 +308,24 @@
 								}}
 							</div>
 						</div>
+
+						<div class="col-lg-3">
+							<label
+								><b>{{ 'USER.PASSWORD' | translate }}</b>
+							</label>
+							<input
+								type="text"
+								class="form-control form-control-lg form-control-solid"
+								autocomplete="off"
+								placeholder="{{ 'USER.PASSWORD' | translate }}"
+								name="phoneNumber"
+								[class.is-invalid]="
+									isControlInvalid('password')
+								"
+								formControlName="password"
+							/>
+						</div>
+
 						<div class="col-lg-2">
 							<label class="form-label">{{
 								'COMMON.ACTIVE' | translate
