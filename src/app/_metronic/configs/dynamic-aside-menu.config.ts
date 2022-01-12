@@ -61,6 +61,11 @@ export const DynamicAsideMenuConfig = {
           title: 'Hairs Lengths',
           translate: 'MENU.HAIR_LENGTHS',
           page: '/pet-management/hair-lengths'
+        },
+        {
+          title: 'Services',
+          translate: 'MENU.SERVICES',
+          page: '/pet-management/services'
         }
       ]
     },

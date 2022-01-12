@@ -135,6 +135,15 @@ export const locale = {
 			GENDER_FEMALE: 'Hembra',
 			TAGS: 'Tags',
 		},
+		PET_SERVICE: {
+			TITLE: 'Servicios',
+			NEW: 'Nuevo Servicio',
+			NAME: 'Servicio',
+			INITIAL_WEIGHT: 'Peso inicial',
+			END_WEIGHT: 'Peso final',
+			COST: 'Valor',
+			DURATION: 'Duración'
+		},
 		MENU: {
 			NEW: 'nuevo',
 			ACTIONS: 'Comportamiento',
@@ -151,6 +160,7 @@ export const locale = {
 			TAGS: 'Tags',
 			HAIR_LENGTHS: 'Tamaños de Pelo',
 			OWNERS: 'Propietarios',
+			SERVICES: 'Servicios'
 		},
 		AUTH: {
 			GENERAL: {
