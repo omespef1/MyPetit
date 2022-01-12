@@ -68,7 +68,7 @@ export class AsideDynamicComponent implements OnInit, OnDestroy {
   }
 
   private getLogo() {
-    return './assets/media/svg/icons/Menu/dog.png';
+    return './assets/media/logos/Logo_Horizontal.png';
     // if (this.brandSkin === 'light') {
     //   return './assets/media/logos/logo-dark.png';
     // } else {
