@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { PagesRoutingModule } from './pages-routing.module';
 import {
-  NgbDropdownModule,
-  NgbProgressbarModule,
+	NgbDropdownModule,
+	NgbProgressbarModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslationModule } from '../modules/i18n/translation.module';
 import { LayoutComponent } from './_layout/layout.component';
@@ -21,31 +21,33 @@ import { CoreModule } from '../_metronic/core';
 import { SubheaderModule } from '../_metronic/partials/layout/subheader/subheader.module';
 import { AsideDynamicComponent } from './_layout/components/aside-dynamic/aside-dynamic.component';
 import { HeaderMenuDynamicComponent } from './_layout/components/header/header-menu-dynamic/header-menu-dynamic.component';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 @NgModule({
-  declarations: [
-    LayoutComponent,
-    ScriptsInitComponent,
-    HeaderMobileComponent,
-    AsideComponent,
-    FooterComponent,
-    HeaderComponent,
-    HeaderMenuComponent,
-    TopbarComponent,
-    LanguageSelectorComponent,
-    AsideDynamicComponent,
-    HeaderMenuDynamicComponent,
-  ],
-  imports: [
-    CommonModule,
-    PagesRoutingModule,
-    TranslationModule,
-    InlineSVGModule,
-    ExtrasModule,
-    NgbDropdownModule,
-    NgbProgressbarModule,
-    CoreModule,
-    SubheaderModule,
-  ],
+	declarations: [
+		LayoutComponent,
+		ScriptsInitComponent,
+		HeaderMobileComponent,
+		AsideComponent,
+		FooterComponent,
+		HeaderComponent,
+		HeaderMenuComponent,
+		TopbarComponent,
+		LanguageSelectorComponent,
+		AsideDynamicComponent,
+		HeaderMenuDynamicComponent,
+	],
+	imports: [
+		CommonModule,
+		PagesRoutingModule,
+		TranslationModule,
+		InlineSVGModule,
+		ExtrasModule,
+		NgbDropdownModule,
+		NgbProgressbarModule,
+		CoreModule,
+		SubheaderModule,
+		NgxPermissionsModule.forChild(),
+	],
 })
-export class LayoutModule { }
+export class LayoutModule {}

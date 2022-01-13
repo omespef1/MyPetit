@@ -46,6 +46,7 @@ export class HeaderMobileComponent implements OnInit, AfterViewInit {
         result = 'logo-dark.png';
       }
     }
-    return `./assets/media/logos/${result}`;
+    // return `./assets/media/logos/${result}`;
+    return './assets/media/logos/Logo_Horizontal.png';
   }
 }
