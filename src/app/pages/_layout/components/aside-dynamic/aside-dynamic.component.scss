@@ -12,3 +12,20 @@
     white-space: nowrap;
   }
 }
+
+.aside-menu .menu-nav > .menu-item > .menu-heading .menu-text, .aside-menu .menu-nav > .menu-item > .menu-link .menu-text {
+  color: #FFFFFF;
+}
+.aside-menu .menu-nav > .menu-item .menu-submenu .menu-item > .menu-heading .menu-text, .aside-menu .menu-nav > .menu-item .menu-submenu .menu-item > .menu-link .menu-text {
+  color: #FFFFFF;
+}
+.aside-menu .menu-nav > .menu-item > .menu-heading .menu-arrow, .aside-menu .menu-nav > .menu-item > .menu-link .menu-arrow {
+  color: #FFFFFF;
+}
+i {
+  font-size: 1.25rem;
+  color: #FFFFFF;
+}
+.aside-menu .menu-nav > .menu-section .menu-text {
+  color: #FFFFFF;
+}
