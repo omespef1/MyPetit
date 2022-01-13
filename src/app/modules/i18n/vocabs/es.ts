@@ -139,10 +139,11 @@ export const locale = {
 			TITLE: 'Servicios',
 			NEW: 'Nuevo Servicio',
 			NAME: 'Servicio',
-			INITIAL_WEIGHT: 'Peso inicial',
-			END_WEIGHT: 'Peso final',
-			COST: 'Valor',
-			DURATION: 'Duración'
+			INITIAL_WEIGHT: 'Peso inicial (Lb)',
+			END_WEIGHT: 'Peso final (Lb)',
+			COST: 'Costo ($)',
+			DURATION: 'Duración (Min)',
+			DESCRIPTION: 'Descripción'
 		},
 		MENU: {
 			NEW: 'nuevo',

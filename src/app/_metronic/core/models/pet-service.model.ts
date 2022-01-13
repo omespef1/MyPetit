@@ -8,6 +8,7 @@ export class PetServiceModel {
 	public cost: number;
 	public duration: number;
 	public description: string;
+	public isActive: boolean;
 
 	public hairLengthName: string;
 	public petTypeName: string;

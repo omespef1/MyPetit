@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output, PipeTransform } from '@angular/core';
+import {
+	Component,
+	EventEmitter,
+	Input,
+	OnInit,
+	Output,
+	PipeTransform,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable, of, Subscription } from 'rxjs';
 import {
@@ -166,8 +173,8 @@ export class GridControlComponent implements OnInit {
 		`width: ${col.width}px; min-width: ${col.width}px;`;
 
 	getColumnOptionValue(column: ColumnInfo, value: any) {
-		const option = column.customOptions.find((m) => m.value === value);
-		return option ?? '';
+		const option = column?.customOptions?.find((m) => m.value === value);
+		return option ?? { text: value };
 	}
 
 	getSvgIconItem(column: ColumnInfo, value: any) {
