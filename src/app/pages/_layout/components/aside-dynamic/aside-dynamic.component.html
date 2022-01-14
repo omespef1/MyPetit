@@ -42,7 +42,7 @@
           <ng-container *ngIf="false else withoutpermissions"></ng-container>
 
           <ng-template #withoutpermissions>
-            <ng-container *ngIf="item.section && hasPermission(item)" [ngTemplateOutlet]="menuItemSectionTemplate"
+            <ng-container *ngIf="item.section && (!item.only || hasPermission(item))" [ngTemplateOutlet]="menuItemSectionTemplate"
               [ngTemplateOutletContext]="{ item: item }"></ng-container>
             <ng-container *ngIf="item.separator" [ngTemplateOutlet]="menuItemSeparatorTemplate"></ng-container>
             <ng-container *ngIf="item.title" [ngTemplateOutlet]="menu1LevelTemplate"

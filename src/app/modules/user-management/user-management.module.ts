@@ -14,6 +14,7 @@ import { ComponentsModule } from '../components/components.module';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { UserRoleComponent } from './users/user-role/user-role.component';
 import { AddRoleModalComponent } from './users/add-role-modal/add-role-modal.component';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 @NgModule({
 	declarations: [UsersComponent, RolesComponent, UserManagementComponent, UserEditComponent, UserRoleComponent, AddRoleModalComponent],
@@ -25,6 +26,7 @@ import { AddRoleModalComponent } from './users/add-role-modal/add-role-modal.com
 		InlineSVGModule,
 		NgbModalModule,
 		TranslateModule.forChild(),
+		NgxPermissionsModule.forChild(),
 		ComponentsModule,
 		MatButtonModule,
 		NgbModule,

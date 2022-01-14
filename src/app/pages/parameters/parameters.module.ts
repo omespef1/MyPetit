@@ -8,8 +8,6 @@ import { NgbNavModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { HighlightModule } from 'ngx-highlightjs';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { DxDataGridModule, DxSelectBoxModule, DxButtonModule } from 'devextreme-angular';
-import CustomStore from 'devextreme/data/custom_store';
-import { formatDate } from 'devextreme/localization';
 
 @NgModule({
   declarations: [ParametersComponent],

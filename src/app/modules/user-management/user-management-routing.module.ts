@@ -4,11 +4,19 @@ import { UserManagementComponent } from './user-management.component';
 import { UsersComponent } from './users/users.component';
 import { RolesComponent } from './roles/roles.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
+import { NgxPermissionsGuard } from 'ngx-permissions';
 
 const routes: Routes = [
 	{
 		path: '',
 		component: UserManagementComponent,
+		canActivate: [NgxPermissionsGuard],
+		data: {
+			permissions: {
+				only: ['SA'],
+				redirectTo: 'dashboard',
+			},
+		},
 		children: [
 			{
 				path: 'users',

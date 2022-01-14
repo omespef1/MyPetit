@@ -143,7 +143,7 @@ export const locale = {
 			END_WEIGHT: 'Peso final (Lb)',
 			COST: 'Costo ($)',
 			DURATION: 'Duración (Min)',
-			DESCRIPTION: 'Descripción'
+			DESCRIPTION: 'Descripción',
 		},
 		MENU: {
 			NEW: 'nuevo',
@@ -161,7 +161,8 @@ export const locale = {
 			TAGS: 'Tags',
 			HAIR_LENGTHS: 'Tamaños de Pelo',
 			OWNERS: 'Propietarios',
-			SERVICES: 'Servicios'
+			SERVICES: 'Servicios',
+			CONFIGURATION: 'Configuración',
 		},
 		AUTH: {
 			GENERAL: {

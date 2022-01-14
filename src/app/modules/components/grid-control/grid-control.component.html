@@ -50,7 +50,13 @@
                 </ng-container>
                 <td *ngFor="let col of columns">
                     <ng-container *ngIf="!col.hide">
-                        <ng-container *ngIf="col.datePipe else noDatePipe">
+
+
+                        <ng-container *ngIf="col.template">
+                            {{ col.template(item) }}
+                        </ng-container>
+
+                        <ng-container *ngIf="!col.template && col.datePipe else noDatePipe">
                             {{ item[col.columnName] | date: col.datePipe }}
                         </ng-container>
                         <ng-template #noDatePipe>

@@ -14,6 +14,7 @@ import {
 	distinctUntilChanged,
 	filter,
 } from 'rxjs/operators';
+import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import {
 	GroupingState,
 	ITableState,
@@ -21,16 +22,15 @@ import {
 	SortState,
 	TableService,
 } from 'src/app/_metronic/shared/crud-table';
-import notify from 'devextreme/ui/notify';
 
 export interface ColumnInfo {
-	columnName: string;
+	columnName?: string;
 	columnTitle: string;
 	sortable: boolean;
 	datePipe?: string;
 	pipe?: PipeTransform;
 	width?: number;
-	template?: string;
+	template?: Function;
 	svgIconOption?: {
 		value: any;
 		icon: string;
@@ -78,7 +78,10 @@ export class GridControlComponent implements OnInit {
 	isLoading$: Observable<boolean>;
 	private subscriptions: Subscription[] = [];
 
-	constructor(private readonly fb: FormBuilder) {}
+	constructor(
+		private readonly fb: FormBuilder,
+		private readonly swal: SwalService
+	) {}
 
 	ngOnInit(): void {
 		this.isLoading$ = this.entityService.isLoading$;
@@ -102,7 +105,7 @@ export class GridControlComponent implements OnInit {
 		this.subscriptions.push(
 			this.entityService.errorMessage$
 				.pipe(filter((r) => r !== ''))
-				.subscribe((err) => notify(err, 'error', 2000))
+				.subscribe((err) => this.swal.error('error'))
 		);
 	}
 

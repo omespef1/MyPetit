@@ -99,18 +99,26 @@ export class AuthService implements OnDestroy {
 			this.permissionsService.flushPermissions();
 			this.addCustomPermissions(user);
 			if (roles && Array.isArray(roles)) {
-				roles.forEach((m) => this.permissionsService.addPermission(m));
+				// roles.forEach((m) => this.permissionsService.addPermission(m));
+				// this.permissionsService.loadPermissions(roles);
+				this.permissionsService.loadPermissions(
+					roles,
+					(permissionName, permissionStore) => {
+						console.log('permissionName', permissionName);
+						console.log('permissionsObject', permissionStore);
+						return !!permissionStore[permissionName];
+					}
+				);
 				user.rolesStr = roles.join(', ');
 			} else {
 				this.permissionsService.addPermission(roles);
 				user.rolesStr = roles;
 			}
 		}
-
-    console.log('user: ', user);
 	}
 
 	addCustomPermissions(user: UserModel) {
+		// console.log('addCustomPermissions');
 		// if (user.hasOpenSources) {
 		// 	this.permissionsService.addPermission('open_sources', () => true);
 		// }
