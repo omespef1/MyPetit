@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { ITableState } from 'src/app/_metronic/shared/crud-table';
+import { UserModel } from '../../auth';
 import { ColumnInfo } from '../../components/grid-control/grid-control.component';
 import { UserService } from '../services/user.service';
 
@@ -32,6 +33,11 @@ export class UsersComponent implements OnInit, OnDestroy {
 		{
 			columnName: 'phoneNumber',
 			columnTitle: 'USER.PHONE_NUMBER',
+			sortable: true,
+		},
+		{
+			template: (item: UserModel) => item?.roles.join(', '),
+			columnTitle: 'USER.ROLES',
 			sortable: true,
 		},
 		{

@@ -37,7 +37,7 @@ export class SearchLookupComponent
 	@Input() name: string = '#ctrl';
 	@Input() resultTemplate: TemplateRef<any>;
 	@Input() placeholder = '';
-
+	@Input() label_bold = false;
 	private _data: any[] = [];
 	onChange = (value: any) => {};
 	onTouched = () => {};

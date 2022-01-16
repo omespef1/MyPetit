@@ -1,6 +1,7 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { TagModel } from 'src/app/_metronic/core/models/tag.model';
@@ -41,6 +42,13 @@ export class PetServiceComponent implements OnInit, OnDestroy {
 			columnName: 'hairLengthName',
 			columnTitle: 'HAIR.NAME',
 			sortable: true,
+			customOptions: [
+				{
+					text: this.translateService.instant('COMMON.ALL'),
+					value: null,
+					class: '',
+				},
+			],
 		},
 		{
 			columnName: 'cost',
@@ -64,6 +72,7 @@ export class PetServiceComponent implements OnInit, OnDestroy {
 		private fb: FormBuilder,
 		public petServiceService: PetServiceService,
 		private translationService: TranslationService,
+		private readonly translateService: TranslateService,
 		private swalService: SwalService
 	) {}
 

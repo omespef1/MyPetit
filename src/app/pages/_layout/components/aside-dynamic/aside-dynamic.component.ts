@@ -2,97 +2,135 @@ import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { LayoutService, DynamicAsideMenuService } from '../../../../_metronic/core';
+import { AuthService, UserModel } from 'src/app/modules/auth';
+import {
+	LayoutService,
+	DynamicAsideMenuService,
+} from '../../../../_metronic/core';
 
 @Component({
-  selector: 'app-aside-dynamic',
-  templateUrl: './aside-dynamic.component.html',
-  styleUrls: ['./aside-dynamic.component.scss']
+	selector: 'app-aside-dynamic',
+	templateUrl: './aside-dynamic.component.html',
+	styleUrls: ['./aside-dynamic.component.scss'],
 })
 export class AsideDynamicComponent implements OnInit, OnDestroy {
-  menuConfig: any;
-  subscriptions: Subscription[] = [];
+	menuConfig: any;
+	subscriptions: Subscription[] = [];
 
-  disableAsideSelfDisplay: boolean;
-  headerLogo: string;
-  brandSkin: string;
-  ulCSSClasses: string;
-  asideMenuHTMLAttributes: any = {};
-  asideMenuCSSClasses: string;
-  asideMenuDropdown;
-  brandClasses: string;
-  asideMenuScroll = 1;
-  asideSelfMinimizeToggle = false;
+	disableAsideSelfDisplay: boolean;
+	headerLogo: string;
+	brandSkin: string;
+	ulCSSClasses: string;
+	asideMenuHTMLAttributes: any = {};
+	asideMenuCSSClasses: string;
+	asideMenuDropdown;
+	brandClasses: string;
+	asideMenuScroll = 1;
+	asideSelfMinimizeToggle = false;
+	user: UserModel;
+	currentUrl: string;
 
-  currentUrl: string;
+	constructor(
+		private layout: LayoutService,
+		private router: Router,
+		private menu: DynamicAsideMenuService,
+		private authService: AuthService,
+		private cdr: ChangeDetectorRef
+	) {
+		this.user = this.authService.currentUserValue;
+	}
 
-  constructor(
-    private layout: LayoutService,
-    private router: Router,
-    private menu: DynamicAsideMenuService,
-    private cdr: ChangeDetectorRef) { }
+	ngOnInit(): void {
+		// load view settings
+		this.disableAsideSelfDisplay =
+			this.layout.getProp('aside.self.display') === false;
+		this.brandSkin = this.layout.getProp('brand.self.theme');
+		this.headerLogo = this.getLogo();
+		this.ulCSSClasses = this.layout.getProp('aside_menu_nav');
+		this.asideMenuCSSClasses =
+			this.layout.getStringCSSClasses('aside_menu');
+		this.asideMenuHTMLAttributes =
+			this.layout.getHTMLAttributes('aside_menu');
+		this.asideMenuDropdown = this.layout.getProp('aside.menu.dropdown')
+			? '1'
+			: '0';
+		this.brandClasses = this.layout.getProp('brand');
+		this.asideSelfMinimizeToggle = this.layout.getProp(
+			'aside.self.minimize.toggle'
+		);
+		this.asideMenuScroll = this.layout.getProp('aside.menu.scroll') ? 1 : 0;
+		// this.asideMenuCSSClasses = `${this.asideMenuCSSClasses} ${this.asideMenuScroll === 1 ? 'scroll my-4 ps ps--active-y' : ''}`;
 
-  ngOnInit(): void {
-    // load view settings
-    this.disableAsideSelfDisplay =
-      this.layout.getProp('aside.self.display') === false;
-    this.brandSkin = this.layout.getProp('brand.self.theme');
-    this.headerLogo = this.getLogo();
-    this.ulCSSClasses = this.layout.getProp('aside_menu_nav');
-    this.asideMenuCSSClasses = this.layout.getStringCSSClasses('aside_menu');
-    this.asideMenuHTMLAttributes = this.layout.getHTMLAttributes('aside_menu');
-    this.asideMenuDropdown = this.layout.getProp('aside.menu.dropdown') ? '1' : '0';
-    this.brandClasses = this.layout.getProp('brand');
-    this.asideSelfMinimizeToggle = this.layout.getProp(
-      'aside.self.minimize.toggle'
-    );
-    this.asideMenuScroll = this.layout.getProp('aside.menu.scroll') ? 1 : 0;
-    // this.asideMenuCSSClasses = `${this.asideMenuCSSClasses} ${this.asideMenuScroll === 1 ? 'scroll my-4 ps ps--active-y' : ''}`;
+		// router subscription
+		this.currentUrl = this.router.url.split(/[?#]/)[0];
+		const routerSubscr = this.router.events
+			.pipe(filter((event) => event instanceof NavigationEnd))
+			.subscribe((event: NavigationEnd) => {
+				this.currentUrl = event.url;
+				this.cdr.detectChanges();
+			});
+		this.subscriptions.push(routerSubscr);
 
-    // router subscription
-    this.currentUrl = this.router.url.split(/[?#]/)[0];
-    const routerSubscr = this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe((event: NavigationEnd) => {
-      this.currentUrl = event.url;
-      this.cdr.detectChanges();
-    });
-    this.subscriptions.push(routerSubscr);
+		// menu load
+		const menuSubscr = this.menu.menuConfig$.subscribe((res) => {
+			this.menuConfig = res;
+			this.cdr.detectChanges();
+		});
+		this.subscriptions.push(menuSubscr);
+	}
 
-    // menu load
-    const menuSubscr = this.menu.menuConfig$.subscribe(res => {
-      this.menuConfig = res;
-      this.cdr.detectChanges();
-    });
-    this.subscriptions.push(menuSubscr);
-  }
+	private getLogo() {
+		return './assets/media/logos/Logo_Horizontal.png';
+		// if (this.brandSkin === 'light') {
+		//   return './assets/media/logos/logo-dark.png';
+		// } else {
+		//   return './assets/media/logos/logo-light.png';
+		// }
+	}
 
-  private getLogo() {
-    return './assets/media/logos/Logo_Horizontal.png';
-    // if (this.brandSkin === 'light') {
-    //   return './assets/media/logos/logo-dark.png';
-    // } else {
-    //   return './assets/media/logos/logo-light.png';
-    // }
-  }
+	isMenuItemActive(path) {
+		if (!this.currentUrl || !path) {
+			return false;
+		}
 
-  isMenuItemActive(path) {
-    if (!this.currentUrl || !path) {
-      return false;
-    }
+		if (this.currentUrl === path) {
+			return true;
+		}
 
-    if (this.currentUrl === path) {
-      return true;
-    }
+		if (this.currentUrl.indexOf(path) > -1) {
+			return true;
+		}
 
-    if (this.currentUrl.indexOf(path) > -1) {
-      return true;
-    }
+		return false;
+	}
 
-    return false;
-  }
+	validatePermission(item) {
+		// if (
+		// 	item.only &&
+		// 	(<string[]>item.only).indexOf(this.user.rolesStr) === -1
+		// )
+		if (
+			item.only &&
+			(<string[]>item.only).some((m) => this.user.roles.indexOf(m) === -1)
+		)
+			return true;
+		return false;
+	}
 
-  ngOnDestroy() {
-    this.subscriptions.forEach(sb => sb.unsubscribe());
-  }
+	hasPermission(item) {
+		// if (
+		// 	item.only &&
+		// 	(<string[]>item.only).indexOf(this.user.rolesStr) !== -1
+		// )
+		if (
+			item.only &&
+			(<string[]>item.only).some((m) => this.user.roles.indexOf(m) !== -1)
+		)
+			return true;
+		return false;
+	}
+
+	ngOnDestroy() {
+		this.subscriptions.forEach((sb) => sb.unsubscribe());
+	}
 }
