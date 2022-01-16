@@ -1,0 +1,392 @@
+<div class="card card-custom gutter-b" style="min-height: 250px">
+	<ng-container *ngIf="isLoading$ | async">
+		<app-loading></app-loading>
+	</ng-container>
+
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="card-label">
+				<ng-container *ngIf="thirdParty">
+					{{ (id ? 'COMMON.EDIT' : 'COMMON.NEW') | translate }}
+					{{ 'THIRD_PARTY.NAME' | translate }}
+					<span *ngIf="thirdParty && thirdParty.id"
+						>'{{ thirdParty.names }}
+						{{ thirdParty.lastNames }}'</span
+					>
+				</ng-container>
+			</h3>
+		</div>
+		<div class="card-toolbar">
+			<a type="button" class="btn btn-light" routerLink="/common/thirdparties">
+				<i class="fa fa-arrow-left"></i>{{ 'COMMON.BACK' | translate }}
+			</a>
+			<button class="btn btn-secondary ml-2" (click)="reset()">
+				<i class="fa fa-redo"></i>{{ 'COMMON.RESET' | translate }}
+			</button>
+			<ng-container *ngIf="thirdParty && activeTabId === tabs.BASIC_TAB">
+				<button
+					type="button"
+					(click)="save()"
+					class="btn btn-primary font-weight-bold ml-2"
+					[disabled]="formGroup.invalid || (isLoading$ | async)"
+				>
+					{{ 'COMMON.SAVE' | translate }}
+				</button>
+			</ng-container>
+		</div>
+	</div>
+	<div class="card-body">
+		<ul class="nav nav-tabs nav-tabs-line" role="tablist">
+			<li
+				class="nav-item cursor-pointer"
+				(click)="changeTab(tabs.BASIC_TAB)"
+			>
+				<a
+					class="nav-link"
+					data-toggle="tab"
+					role="tab"
+					[attr.aria-selected]="activeTabId === tabs.BASIC_TAB"
+					[class.active]="activeTabId === tabs.BASIC_TAB"
+				>
+					{{ 'COMMON.BASIC_INFO' | translate }}
+				</a>
+			</li>
+		</ul>
+
+		<ng-container *ngIf="activeTabId === tabs.BASIC_TAB">
+			<div class="mt-5" *ngIf="thirdParty">
+				<form
+					action="#"
+					class="form form-label-right"
+					[formGroup]="formGroup"
+					(ngSubmit)="save()"
+				>
+					<div class="form-group row">
+						<div class="col-lg-4">
+							<label
+								><b>{{
+									'OWNER.DOCUMENT_NUMBER' | translate
+								}}</b></label
+							>
+							<input
+								type="text"
+								class="form-control form-control-lg form-control-solid"
+								autocomplete="off"
+								placeholder="{{
+									'OWNER.DOCUMENT_NUMBER' | translate
+								}}"
+								name="documentNumber"
+								[class.is-invalid]="
+									isControlInvalid('documentNumber')
+								"
+								formControlName="documentNumber"
+							/>
+							<div
+								class="invalid-feedback"
+								*ngIf="
+									controlHasError(
+										'required',
+										'documentNumber'
+									)
+								"
+							>
+								<b>{{ 'OWNER.DOCUMENT_NUMBER' | translate }}</b>
+								{{ 'COMMON.REQUIRED' | translate }}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="
+									controlHasError(
+										'minlength',
+										'documentNumber'
+									)
+								"
+							>
+								<b>{{ 'OWNER.DOCUMENT_NUMBER' | translate }}</b>
+								{{
+									'COMMON.SHOULTD_HAVE_AT_LEAST'
+										| translate: { min: 5 }
+								}}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="
+									controlHasError(
+										'maxlength',
+										'documentNumber'
+									)
+								"
+							>
+								<b>{{ 'OWNER.DOCUMENT_NUMBER' | translate }}</b>
+								{{
+									'COMMON.SHOULTD_HAVE_MAXIMUM'
+										| translate: { max: 50 }
+								}}
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<label
+								><b>{{ 'OWNER.NAMES' | translate }}</b>
+							</label>
+							<input
+								type="text"
+								class="form-control form-control-lg form-control-solid"
+								autocomplete="off"
+								placeholder="{{ 'OWNER.NAMES' | translate }}"
+								name="names"
+								[class.is-invalid]="isControlInvalid('names')"
+								formControlName="names"
+							/>
+							<div
+								class="invalid-feedback"
+								*ngIf="controlHasError('required', 'names')"
+							>
+								<b>{{ 'OWNER.NAMES' | translate }}</b>
+								{{ 'COMMON.REQUIRED' | translate }}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="controlHasError('minlength', 'names')"
+							>
+								<b>{{ 'OWNER.NAMES' | translate }}</b>
+								{{
+									'COMMON.SHOULTD_HAVE_AT_LEAST'
+										| translate: { min: 3 }
+								}}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="controlHasError('maxlength', 'names')"
+							>
+								<b>{{ 'OWNER.NAMES' | translate }}</b>
+								{{
+									'COMMON.SHOULTD_HAVE_MAXIMUM'
+										| translate: { max: 255 }
+								}}
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<label
+								><b>{{ 'OWNER.LAST_NAMES' | translate }}</b>
+							</label>
+							<input
+								type="text"
+								class="form-control form-control-lg form-control-solid"
+								autocomplete="off"
+								placeholder="{{
+									'OWNER.LAST_NAMES' | translate
+								}}"
+								name="lastNames"
+								[class.is-invalid]="
+									isControlInvalid('lastNames')
+								"
+								formControlName="lastNames"
+							/>
+							<div
+								class="invalid-feedback"
+								*ngIf="controlHasError('required', 'lastNames')"
+							>
+								<b>{{ 'OWNER.LAST_NAMES' | translate }}</b>
+								{{ 'COMMON.REQUIRED' | translate }}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="
+									controlHasError('minlength', 'lastNames')
+								"
+							>
+								<b>{{ 'OWNER.LAST_NAMES' | translate }}</b>
+								{{
+									'COMMON.SHOULTD_HAVE_AT_LEAST'
+										| translate: { min: 3 }
+								}}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="
+									controlHasError('maxlength', 'lastNames')
+								"
+							>
+								<b>{{ 'OWNER.LAST_NAMES' | translate }}</b>
+								{{
+									'COMMON.SHOULTD_HAVE_MAXIMUM'
+										| translate: { max: 255 }
+								}}
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-lg-4">
+							<label
+								><b>{{ 'OWNER.EMAIL' | translate }}</b>
+							</label>
+							<input
+								type="text"
+								class="form-control form-control-lg form-control-solid"
+								autocomplete="off"
+								placeholder="{{ 'OWNER.EMAIL' | translate }}"
+								name="email"
+								[class.is-invalid]="isControlInvalid('email')"
+								formControlName="email"
+							/>
+							<div
+								class="invalid-feedback"
+								*ngIf="controlHasError('required', 'email')"
+							>
+								<b>{{ 'OWNER.EMAIL' | translate }}</b>
+								{{ 'COMMON.REQUIRED' | translate }}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="controlHasError('minlength', 'email')"
+							>
+								<b>{{ 'OWNER.EMAIL' | translate }}</b>
+								{{
+									'COMMON.SHOULTD_HAVE_AT_LEAST'
+										| translate: { min: 10 }
+								}}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="controlHasError('maxlength', 'email')"
+							>
+								<b>{{ 'OWNER.EMAIL' | translate }}</b>
+								{{
+									'COMMON.SHOULTD_HAVE_MAXIMUM'
+										| translate: { max: 250 }
+								}}
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<label
+								><b>{{ 'OWNER.PHONE_NUMBER' | translate }}</b>
+							</label>
+							<input
+								type="text"
+								class="form-control form-control-lg form-control-solid"
+								autocomplete="off"
+								placeholder="{{
+									'OWNER.PHONE_NUMBER' | translate
+								}}"
+								name="phoneNumber"
+								[class.is-invalid]="
+									isControlInvalid('phoneNumber')
+								"
+								formControlName="phoneNumber"
+							/>
+							<div
+								class="invalid-feedback"
+								*ngIf="
+									controlHasError('required', 'phoneNumber')
+								"
+							>
+								<b>{{ 'OWNER.PHONE_NUMBER' | translate }}</b>
+								{{ 'COMMON.REQUIRED' | translate }}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="
+									controlHasError('minlength', 'phoneNumber')
+								"
+							>
+								<b>{{ 'OWNER.PHONE_NUMBER' | translate }}</b>
+								{{
+									'COMMON.SHOULTD_HAVE_AT_LEAST'
+										| translate: { min: 10 }
+								}}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="
+									controlHasError('maxlength', 'phoneNumber')
+								"
+							>
+								<b>{{ 'OWNER.PHONE_NUMBER' | translate }}</b>
+								{{
+									'COMMON.SHOULTD_HAVE_MAXIMUM'
+										| translate: { max: 20 }
+								}}
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<search-lookup
+								label="OWNER.STATE"
+								propertyText="name"
+								propertyValue="id"
+                                label_bold="true"
+								[data]="states"
+								[formControl]="formGroup.controls['stateId']"
+								[formatter]="name_formatter"
+								name="stateId"
+								[resultTemplate]="name_template"
+								placeholder="OWNER.STATE"
+							>
+							</search-lookup>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-lg-4">
+							<search-lookup
+								label="OWNER.CITY"
+								propertyText="name"
+								propertyValue="id"
+                                label_bold="true"
+								[data]="cities"
+								[formControl]="formGroup.controls['cityId']"
+								[formatter]="name_formatter"
+								name="cityId"
+								[resultTemplate]="name_template"
+								placeholder="OWNER.CITY"
+							>
+							</search-lookup>
+						</div>
+						<div class="col-lg-4">
+							<label
+								><b>{{ 'THIRD_PARTY.ADDRESS' | translate }}</b>
+							</label>
+							<input
+								type="text"
+								class="form-control form-control-lg form-control-solid"
+								autocomplete="off"
+								placeholder="{{ 'THIRD_PARTY.ADDRESS' | translate }}"
+								name="address"
+								[class.is-invalid]="isControlInvalid('address')"
+								formControlName="address"
+							/>
+							<div
+								class="invalid-feedback"
+								*ngIf="controlHasError('required', 'address')"
+							>
+								<b>{{ 'THIRD_PARTY.ADDRESS' | translate }}</b>
+								{{ 'THIRD_PARTY.REQUIRED' | translate }}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="controlHasError('minlength', 'address')"
+							>
+								<b>{{ 'THIRD_PARTY.ADDRESS' | translate }}</b>
+								{{
+									'COMMON.SHOULTD_HAVE_AT_LEAST'
+										| translate: { min: 5 }
+								}}
+							</div>
+							<div
+								class="invalid-feedback"
+								*ngIf="controlHasError('maxlength', 'address')"
+							>
+								<b>{{ 'OWNER.ADDRESS' | translate }}</b>
+								{{
+									'COMMON.SHOULTD_HAVE_MAXIMUM'
+										| translate: { max: 250 }
+								}}
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</ng-container>
+	</div>
+</div>
+<ng-template #name_template let-r="result">
+	{{ r.name }}
+</ng-template>

@@ -1,0 +1,43 @@
+<ng-container *ngIf="isLoading$ | async">
+	<app-loading></app-loading>
+</ng-container>
+<div class="card-body" style="min-height: 250px">
+	<div class="col-12">
+		<div class="table-responsive angular-bootstrap-table">
+			<table
+				class="table table-head-custom table-vertical-center overflow-hidden"
+			>
+				<thead>
+					<th style="min-width: 120px; width: 120px">
+						{{ 'COMMON.ACTIONS' | translate | uppercase }}
+					</th>
+					<th>
+						{{ 'PET_TYPE.VACCINE' | translate }}
+					</th>
+				</thead>
+				<tbody>
+					<tr *ngFor="let disponibility of disponibilities$ | async">
+						<td>
+							<a
+								title="Delete vaccine"
+								class="btn btn-icon btn-light btn-hover-danger btn-sm"
+								(click)="(null)"
+							>
+								<span
+									style="pointer-events: none"
+									[inlineSVG]="
+										'./assets/media/svg/icons/General/Trash.svg'
+									"
+									cacheSVG="true"
+									class="svg-icon svg-icon-md svg-icon-danger"
+								>
+								</span>
+							</a>
+						</td>
+						<td>{{ disponibility.startDate }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

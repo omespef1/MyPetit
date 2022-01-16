@@ -81,8 +81,7 @@ export const DynamicAsideMenuConfig = {
 		// 	only: ['SA', 'ADMIN', 'STAFF', 'OWNER', 'anotherPermissions'],
 		// 	bullet: 'dot',
 		// },
-
-		{ section: 'Configuration', translate: 'MENU.CONFIGURATION' },
+		{ section: 'Security', translate: 'MENU.SECURITY' },
 		{
 			title: 'Users',
 			translate: 'MENU.USERS',
@@ -93,6 +92,28 @@ export const DynamicAsideMenuConfig = {
 			page: '/user-management/users',
 			only: ['SA'],
 		},
+		{ section: 'Parámeters', translate: 'MENU.PARAMETERS' },
+		{
+			title: 'Thrid Parties',
+			translate: 'MENU.THIRD_PARTIES',
+			root: true,
+			bullet: 'dot',
+			icon: 'flaticon2-user-outline-symbol',
+			svg: './assets/media/svg/icons/Menu/choose-2_102347.svg',
+			page: '/common/thirdparties',
+			only: ['SA'],
+		},
+		{
+			title: 'Groomers',
+			translate: 'MENU.GROOMERS',
+			root: true,
+			bullet: 'dot',
+			icon: 'flaticon2-user-outline-symbol',
+			svg: './assets/media/svg/icons/Menu/Grooming.svg',
+			page: '/common/groomers',
+			only: ['SA'],
+		},
+		{ section: 'Configuration', translate: 'MENU.CONFIGURATION' },
 		{
 			title: 'Types',
 			translate: 'MENU.PET_TYPES',
@@ -133,7 +154,7 @@ export const DynamicAsideMenuConfig = {
 			only: ['SA', 'ADMIN', 'STAFF', 'OWNER', 'anotherPermissions'],
 			bullet: 'dot',
 		},
-
+		
 		// {
 		//   title: 'User Profile',
 		//   root: true,

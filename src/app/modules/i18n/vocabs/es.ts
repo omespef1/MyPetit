@@ -145,6 +145,18 @@ export const locale = {
 			DURATION: 'Duración (Min)',
 			DESCRIPTION: 'Descripción',
 		},
+		THIRD_PARTY: {
+			TITLE: 'Terceros',
+			NEW: 'Nuevo tercero',
+			ADDRESS: 'Dirección',
+			NAME: 'Tercero',
+		},
+		GROOMER: {
+			TITLE: 'Groomers',
+			NAME: 'Groomer',
+			NEW: 'Nuevo Groomer',
+			DISPONIBILITIES: 'Disponibilidades',
+		},
 		MENU: {
 			NEW: 'nuevo',
 			ACTIONS: 'Comportamiento',
@@ -163,6 +175,10 @@ export const locale = {
 			OWNERS: 'Propietarios',
 			SERVICES: 'Servicios',
 			CONFIGURATION: 'Configuración',
+			SECURITY: 'Seguridad',
+			PARAMETERS: 'Parámetros',
+			THIRD_PARTIES: 'Terceros',
+			GROOMERS: 'Groomers',
 		},
 		AUTH: {
 			GENERAL: {

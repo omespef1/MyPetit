@@ -50,6 +50,13 @@ const routes: Routes = [
 					),
 			},
 			{
+				path: 'common',
+				loadChildren: () =>
+					import('../modules/common/common-parameter.module').then(
+						(m) => m.CommonParameterModule
+					),
+			},
+			{
 				path: '',
 				redirectTo: '/dashboard',
 				pathMatch: 'full',
