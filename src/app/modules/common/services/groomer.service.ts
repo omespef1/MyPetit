@@ -68,4 +68,28 @@ export class GroomerService
 			finalize(() => this._isLoading$.next(false))
 		);
 	}
+
+	createDisponibility(
+		groomerId: number,
+		dayOfWeek: number,
+		startDate: string,
+		endDate: string
+	) {
+		this._isLoading$.next(true);
+		this._errorMessage.next('');
+		const url = `${this.API_URL}/disponibility/${groomerId}`;
+		return this.http
+			.post<GroomerDisponibilityModel>(url, {
+				dayOfWeek,
+				startDate,
+				endDate,
+			})
+			.pipe(
+				catchError((err) => {
+					this._errorMessage.next(ErrorUtil.getMessage(err));
+					throw err;
+				}),
+				finalize(() => this._isLoading$.next(false))
+			);
+	}
 }

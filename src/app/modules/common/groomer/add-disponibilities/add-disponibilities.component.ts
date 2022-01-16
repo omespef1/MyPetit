@@ -1,11 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { GroomerDisponibilityModel } from 'src/app/_metronic/core/models/groomer-disponibility.model';
-import { PetModel } from 'src/app/_metronic/core/models/pet.model';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { GroomerService } from '../../services/groomer.service';
-import { RefreshGromerDisponibilitiesService } from './refresh-gromer-disponibilities.service';
+import { RefreshGroomerDisponibilitiesService } from './refresh-groomer-disponibilities.service';
 
 @Component({
 	selector: 'app-add-disponibilities',
@@ -18,16 +16,15 @@ export class AddDisponibilitiesComponent implements OnInit {
 	isLoading$: Observable<boolean>;
 
 	constructor(
-		private readonly refreshGromerDisponibilitiesService: RefreshGromerDisponibilitiesService,
+		private readonly refreshGroomerDisponibilitiesService: RefreshGroomerDisponibilitiesService,
 		private readonly groomerService: GroomerService,
-		private readonly modalService: NgbModal,
 		private readonly swal: SwalService
 	) {}
 
 	ngOnInit(): void {
 		this.isLoading$ = this.groomerService.isLoading$;
 		this.searchAllPets();
-		this.refreshGromerDisponibilitiesService.refreshData$.subscribe(() =>
+		this.refreshGroomerDisponibilitiesService.refreshData$.subscribe(() =>
 			this.searchAllPets()
 		);
 	}
@@ -38,19 +35,7 @@ export class AddDisponibilitiesComponent implements OnInit {
 		);
 	}
 
-	editPet(disponibility: GroomerDisponibilityModel) {
-		// const modalRef = this.modalService.open(AddPetComponent, {
-		// 	size: 'lg',
-		// });
-		// modalRef.componentInstance.ownerId = pet.ownerId;
-		// modalRef.componentInstance.petId = pet.id;
-		// modalRef.result.then(
-		// 	() => this.ownerPetService.refresData$.next(),
-		// 	() => {}
-		// );
-	}
-
-	deletePet(disponibility: GroomerDisponibilityModel) {
+	deleteDisponibility(disponibility: GroomerDisponibilityModel) {
 		this.swal.question('COMMON.DELETE_MESSAGE_QUESTION').then((res) => {
 			if (res.isConfirmed) {
 				this.groomerService

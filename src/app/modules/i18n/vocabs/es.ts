@@ -71,6 +71,13 @@ export const locale = {
 			UPDATE: 'Actualizar',
 			ENROLLMENT: 'Enrolamiento',
 			VALIDATION: 'Validación',
+			MONDAY: 'Lunes',
+			TUESDAY: 'Martes',
+			WEDNESDAY: 'Miércoles',
+			THURSDAY: 'Jueves',
+			FRIDAY: 'Viernes',
+			SATURDAY: 'Sábado',
+			SUNDAY: 'Domingo'
 		},
 		USER: {
 			USERNAME: 'Nombre de usuario',
@@ -156,6 +163,10 @@ export const locale = {
 			NAME: 'Groomer',
 			NEW: 'Nuevo Groomer',
 			DISPONIBILITIES: 'Disponibilidades',
+			DAY: 'Día',
+			START_DATE: 'Fecha inicio',
+			END_DATE: 'Fecha fin',
+			ADD_DISPONIBILITY: 'Agregar disponibilidad'
 		},
 		MENU: {
 			NEW: 'nuevo',

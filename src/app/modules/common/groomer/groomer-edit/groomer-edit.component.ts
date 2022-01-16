@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of, Subscription } from 'rxjs';
 import { catchError, filter, switchMap, tap } from 'rxjs/operators';
 import { GroomerModel } from 'src/app/_metronic/core/models/groomer.model';
@@ -15,6 +16,8 @@ import { ThirdPartyModel } from 'src/app/_metronic/core/models/third-party.model
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { GroomerService } from '../../services/groomer.service';
 import { ThirdPartyService } from '../../services/third.party.service';
+import { RefreshGroomerDisponibilitiesService } from '../add-disponibilities/refresh-groomer-disponibilities.service';
+import { AddDisponibilityModalComponent } from '../add-disponibility-modal/add-disponibility-modal.component';
 
 const EMPTY_GROOMER: GroomerModel = {
 	id: undefined,
@@ -23,7 +26,7 @@ const EMPTY_GROOMER: GroomerModel = {
 	thirdPartyEmail: '',
 	thirdPartyFullName: '',
 	thirdPartyId: undefined,
-  isActive: true
+	isActive: true,
 };
 
 @Component({
@@ -42,19 +45,22 @@ export class GroomerEditComponent
 	errorMessage = '';
 	tabs = {
 		BASIC_TAB: 0,
-    DISPONIBILITIES_TAB: 1
+		DISPONIBILITIES_TAB: 1,
 	};
 	activeTabId = this.tabs.BASIC_TAB; // 0 => Basic info | 1 => Roles
 	thirdParties: ThirdPartyModel[] = [];
 	private subscriptions: Subscription[] = [];
 
-	thirdparty_formatter = (x: any) => `${x.documentNumber} - ${x.names} ${x.lastNames}`;
+	thirdparty_formatter = (x: any) =>
+		`${x.documentNumber} - ${x.names} ${x.lastNames}`;
 
 	constructor(
 		private fb: FormBuilder,
 		private groomerService: GroomerService,
+		private readonly modalService: NgbModal,
 		private readonly swalService: SwalService,
 		private readonly thirdPartyService: ThirdPartyService,
+		private readonly refreshGroomerDisponibilitiesService: RefreshGroomerDisponibilitiesService,
 		private router: Router,
 		private route: ActivatedRoute,
 		private readonly cdr: ChangeDetectorRef
@@ -194,6 +200,20 @@ export class GroomerEditComponent
 				this.router.navigate(['/common', 'groomers', this.groomer.id]);
 			});
 		this.subscriptions.push(sbCreate);
+	}
+
+	addDisponibility() {
+		const modalRef = this.modalService.open(
+			AddDisponibilityModalComponent,
+			{
+				size: 'md',
+			}
+		);
+		modalRef.componentInstance.groomerId = this.groomer.id;
+		modalRef.result.then(
+			() => this.refreshGroomerDisponibilitiesService.refreshData$.next(),
+			() => {}
+		);
 	}
 
 	changeTab(tabId: number) {

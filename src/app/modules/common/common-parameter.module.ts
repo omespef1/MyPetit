@@ -13,6 +13,8 @@ import { ComponentsModule } from '../components/components.module';
 import { ThirdPartyEditComponent } from './third-party/third-party-edit/third-party-edit.component';
 import { GroomerEditComponent } from './groomer/groomer-edit/groomer-edit.component';
 import { AddDisponibilitiesComponent } from './groomer/add-disponibilities/add-disponibilities.component';
+import { CoreModule } from 'src/app/_metronic/core';
+import { AddDisponibilityModalComponent } from './groomer/add-disponibility-modal/add-disponibility-modal.component';
 
 @NgModule({
 	declarations: [
@@ -22,8 +24,10 @@ import { AddDisponibilitiesComponent } from './groomer/add-disponibilities/add-d
 		ThirdPartyEditComponent,
 		GroomerEditComponent,
 		AddDisponibilitiesComponent,
+		AddDisponibilityModalComponent,
 	],
 	imports: [
+		CoreModule,
 		CommonModule,
 		CommonParameterRoutingModule,
 		ReactiveFormsModule,

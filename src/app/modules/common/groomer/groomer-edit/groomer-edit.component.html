@@ -36,6 +36,22 @@
 					{{ 'COMMON.SAVE' | translate }}
 				</button>
 			</ng-container>
+			<ng-container
+				*ngIf="
+					groomer &&
+					groomer.id > 0 &&
+					activeTabId === tabs.DISPONIBILITIES_TAB
+				"
+			>
+				<button
+					type="button"
+					(click)="addDisponibility()"
+					class="btn btn-primary font-weight-bold ml-2"
+					[disabled]="formGroup.invalid || (isLoading$ | async)"
+				>
+					{{ 'GROOMER.ADD_DISPONIBILITY' | translate }}
+				</button>
+			</ng-container>
 		</div>
 	</div>
 	<div class="card-body">
@@ -122,8 +138,10 @@
 				activeTabId === tabs.DISPONIBILITIES_TAB
 			"
 		>
-        <app-add-disponibilities></app-add-disponibilities>
-    </ng-container>
+			<app-add-disponibilities
+				[groomerId]="groomer.id"
+			></app-add-disponibilities>
+		</ng-container>
 	</div>
 </div>
 <ng-template #thirdparty_template let-r="result">

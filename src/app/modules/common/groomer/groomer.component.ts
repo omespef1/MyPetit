@@ -9,9 +9,9 @@ import { ColumnInfo } from '../../components/grid-control/grid-control.component
 import { GroomerService } from '../services/groomer.service';
 
 @Component({
-  selector: 'app-groomer',
-  templateUrl: './groomer.component.html',
-  styleUrls: ['./groomer.component.scss']
+	selector: 'app-groomer',
+	templateUrl: './groomer.component.html',
+	styleUrls: ['./groomer.component.scss'],
 })
 export class GroomerComponent implements OnInit, OnDestroy {
 	columns: ColumnInfo[] = [
@@ -39,7 +39,7 @@ export class GroomerComponent implements OnInit, OnDestroy {
 			columnName: 'isActive',
 			columnTitle: 'USER.STATE',
 			sortable: true,
-      customOptions: [
+			customOptions: [
 				{
 					value: true,
 					text: 'COMMON.ACTIVE',

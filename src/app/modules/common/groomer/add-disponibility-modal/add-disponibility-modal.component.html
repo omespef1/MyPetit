@@ -1,0 +1,86 @@
+<div class="modal-content">
+	<div class="modal-header">
+		<div class="modal-title h4" id="example-modal-sizes-title-lg">
+			<ng-container *ngIf="groomerDisponibility">
+				<ng-container>{{ 'COMMON.ADD' | translate }}</ng-container>
+				{{ 'USER.ROLE' | translate }}
+			</ng-container>
+		</div>
+	</div>
+	<div class="modal-body" style="min-height: 180px">
+		<ng-container *ngIf="(isLoading$ | async) || (isLoadingSave$ | async)">
+			<app-loading></app-loading>
+		</ng-container>
+
+		<ng-container *ngIf="groomerDisponibility && !(isLoading$ | async)">
+			<form
+				action="#"
+				class="form form-label-right"
+				[formGroup]="formGroup"
+			>
+				<div class="form-group row">
+					<div class="col-12 margin-bottom-10-mobile">
+						<label>
+							<b>{{ 'GROOMER.DAY' | translate }}</b></label
+						>
+						<select
+							class="form-control form-control-lg form-control-solid"
+							name="dayOfWeek"
+							autocomplete="off"
+							formControlName="dayOfWeek"
+						>
+							<option value="null">
+								--{{ 'COMMON.SELECT' | translate }}--
+							</option>
+							<ng-container *ngFor="let day of days">
+								<option [value]="day.value">
+									{{ day.text | uppercase }}
+								</option>
+							</ng-container>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<div class="col-lg-6 margin-bottom-10-mobile">
+						<label
+							><b>{{
+								'GROOMER.START_DATE' | translate
+							}}</b></label
+						>
+						<ngb-timepicker formControlName="startDate" [meridian]="true"></ngb-timepicker>
+					</div>
+					<div class="col-lg-6 margin-bottom-10-mobile">
+						<label
+							><b>{{ 'GROOMER.END_DATE' | translate }}</b></label
+						>
+						<ngb-timepicker formControlName="endDate" [meridian]="true"></ngb-timepicker>
+					</div>
+				</div>
+			</form>
+		</ng-container>
+	</div>
+	<div class="modal-footer">
+		<button
+			type="button"
+			class="btn btn-light btn-elevate mr-2"
+			(click)="modal.dismiss()"
+		>
+			{{ 'COMMON.CANCEL' | translate }}
+		</button>
+		<ng-container *ngIf="groomerDisponibility">
+			<button
+				type="submit"
+				class="btn btn-primary btn-elevate"
+				(click)="save()"
+				[disabled]="
+					formGroup.invalid ||
+					(isLoading$ | async) ||
+					(isLoadingSave$ | async)
+				"
+			>
+				{{ 'COMMON.ADD' | translate }}
+			</button>
+		</ng-container>
+	</div>
+</div>

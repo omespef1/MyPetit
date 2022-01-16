@@ -4,7 +4,7 @@ import { Subject, Subscription } from 'rxjs';
 @Injectable({
 	providedIn: 'root',
 })
-export class RefreshGromerDisponibilitiesService {
+export class RefreshGroomerDisponibilitiesService {
 	refreshData$ = new Subject();
 	private _subscriptions: Subscription[] = [];
 
