@@ -1,0 +1,141 @@
+<div class="card-body" style="min-height: 250px">
+	<div class="col-12">
+		<dx-scheduler
+			timeZone="America/Los_Angeles"
+			id="scheduler"
+			[dataSource]="data"
+			[views]="['day', 'week', 'timelineDay']"
+			currentView="day"
+			[firstDayOfWeek]="0"
+			[startDayHour]="9"
+			[endDayHour]="23"
+			[showAllDayPanel]="false"
+			[groups]="['theatreId']"
+			[currentDate]="currentDate"
+			[crossScrollingEnabled]="true"
+			[cellDuration]="20"
+			[height]="600"
+			appointmentTemplate="appointment-template"
+			appointmentTooltipTemplate="tooltip-template"
+			(onAppointmentFormOpening)="onAppointmentFormOpening($event)"
+		>
+			<dxo-editing [allowAdding]="true"></dxo-editing>
+
+			<dxi-resource
+				fieldExpr="movieId"
+				[useColorAsDefault]="true"
+				[dataSource]="moviesData"
+			>
+			</dxi-resource>
+
+			<dxi-resource fieldExpr="theatreId" [dataSource]="theatreData">
+			</dxi-resource>
+
+			<div *dxTemplate="let model of 'appointment-template'">
+				<div class="showtime-preview">
+					<div>
+						{{ getMovieById(model.appointmentData.movieId).text }}
+					</div>
+					<div>
+						Ticket Price:
+						<strong>{{ '$' + model.appointmentData.price }}</strong>
+					</div>
+					<div class="dropdown-appointment-dates">
+						{{
+							(model.appointmentData.startDate
+								| date: 'shortTime') +
+								' - ' +
+								(model.appointmentData.endDate
+									| date: 'shortTime')
+						}}
+					</div>
+				</div>
+			</div>
+
+			<div *dxTemplate="let model of 'tooltip-template'">
+				<div class="movie-tooltip">
+					<img
+						[src]="
+							getMovieById(model.appointmentData.movieId).image
+						"
+					/>
+					<div class="movie-info">
+						<div class="movie-title">
+							{{
+								getMovieById(model.appointmentData.movieId)
+									.text +
+									' (' +
+									getMovieById(model.appointmentData.movieId)
+										.year +
+									')'
+							}}
+						</div>
+						<div>
+							{{
+								'Director: ' +
+									getMovieById(model.appointmentData.movieId)
+										.director
+							}}
+						</div>
+						<div>
+							{{
+								'Duration: ' +
+									getMovieById(model.appointmentData.movieId)
+										.duration +
+									' minutes'
+							}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</dx-scheduler>
+		<!-- <div class="table-responsive angular-bootstrap-table">
+			<table
+				class="table table-head-custom table-vertical-center overflow-hidden"
+			>
+				<thead>
+					<th style="min-width: 120px; width: 120px">
+						{{ 'COMMON.ACTIONS' | translate | uppercase }}
+					</th>
+					<th>
+						{{ 'GROOMER.DAY' | translate }}
+					</th>
+					<th>
+						{{ 'GROOMER.START_DATE' | translate }}
+					</th>
+					<th>
+						{{ 'GROOMER.END_DATE' | translate }}
+					</th>
+				</thead>
+				<tbody>
+					<tr *ngFor="let disponibility of disponibilities$ | async">
+						<td>
+							<a
+								title="Delete disponibility"
+								class="btn btn-icon btn-light btn-hover-danger btn-sm"
+								(click)="deleteDisponibility(disponibility)"
+							>
+								<span
+									style="pointer-events: none"
+									[inlineSVG]="
+										'./assets/media/svg/icons/General/Trash.svg'
+									"
+									cacheSVG="true"
+									class="svg-icon svg-icon-md svg-icon-danger"
+								>
+								</span>
+							</a>
+						</td>
+						<td>
+							{{
+								disponibility.dayOfWeek | dayOfWeek | uppercase
+							}}
+						</td>
+						<td>{{ disponibility.startDate }}</td>
+						<td>{{ disponibility.endDate }}</td>						
+					</tr>
+				</tbody>
+			</table>
+		</div> -->
+	</div>
+</div>

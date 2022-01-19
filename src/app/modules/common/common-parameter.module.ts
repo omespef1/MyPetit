@@ -15,6 +15,8 @@ import { GroomerEditComponent } from './groomer/groomer-edit/groomer-edit.compon
 import { AddDisponibilitiesComponent } from './groomer/add-disponibilities/add-disponibilities.component';
 import { CoreModule } from 'src/app/_metronic/core';
 import { AddDisponibilityModalComponent } from './groomer/add-disponibility-modal/add-disponibility-modal.component';
+import { DxSchedulerModule, DxTemplateModule } from 'devextreme-angular';
+import { AddGroomerDisponibilitiesScheduleComponent } from './groomer/add-groomer-disponibilities-schedule/add-groomer-disponibilities-schedule.component';
 
 @NgModule({
 	declarations: [
@@ -25,6 +27,7 @@ import { AddDisponibilityModalComponent } from './groomer/add-disponibility-moda
 		GroomerEditComponent,
 		AddDisponibilitiesComponent,
 		AddDisponibilityModalComponent,
+		AddGroomerDisponibilitiesScheduleComponent,
 	],
 	imports: [
 		CoreModule,
@@ -37,6 +40,8 @@ import { AddDisponibilityModalComponent } from './groomer/add-disponibility-moda
 		TranslateModule.forChild(),
 		ComponentsModule,
 		NgbModule,
+		DxSchedulerModule,
+		DxTemplateModule
 	],
 })
 export class CommonParameterModule {}

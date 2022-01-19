@@ -138,9 +138,12 @@
 				activeTabId === tabs.DISPONIBILITIES_TAB
 			"
 		>
-			<app-add-disponibilities
+			<!-- <app-add-disponibilities
 				[groomerId]="groomer.id"
-			></app-add-disponibilities>
+			></app-add-disponibilities> -->
+			<app-add-groomer-disponibilities-schedule
+				[groomerId]="groomer.id"
+			></app-add-groomer-disponibilities-schedule>
 		</ng-container>
 	</div>
 </div>

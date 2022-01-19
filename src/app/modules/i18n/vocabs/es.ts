@@ -163,6 +163,7 @@ export const locale = {
 			NAME: 'Groomer',
 			NEW: 'Nuevo Groomer',
 			DISPONIBILITIES: 'Disponibilidades',
+			DISPONIBILITY: 'Disponibilidad',
 			DAY: 'Día',
 			START_DATE: 'Fecha inicio',
 			END_DATE: 'Fecha fin',
