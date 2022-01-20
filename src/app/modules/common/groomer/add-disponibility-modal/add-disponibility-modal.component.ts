@@ -13,16 +13,20 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
-import { GroomerDisponibilityModel } from 'src/app/_metronic/core/models/groomer-disponibility.model';
+import {
+	GroomerDisponibilityModel,
+	TimeObjectModel,
+} from 'src/app/_metronic/core/models/groomer-disponibility.model';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { GroomerService } from '../../services/groomer.service';
 import KTTimePicker from '../../../../../assets/js/components/timepicker.js';
 
 const EMPTY_DISPONIBILITY: GroomerDisponibilityModel = {
 	id: undefined,
-	endDate: new Date(),
-	startDate: new Date(),
+	endDate: new TimeObjectModel(),
+	startDate: new TimeObjectModel(),
 	groomerId: undefined,
+	dayOfWeek: 1,
 };
 
 @Component({
@@ -134,8 +138,8 @@ export class AddDisponibilityModalComponent
 			.createDisponibility(
 				this.groomerId,
 				this.f.dayOfWeek,
-				`${this.f.startDate.hour}:${this.f.startDate.minute}`,
-				`${this.f.endDate.hour}:${this.f.endDate.minute}`
+				this.f.startDate,
+				this.f.endDate
 			)
 			.pipe(
 				tap(() => {

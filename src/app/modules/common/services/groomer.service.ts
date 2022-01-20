@@ -72,8 +72,8 @@ export class GroomerService
 	createDisponibility(
 		groomerId: number,
 		dayOfWeek: number,
-		startDate: string,
-		endDate: string
+		startDate: { hour: number; minute: number; second: number },
+		endDate: { hour: number; minute: number; second: number }
 	) {
 		this._isLoading$.next(true);
 		this._errorMessage.next('');
@@ -81,8 +81,16 @@ export class GroomerService
 		return this.http
 			.post<GroomerDisponibilityModel>(url, {
 				dayOfWeek,
-				startDate,
-				endDate,
+				startDate: {
+					hours: startDate.hour,
+					minutes: startDate.minute,
+					seconds: startDate.second,
+				},
+				endDate: {
+					hours: endDate.hour,
+					minutes: endDate.minute,
+					seconds: endDate.second,
+				},
 			})
 			.pipe(
 				catchError((err) => {
