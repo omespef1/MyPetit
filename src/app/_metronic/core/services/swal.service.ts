@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import notify from 'devextreme/ui/notify';
 import Swal from 'sweetalert2';
 
 @Injectable({
@@ -7,6 +8,10 @@ import Swal from 'sweetalert2';
 })
 export class SwalService {
 	constructor(private translateService: TranslateService) {}
+
+	notify(message: string) {
+		notify(this.translateService.instant(message), 'success', 2000);
+	}
 
 	success(html: string) {
 		Swal.fire({

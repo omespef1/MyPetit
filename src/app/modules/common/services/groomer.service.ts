@@ -100,4 +100,36 @@ export class GroomerService
 				finalize(() => this._isLoading$.next(false))
 			);
 	}
+
+	editDisponibility(
+		id: number,
+		dayOfWeek: number,
+		startDate: { hour: number; minute: number; second: number },
+		endDate: { hour: number; minute: number; second: number }
+	) {
+		this._isLoading$.next(true);
+		this._errorMessage.next('');
+		const url = `${this.API_URL}/disponibility/${id}`;
+		return this.http
+			.put<GroomerDisponibilityModel>(url, {
+				dayOfWeek,
+				startDate: {
+					hours: startDate.hour,
+					minutes: startDate.minute,
+					seconds: startDate.second,
+				},
+				endDate: {
+					hours: endDate.hour,
+					minutes: endDate.minute,
+					seconds: endDate.second,
+				},
+			})
+			.pipe(
+				catchError((err) => {
+					this._errorMessage.next(ErrorUtil.getMessage(err));
+					throw err;
+				}),
+				finalize(() => this._isLoading$.next(false))
+			);
+	}
 }

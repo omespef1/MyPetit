@@ -7,6 +7,7 @@ import { DxSchedulerComponent } from 'devextreme-angular';
 import { RefreshGroomerDisponibilitiesService } from '../add-disponibilities/refresh-groomer-disponibilities.service';
 import { TranslateService } from '@ngx-translate/core';
 import { tap } from 'rxjs/operators';
+import notify from 'devextreme/ui/notify';
 
 export class AppointmentData {
 	public id: number;
@@ -77,9 +78,9 @@ export class AddGroomerDisponibilitiesScheduleComponent
 
 	ngOnInit(): void {
 		this.isLoading$ = this.groomerService.isLoading$;
-		this.searchAllPets();
+		this.searchAllDisponibilities();
 		this.refreshGroomerDisponibilitiesService.refreshData$.subscribe(() =>
-			this.searchAllPets()
+			this.searchAllDisponibilities()
 		);
 	}
 
@@ -87,26 +88,30 @@ export class AddGroomerDisponibilitiesScheduleComponent
 		this.subscriptions.forEach((m) => m.unsubscribe());
 	}
 
-	searchAllPets() {
+	searchAllDisponibilities() {
 		this.groomerService
 			.getAllDisponibilities(this.groomerId)
 			.subscribe((d) => this.processData(d));
 	}
 
 	onAddAppointment(e) {
-		// e.cancel = true;
 		console.log(e);
 		this.addDisponibility(e.appointmentData);
 	}
 
-	onEditAppointment(e) {
-		e.cancel = true;
-		console.log(e);
+	async onEditAppointment(e) {
+		try {
+			await this.editDisponibility(e.newData);
+		} catch (e) {
+			e.cancel = true;
+			this.searchAllDisponibilities();
+		}
 	}
 
 	onRemoveAppointment(e) {
-		e.cancel = true;
-		console.log(e);
+		// e.cancel = true;
+		// console.log(e);
+		this.deleteDisponibility(e.appointmentData);
 	}
 
 	processData(disponibilities: GroomerDisponibilityModel[]) {
@@ -134,17 +139,23 @@ export class AddGroomerDisponibilitiesScheduleComponent
 		});
 	}
 
-	deleteDisponibility(disponibility: GroomerDisponibilityModel) {
-		this.swal.question('COMMON.DELETE_MESSAGE_QUESTION').then((res) => {
-			if (res.isConfirmed) {
-				this.groomerService
-					.deleteDisponibility(disponibility.id)
-					.subscribe(() => {
-						this.swal.success('COMMON.RESOURCE_DELETED');
-						this.searchAllPets();
-					});
-			}
-		});
+	deleteDisponibility(appointment: AppointmentData) {
+		// this.swal.question('COMMON.DELETE_MESSAGE_QUESTION').then((res) => {
+		// 	if (res.isConfirmed) {
+		// 		this.groomerService
+		// 			.deleteDisponibility(appointment.id)
+		// 			.subscribe(() => {
+		// 				// this.swal.notify('COMMON.RESOURCE_DELETED');
+		// 				this.searchAllDisponibilities();
+		// 			});
+		// 	}
+		// });
+		this.groomerService
+			.deleteDisponibility(appointment.id)
+			.subscribe(() => {
+				// this.swal.notify('COMMON.RESOURCE_DELETED');
+				this.searchAllDisponibilities();
+			});
 	}
 
 	addDisponibility(appointment: AppointmentData) {
@@ -165,11 +176,35 @@ export class AddGroomerDisponibilitiesScheduleComponent
 			)
 			.pipe(
 				tap(() => {
-					this.swal.success('COMMON.RESOURCE_CREATED');
+					// this.swal.notify('COMMON.RESOURCE_CREATED');
 				})
 			)
 			.subscribe();
 		this.subscriptions.push(sbCreate);
+	}
+
+	editDisponibility(appointment: AppointmentData) {
+		return this.groomerService
+			.editDisponibility(
+				appointment.id,
+				appointment.dayOfWeek,
+				{
+					hour: appointment.startDate.getHours(),
+					minute: appointment.startDate.getMinutes(),
+					second: appointment.startDate.getSeconds(),
+				},
+				{
+					hour: appointment.endDate.getHours(),
+					minute: appointment.endDate.getMinutes(),
+					second: appointment.endDate.getSeconds(),
+				}
+			)
+			.pipe(
+				tap(() => {
+					// this.swal.notify('COMMON.RESOURCE_UPDATED');
+				})
+			)
+			.toPromise();
 	}
 
 	convertToMinutes(startDate: Date, endDate: Date) {

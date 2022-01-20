@@ -4,3 +4,9 @@
 .dx-toolbar-items-container {
     display: none !important;
 }
+
+.dx-scheduler-header .dx-toolbar {
+    height: 100%;
+    background-color: transparent;
+    display: none;
+}
