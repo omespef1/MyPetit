@@ -77,7 +77,8 @@ export const locale = {
 			THURSDAY: 'Jueves',
 			FRIDAY: 'Viernes',
 			SATURDAY: 'Sábado',
-			SUNDAY: 'Domingo'
+			SUNDAY: 'Domingo',
+			SCHEDULE: 'Horario',
 		},
 		USER: {
 			USERNAME: 'Nombre de usuario',
@@ -167,7 +168,7 @@ export const locale = {
 			DAY: 'Día',
 			START_DATE: 'Fecha inicio',
 			END_DATE: 'Fecha fin',
-			ADD_DISPONIBILITY: 'Agregar disponibilidad'
+			ADD_DISPONIBILITY: 'Agregar disponibilidad',
 		},
 		MENU: {
 			NEW: 'nuevo',

@@ -1,0 +1,36 @@
+<dx-scheduler
+	timeZone="America/Bogota"
+	id="scheduler"
+	[dataSource]="dataSource"
+	[views]="[]"
+	[showAllDayPanel]="false"
+	[showCurrentTimeIndicator]="false"
+	[firstDayOfWeek]="0"
+	[startDayHour]="6"
+	[endDayHour]="24"
+	[showAllDayPanel]="false"
+	[groups]="['dayOfWeek']"
+	[currentDate]="currentDate"
+	[crossScrollingEnabled]="true"
+	[cellDuration]="30"
+	[height]="800"
+	appointmentTemplate="appointment-template"
+	(onAppointmentAdding)="onAddAppointment($event)"
+	(onAppointmentUpdating)="onEditAppointment($event)"
+	(onAppointmentDeleting)="onRemoveAppointment($event)"
+	(onAppointmentFormOpening)="onAppointmentFormOpening($event)"
+>
+	<div *dxTemplate="let model of 'appointment-template'">
+		<div class="fc-event">
+			<div class="fc-content">
+				<div class="fc-time">
+					<span>{{
+						(model.appointmentData.startDate | date: 'shortTime') +
+							' - ' +
+							(model.appointmentData.endDate | date: 'shortTime')
+					}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</dx-scheduler>

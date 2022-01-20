@@ -7,7 +7,6 @@ import { DxSchedulerComponent } from 'devextreme-angular';
 import { RefreshGroomerDisponibilitiesService } from '../add-disponibilities/refresh-groomer-disponibilities.service';
 import { TranslateService } from '@ngx-translate/core';
 import { tap } from 'rxjs/operators';
-import notify from 'devextreme/ui/notify';
 
 export class AppointmentData {
 	public id: number;
@@ -25,7 +24,6 @@ export class AddGroomerDisponibilitiesScheduleComponent
 	implements OnInit, OnDestroy
 {
 	@Input() groomerId: number;
-	disponibilities$: Observable<GroomerDisponibilityModel[]>;
 	data: AppointmentData[] = [];
 	isLoading$: Observable<boolean>;
 	currentDate: Date = new Date(1901, 0, 1);
@@ -109,8 +107,7 @@ export class AddGroomerDisponibilitiesScheduleComponent
 	}
 
 	onRemoveAppointment(e) {
-		// e.cancel = true;
-		// console.log(e);
+		e.cancel = true;
 		this.deleteDisponibility(e.appointmentData);
 	}
 
@@ -140,22 +137,15 @@ export class AddGroomerDisponibilitiesScheduleComponent
 	}
 
 	deleteDisponibility(appointment: AppointmentData) {
-		// this.swal.question('COMMON.DELETE_MESSAGE_QUESTION').then((res) => {
-		// 	if (res.isConfirmed) {
-		// 		this.groomerService
-		// 			.deleteDisponibility(appointment.id)
-		// 			.subscribe(() => {
-		// 				// this.swal.notify('COMMON.RESOURCE_DELETED');
-		// 				this.searchAllDisponibilities();
-		// 			});
-		// 	}
-		// });
-		this.groomerService
-			.deleteDisponibility(appointment.id)
-			.subscribe(() => {
-				// this.swal.notify('COMMON.RESOURCE_DELETED');
-				this.searchAllDisponibilities();
-			});
+		this.swal.question('COMMON.DELETE_MESSAGE_QUESTION').then((res) => {
+			if (res.isConfirmed) {
+				this.groomerService
+					.deleteDisponibility(appointment.id)
+					.subscribe(() => {
+						this.searchAllDisponibilities();
+					});
+			}
+		});
 	}
 
 	addDisponibility(appointment: AppointmentData) {
@@ -174,12 +164,7 @@ export class AddGroomerDisponibilitiesScheduleComponent
 					second: appointment.endDate.getSeconds(),
 				}
 			)
-			.pipe(
-				tap(() => {
-					// this.swal.notify('COMMON.RESOURCE_CREATED');
-				})
-			)
-			.subscribe();
+			.subscribe(() => this.searchAllDisponibilities());
 		this.subscriptions.push(sbCreate);
 	}
 

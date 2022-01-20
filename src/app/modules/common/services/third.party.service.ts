@@ -27,7 +27,7 @@ export class ThirdPartyService
 	}
 
 	getAll() {
-		if (this.thirdParties$.value.length > 0) return this.thirdParties$;
+		// if (this.thirdParties$.value.length > 0) return this.thirdParties$;
 
 		this._isLoading$.next(true);
 		this._errorMessage.next('');
