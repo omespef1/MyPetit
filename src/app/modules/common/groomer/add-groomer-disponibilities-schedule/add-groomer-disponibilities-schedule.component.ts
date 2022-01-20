@@ -1,35 +1,18 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { GroomerDisponibilityModel } from 'src/app/_metronic/core/models/groomer-disponibility.model';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { GroomerService } from '../../services/groomer.service';
-import Query from 'devextreme/data/query';
 import { DxSchedulerComponent } from 'devextreme-angular';
 import { RefreshGroomerDisponibilitiesService } from '../add-disponibilities/refresh-groomer-disponibilities.service';
-import { tap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
+import { tap } from 'rxjs/operators';
 
-export class TheatreData {
-	text: string;
-	id: number;
-}
-
-export class MovieData {
-	id: number;
-	text: string;
-	director: string;
-	year: number;
-	image: string;
-	duration: number;
-	color: string;
-}
-
-export class Data {
-	theatreId: number;
-	movieId: number;
-	price: number;
-	startDate: Date;
-	endDate: Date;
+export class AppointmentData {
+	public id: number;
+	public startDate: Date;
+	public endDate: Date;
+	public dayOfWeek: number;
 }
 
 @Component({
@@ -37,17 +20,53 @@ export class Data {
 	templateUrl: './add-groomer-disponibilities-schedule.component.html',
 	styleUrls: ['./add-groomer-disponibilities-schedule.component.scss'],
 })
-export class AddGroomerDisponibilitiesScheduleComponent implements OnInit {
+export class AddGroomerDisponibilitiesScheduleComponent
+	implements OnInit, OnDestroy
+{
 	@Input() groomerId: number;
 	disponibilities$: Observable<GroomerDisponibilityModel[]>;
+	data: AppointmentData[] = [];
 	isLoading$: Observable<boolean>;
-	// currentDate: Date = new Date(2021, 2, 28);
 	currentDate: Date = new Date(1901, 0, 1);
-	data: Data[] = [];
-	moviesData: MovieData[];
-	theatreData: TheatreData[];
 	@ViewChild(DxSchedulerComponent, { static: false })
 	scheduler: DxSchedulerComponent;
+	days = [
+		{
+			id: 1,
+			text: this.translateService.instant('COMMON.MONDAY').toUpperCase(),
+		},
+		{
+			id: 2,
+			text: this.translateService.instant('COMMON.TUESDAY').toUpperCase(),
+		},
+		{
+			id: 3,
+			text: this.translateService
+				.instant('COMMON.WEDNESDAY')
+				.toUpperCase(),
+		},
+		{
+			id: 4,
+			text: this.translateService
+				.instant('COMMON.THURSDAY')
+				.toUpperCase(),
+		},
+		{
+			id: 5,
+			text: this.translateService.instant('COMMON.FRIDAY').toUpperCase(),
+		},
+		{
+			id: 6,
+			text: this.translateService
+				.instant('COMMON.SATURDAY')
+				.toUpperCase(),
+		},
+		{
+			id: 7,
+			text: this.translateService.instant('COMMON.SUNDAY').toUpperCase(),
+		},
+	];
+	subscriptions: Subscription[] = [];
 
 	constructor(
 		private readonly refreshGroomerDisponibilitiesService: RefreshGroomerDisponibilitiesService,
@@ -57,15 +76,15 @@ export class AddGroomerDisponibilitiesScheduleComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		// this.data = data;
-		this.moviesData = moviesData;
-		this.theatreData = theatreData;
-
 		this.isLoading$ = this.groomerService.isLoading$;
 		this.searchAllPets();
 		this.refreshGroomerDisponibilitiesService.refreshData$.subscribe(() =>
 			this.searchAllPets()
 		);
+	}
+
+	ngOnDestroy() {
+		this.subscriptions.forEach((m) => m.unsubscribe());
 	}
 
 	searchAllPets() {
@@ -74,14 +93,27 @@ export class AddGroomerDisponibilitiesScheduleComponent implements OnInit {
 			.subscribe((d) => this.processData(d));
 	}
 
-	print(e) {
+	onAddAppointment(e) {
+		// e.cancel = true;
+		console.log(e);
+		this.addDisponibility(e.appointmentData);
+	}
+
+	onEditAppointment(e) {
+		e.cancel = true;
+		console.log(e);
+	}
+
+	onRemoveAppointment(e) {
+		e.cancel = true;
 		console.log(e);
 	}
 
 	processData(disponibilities: GroomerDisponibilityModel[]) {
-		this.data = [];
-		disponibilities.forEach((m) => {
-			this.data.push({
+		this.data = disponibilities.map((m) => {
+			return {
+				id: m.id,
+				dayOfWeek: m.dayOfWeek,
 				startDate: new Date(
 					1901,
 					0,
@@ -98,10 +130,7 @@ export class AddGroomerDisponibilitiesScheduleComponent implements OnInit {
 					m.endDate.minutes,
 					m.endDate.seconds
 				),
-				movieId: 1,
-				price: 5,
-				theatreId: m.dayOfWeek,
-			});
+			};
 		});
 	}
 
@@ -116,6 +145,31 @@ export class AddGroomerDisponibilitiesScheduleComponent implements OnInit {
 					});
 			}
 		});
+	}
+
+	addDisponibility(appointment: AppointmentData) {
+		const sbCreate = this.groomerService
+			.createDisponibility(
+				this.groomerId,
+				appointment.dayOfWeek,
+				{
+					hour: appointment.startDate.getHours(),
+					minute: appointment.startDate.getMinutes(),
+					second: appointment.startDate.getSeconds(),
+				},
+				{
+					hour: appointment.endDate.getHours(),
+					minute: appointment.endDate.getMinutes(),
+					second: appointment.endDate.getSeconds(),
+				}
+			)
+			.pipe(
+				tap(() => {
+					this.swal.success('COMMON.RESOURCE_CREATED');
+				})
+			)
+			.subscribe();
+		this.subscriptions.push(sbCreate);
 	}
 
 	convertToMinutes(startDate: Date, endDate: Date) {
@@ -172,9 +226,9 @@ export class AddGroomerDisponibilitiesScheduleComponent implements OnInit {
 					text: this.translateService.instant('GROOMER.DAY'),
 				},
 				editorType: 'dxSelectBox',
-				dataField: 'theatreId',
+				dataField: 'dayOfWeek',
 				editorOptions: {
-					items: that.theatreData,
+					items: that.days,
 					displayExpr: 'text',
 					valueExpr: 'id',
 					onValueChanged(args) {
@@ -193,122 +247,3 @@ export class AddGroomerDisponibilitiesScheduleComponent implements OnInit {
 		]);
 	}
 }
-
-const theatreData: TheatreData[] = [
-	{
-		text: 'Domingo',
-		id: 0,
-	},
-	{
-		text: 'Lunes',
-		id: 1,
-	},
-	{
-		text: 'Martes',
-		id: 2,
-	},
-	{
-		text: 'Miercoles',
-		id: 3,
-	},
-	{
-		text: 'Jueves',
-		id: 4,
-	},
-	{
-		text: 'Viernes',
-		id: 5,
-	},
-	{
-		text: 'Sábado',
-		id: 6,
-	},
-];
-
-const moviesData: MovieData[] = [
-	{
-		id: 1,
-		text: 'His Girl Friday',
-		director: 'Howard Hawks',
-		year: 1940,
-		image: 'images/movies/HisGirlFriday.jpg',
-		duration: 92,
-		color: '#cb6bb2',
-	},
-	{
-		id: 2,
-		text: 'Royal Wedding',
-		director: 'Stanley Donen',
-		year: 1951,
-		image: 'images/movies/RoyalWedding.jpg',
-		duration: 93,
-		color: '#56ca85',
-	},
-	{
-		id: 3,
-		text: 'A Star Is Born',
-		director: 'William A. Wellman',
-		year: 1937,
-		image: 'images/movies/AStartIsBorn.jpg',
-		duration: 111,
-		color: '#1e90ff',
-	},
-	{
-		id: 4,
-		text: 'The Screaming Skull',
-		director: 'Alex Nicol',
-		year: 1958,
-		image: 'images/movies/ScreamingSkull.jpg',
-		duration: 68,
-		color: '#ff9747',
-	},
-	{
-		id: 5,
-		text: "It's a Wonderful Life",
-		director: 'Frank Capra',
-		year: 1946,
-		image: 'images/movies/ItsAWonderfulLife.jpg',
-		duration: 130,
-		color: '#f05797',
-	},
-	{
-		id: 6,
-		text: 'City Lights',
-		director: 'Charlie Chaplin',
-		year: 1931,
-		image: 'images/movies/CityLights.jpg',
-		duration: 87,
-		color: '#2a9010',
-	},
-];
-
-const data: Data[] = [
-	{
-		theatreId: 0,
-		movieId: 3,
-		price: 10,
-		startDate: new Date('1901-01-01T16:10:00.000Z'),
-		endDate: new Date('1901-01-01T18:01:00.000Z'),
-	},
-	{
-		theatreId: 0,
-		movieId: 1,
-		price: 5,
-		startDate: new Date('1901-01-01T18:30:00.000Z'),
-		endDate: new Date('1901-01-01T20:02:00.000Z'),
-	},
-	{
-		theatreId: 2,
-		movieId: 3,
-		price: 15,
-		startDate: new Date('1901-01-01T20:30:00.000Z'),
-		endDate: new Date('1901-01-01T22:21:00.000Z'),
-	},
-	{
-		theatreId: 1,
-		movieId: 4,
-		price: 5,
-		startDate: new Date('1901-01-01T23:00:00.000Z'),
-		endDate: new Date('1901-01-01T00:08:00.000Z'),
-	},
-];

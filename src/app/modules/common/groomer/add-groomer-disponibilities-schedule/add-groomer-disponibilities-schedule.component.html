@@ -11,27 +11,23 @@
 			[startDayHour]="6"
 			[endDayHour]="24"
 			[showAllDayPanel]="false"
-			[groups]="['theatreId']"
+			[groups]="['dayOfWeek']"
 			[currentDate]="currentDate"
 			[crossScrollingEnabled]="true"
 			[cellDuration]="30"
 			[height]="800"
 			appointmentTemplate="appointment-template"
 			appointmentTooltipTemplate="tooltip-template"
-            (onAppointmentAdding)="print($event)"
-            (onAppointmentUpdating)="print($event)"
-            (onAppointmentDeleting)="print($event)"
+			(onAppointmentAdding)="onAddAppointment($event)"
+			(onAppointmentUpdating)="onEditAppointment($event)"
+			(onAppointmentDeleting)="onRemoveAppointment($event)"
 			(onAppointmentFormOpening)="onAppointmentFormOpening($event)"
 		>
-            <!-- <dxi-view type="day" hidden="true"> </dxi-view> -->
-			<dxo-editing [allowAdding]="true"></dxo-editing>
-			<dxi-resource
-				fieldExpr="movieId"
-				[useColorAsDefault]="true"
-				[dataSource]="moviesData"
-			>
-			</dxi-resource>
-			<dxi-resource fieldExpr="theatreId" [dataSource]="theatreData">
+			<dxo-editing
+				[allowAdding]="true"
+				[allowDeleting]="true"
+			></dxo-editing>
+			<dxi-resource fieldExpr="dayOfWeek" [dataSource]="days">
 			</dxi-resource>
 			<div *dxTemplate="let model of 'appointment-template'">
 				<div class="showtime-preview">
