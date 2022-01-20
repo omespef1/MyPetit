@@ -34,7 +34,7 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": ["src/styles.scss"],
+            "styles": ["src/styles.scss", "src/assets/css/dx.generic.custom-scheme.css"],
             "scripts": [
               "node_modules/apexcharts/dist/apexcharts.min.js",
               "node_modules/clipboard/dist/clipboard.js"
