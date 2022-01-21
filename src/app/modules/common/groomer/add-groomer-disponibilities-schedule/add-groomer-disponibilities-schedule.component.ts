@@ -7,13 +7,7 @@ import { DxSchedulerComponent } from 'devextreme-angular';
 import { RefreshGroomerDisponibilitiesService } from '../add-disponibilities/refresh-groomer-disponibilities.service';
 import { TranslateService } from '@ngx-translate/core';
 import { tap } from 'rxjs/operators';
-
-export class AppointmentData {
-	public id: number;
-	public startDate: Date;
-	public endDate: Date;
-	public dayOfWeek: number;
-}
+import { AppointmentData } from 'src/app/_metronic/core/models/appointment-data.model';
 
 @Component({
 	selector: 'app-add-groomer-disponibilities-schedule',

@@ -169,6 +169,7 @@ export const locale = {
 			START_DATE: 'Fecha inicio',
 			END_DATE: 'Fecha fin',
 			ADD_DISPONIBILITY: 'Agregar disponibilidad',
+			MOBILE_DISPONIBILITIES: 'Disponibilidad Móvil',
 		},
 		MENU: {
 			NEW: 'nuevo',

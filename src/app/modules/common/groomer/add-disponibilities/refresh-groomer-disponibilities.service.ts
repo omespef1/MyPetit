@@ -6,6 +6,7 @@ import { Subject, Subscription } from 'rxjs';
 })
 export class RefreshGroomerDisponibilitiesService {
 	refreshData$ = new Subject();
+	refreshMobileData$ = new Subject();
 	private _subscriptions: Subscription[] = [];
 
 	constructor() {}

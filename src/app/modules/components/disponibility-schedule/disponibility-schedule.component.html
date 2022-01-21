@@ -18,8 +18,11 @@
 	(onAppointmentAdding)="onAddAppointment($event)"
 	(onAppointmentUpdating)="onEditAppointment($event)"
 	(onAppointmentDeleting)="onRemoveAppointment($event)"
-	(onAppointmentFormOpening)="onAppointmentFormOpening($event)"
+	(onAppointmentFormOpening)="onAppointmentFormOpen($event)"
 >
+	<dxo-editing [allowAdding]="true" [allowDeleting]="true"></dxo-editing>
+	<dxi-resource fieldExpr="dayOfWeek" [dataSource]="days"> </dxi-resource>
+
 	<div *dxTemplate="let model of 'appointment-template'">
 		<div class="fc-event">
 			<div class="fc-content">

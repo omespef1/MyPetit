@@ -87,6 +87,23 @@
 					{{ 'GROOMER.DISPONIBILITIES' | translate }}
 				</a>
 			</li>
+			<li
+				*ngIf="groomer && groomer.id > 0"
+				class="nav-item cursor-pointer"
+				(click)="changeTab(tabs.MOBILE_DISPONIBILITIES_TAB)"
+			>
+				<a
+					class="nav-link"
+					data-toggle="tab"
+					role="tab"
+					[attr.aria-selected]="
+						activeTabId === tabs.MOBILE_DISPONIBILITIES_TAB
+					"
+					[class.active]="activeTabId === tabs.MOBILE_DISPONIBILITIES_TAB"
+				>
+					{{ 'GROOMER.MOBILE_DISPONIBILITIES' | translate }}
+				</a>
+			</li>
 		</ul>
 
 		<ng-container *ngIf="activeTabId === tabs.BASIC_TAB">
@@ -144,6 +161,17 @@
 			<app-add-groomer-disponibilities-schedule
 				[groomerId]="groomer.id"
 			></app-add-groomer-disponibilities-schedule>
+		</ng-container>
+		<ng-container
+			*ngIf="
+				groomer &&
+				groomer.id > 0 &&
+				activeTabId === tabs.MOBILE_DISPONIBILITIES_TAB
+			"
+		>
+			<app-add-mobile-disponibility
+				[groomerId]="groomer.id"
+			></app-add-mobile-disponibility>
 		</ng-container>
 	</div>
 </div>

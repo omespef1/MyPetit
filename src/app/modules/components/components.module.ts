@@ -53,6 +53,7 @@ import { DxSchedulerModule, DxTemplateModule } from 'devextreme-angular';
 		LoadingComponent,
 		PicSelectComponent,
 		SearchLookupComponent,
+		DisponibilityScheduleComponent,
 	],
 })
 export class ComponentsModule {}

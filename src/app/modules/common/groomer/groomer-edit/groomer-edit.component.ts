@@ -46,6 +46,7 @@ export class GroomerEditComponent
 	tabs = {
 		BASIC_TAB: 0,
 		DISPONIBILITIES_TAB: 1,
+		MOBILE_DISPONIBILITIES_TAB: 2,
 	};
 	activeTabId = this.tabs.BASIC_TAB; // 0 => Basic info | 1 => Roles
 	thirdParties: ThirdPartyModel[] = [];

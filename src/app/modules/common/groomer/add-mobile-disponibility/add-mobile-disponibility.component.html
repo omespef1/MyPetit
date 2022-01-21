@@ -1,0 +1,10 @@
+<div class="card-body" style="min-height: 250px">
+	<div class="col-12 fc-unthemed">
+		<app-disponibility-schedule
+			[dataSource]="data"
+			(onAppointmentAdding)="onAddAppointment($event)"
+			(onAppointmentUpdating)="onEditAppointment($event)"
+			(onAppointmentDeleting)="onRemoveAppointment($event)"
+		></app-disponibility-schedule>
+	</div>
+</div>

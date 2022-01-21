@@ -17,6 +17,7 @@ import { CoreModule } from 'src/app/_metronic/core';
 import { AddDisponibilityModalComponent } from './groomer/add-disponibility-modal/add-disponibility-modal.component';
 import { DxSchedulerModule, DxTemplateModule } from 'devextreme-angular';
 import { AddGroomerDisponibilitiesScheduleComponent } from './groomer/add-groomer-disponibilities-schedule/add-groomer-disponibilities-schedule.component';
+import { AddMobileDisponibilityComponent } from './groomer/add-mobile-disponibility/add-mobile-disponibility.component';
 
 @NgModule({
 	declarations: [
@@ -28,6 +29,7 @@ import { AddGroomerDisponibilitiesScheduleComponent } from './groomer/add-groome
 		AddDisponibilitiesComponent,
 		AddDisponibilityModalComponent,
 		AddGroomerDisponibilitiesScheduleComponent,
+		AddMobileDisponibilityComponent,
 	],
 	imports: [
 		CoreModule,
