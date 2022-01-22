@@ -1,105 +1,10 @@
 <div class="card-body" style="min-height: 250px">
 	<div class="col-12 fc-unthemed">
-		<dx-scheduler
-			timeZone="America/Bogota"
-			id="scheduler"
+		<app-disponibility-schedule
 			[dataSource]="data"
-			[views]="[]"
-			[showAllDayPanel]="false"
-			[showCurrentTimeIndicator]="false"
-			[firstDayOfWeek]="0"
-			[startDayHour]="6"
-			[endDayHour]="24"
-			[showAllDayPanel]="false"
-			[groups]="['dayOfWeek']"
-			[currentDate]="currentDate"
-			[crossScrollingEnabled]="true"
-			[cellDuration]="30"
-			[height]="800"
-			appointmentTemplate="appointment-template"
 			(onAppointmentAdding)="onAddAppointment($event)"
 			(onAppointmentUpdating)="onEditAppointment($event)"
 			(onAppointmentDeleting)="onRemoveAppointment($event)"
-			(onAppointmentFormOpening)="onAppointmentFormOpening($event)"
-		>
-			<!-- appointmentTooltipTemplate="tooltip-template"
-		appointmentTemplate="appointment-template" -->
-			<!-- <dxi-view
-				name="Auto Mode"
-				type="month"
-				maxAppointmentsPerCell="auto"
-			> 
-			</dxi-view>-->
-
-			<dxo-editing
-				[allowAdding]="true"
-				[allowDeleting]="true"
-			></dxo-editing>
-
-			<dxi-resource fieldExpr="dayOfWeek" [dataSource]="days">
-			</dxi-resource>
-
-			<!-- <div *dxTemplate="let model of 'appointment-template'">
-				<div class="showtime-preview">
-					<div>{{ 'COMMON.SCHEDULE' | translate }}:</div>
-					<div class="dropdown-appointment-dates">
-						{{
-							(model.appointmentData.startDate
-								| date: 'shortTime') +
-								' - ' +
-								(model.appointmentData.endDate
-									| date: 'shortTime')
-						}}
-					</div>
-				</div>
-			</div> -->
-			<div *dxTemplate="let model of 'appointment-template'">
-				<div class="fc-event">
-					<div class="fc-content">
-						<div class="fc-time">
-							<span>{{
-								(model.appointmentData.startDate
-									| date: 'shortTime') +
-									' - ' +
-									(model.appointmentData.endDate
-										| date: 'shortTime')
-							}}</span>
-						</div>
-						<!-- <div class="fc-title">
-							Meeting
-							<div class="fc-description">
-								Lorem ipsum dolor eiu idunt ut labore
-							</div>
-						</div> -->
-					</div>
-				</div>
-			</div>
-
-			<!-- <div *dxTemplate="let model of 'tooltip-template'">
-				<div class="movie-tooltip">
-					<div class="movie-info">
-						<div class="movie-title">
-							{{
-								(model.appointmentData.startDate
-									| date: 'shortTime') +
-									' - ' +
-									(model.appointmentData.endDate
-										| date: 'shortTime')
-							}}
-						</div>
-						<div>
-							{{
-								'Duration: ' +
-									convertToMinutes(
-										model.appointmentData.startDate,
-										model.appointmentData.endDate
-									) +
-									' minutes'
-							}}
-						</div>
-					</div>
-				</div>
-			</div> -->
-		</dx-scheduler>
+		></app-disponibility-schedule>
 	</div>
 </div>
