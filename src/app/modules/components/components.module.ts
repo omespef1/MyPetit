@@ -19,6 +19,7 @@ import { PicSelectComponent } from './pic-select/pic-select.component';
 import { SearchLookupComponent } from './search-lookup/search-lookup.component';
 import { DisponibilityScheduleComponent } from './disponibility-schedule/disponibility-schedule.component';
 import { DxSchedulerModule, DxTemplateModule } from 'devextreme-angular';
+import { CalendarComponent } from './calendar/calendar.component';
 
 @NgModule({
 	declarations: [
@@ -27,6 +28,7 @@ import { DxSchedulerModule, DxTemplateModule } from 'devextreme-angular';
 		PicSelectComponent,
 		SearchLookupComponent,
 		DisponibilityScheduleComponent,
+		CalendarComponent,
 	],
 	imports: [
 		CommonModule,
@@ -54,6 +56,7 @@ import { DxSchedulerModule, DxTemplateModule } from 'devextreme-angular';
 		PicSelectComponent,
 		SearchLookupComponent,
 		DisponibilityScheduleComponent,
+		CalendarComponent
 	],
 })
 export class ComponentsModule {}

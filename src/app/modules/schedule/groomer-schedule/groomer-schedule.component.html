@@ -1,0 +1,49 @@
+<div class="container-fluid">
+	<div class="d-flex flex-column flex-md-row">
+		<div class="flex-md-row-auto w-md-195px w-xl-195px">
+			<div class="card card-custom gutter-b">
+				<div class="card-body text-center">
+					<!-- <ngb-datepicker
+						#dp
+						[(ngModel)]="model"
+						(navigate)="date = $event.next"
+					></ngb-datepicker> -->
+
+					<dx-calendar
+						#calendar
+						id="calendar-container"
+						[min]="minDateValue"
+						[max]="maxDateValue"
+						[disabledDates]="disabledDates"
+						[firstDayOfWeek]="firstDay"
+						[disabled]="false"
+						[(value)]="currentValue"
+						[zoomLevel]="zoomLevels[0]"
+						[cellTemplate]="cellTemplate"
+					>
+						<span
+							*dxTemplate="let cell of 'custom'"
+							[ngClass]="getCellCssClass(cell.date)"
+						>
+							{{ cell.text }}
+						</span>
+					</dx-calendar>
+				</div>
+			</div>
+		</div>
+		<div class="flex-md-row-fluid ml-md-6 ml-lg-8">
+			<div class="row">
+				<div class="col-xxl-12">
+					<div class="card card-custom gutter-b">
+						<div class="card-body">
+							<app-calendar></app-calendar>
+						</div>
+						<!--end::Body-->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--end::Content-->
+	</div>
+	<!--end::Education-->
+</div>

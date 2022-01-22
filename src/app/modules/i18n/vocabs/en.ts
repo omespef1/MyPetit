@@ -79,6 +79,7 @@ export const locale = {
 			SATURDAY: 'Saturday',
 			SUNDAY: 'Sunday',
 			SCHEDULE: 'Schedule',
+			SUCCESS_EXCLAMATION: '¡Success!'
 		},
 		USER: {
 			USERNAME: 'User Name',
@@ -155,7 +156,7 @@ export const locale = {
 		},
 		THIRD_PARTY: {
 			TITLE: 'Third parties',
-			NEW: 'Nuevo third',
+			NEW: 'New third',
 			ADDRESS: 'Address',
 			NAME: 'Third',
 		},
@@ -169,6 +170,7 @@ export const locale = {
 			START_DATE: 'Start day',
 			END_DATE: 'End date',
 			ADD_DISPONIBILITY: 'Add disponibility',
+			MOBILE_DISPONIBILITIES: 'Mobile disponibilities',
 		},
 		MENU: {
 			NEW: 'New',
@@ -192,6 +194,8 @@ export const locale = {
 			PARAMETERS: 'Parameters',
 			THIRD_PARTIES: 'Third parties',
 			GROOMERS: 'Groomers',
+			SCHEDULES: 'Schedules',
+			GROOMER_SCHEDULE: 'Groomers'
 		},
 		AUTH: {
 			GENERAL: {

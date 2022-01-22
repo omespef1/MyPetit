@@ -79,6 +79,7 @@ export const locale = {
 			SATURDAY: 'Sábado',
 			SUNDAY: 'Domingo',
 			SCHEDULE: 'Horario',
+			SUCCESS_EXCLAMATION: '¡Correcto!'
 		},
 		USER: {
 			USERNAME: 'Nombre de usuario',
@@ -193,6 +194,8 @@ export const locale = {
 			PARAMETERS: 'Parámetros',
 			THIRD_PARTIES: 'Terceros',
 			GROOMERS: 'Groomers',
+			SCHEDULES: 'Calendarios',
+			GROOMER_SCHEDULE: 'Groomers'
 		},
 		AUTH: {
 			GENERAL: {

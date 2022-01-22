@@ -17,7 +17,7 @@ export class SwalService {
 		Swal.fire({
 			// position: 'top-end',
 			icon: 'success',
-			title: '¡Correcto!',
+			title: this.translateService.instant('COMMON.SUCCESS_EXCLAMATION'),
 			html: this.translateService.instant(html),
 			showConfirmButton: false,
 			timer: 1500,

@@ -57,6 +57,13 @@ const routes: Routes = [
 					),
 			},
 			{
+				path: 'schedule',
+				loadChildren: () =>
+					import('../modules/schedule/schedule.module').then(
+						(m) => m.ScheduleModule
+					),
+			},
+			{
 				path: '',
 				redirectTo: '/dashboard',
 				pathMatch: 'full',

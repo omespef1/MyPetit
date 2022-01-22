@@ -92,6 +92,16 @@ export const DynamicAsideMenuConfig = {
 			page: '/user-management/users',
 			only: ['SA'],
 		},
+		{ section: 'Schedules', translate: 'MENU.SCHEDULES' },
+		{
+			title: 'Groomer schedule',
+			translate: 'MENU.GROOMER_SCHEDULE',
+			root: true,
+			bullet: 'dot',
+			icon: 'flaticon2-user-outline-symbol',
+			svg: './assets/media/svg/icons/Menu/Schedule.svg',
+			page: '/schedule/groomer-schedule',
+		},
 		{ section: 'Parámeters', translate: 'MENU.PARAMETERS' },
 		{
 			title: 'Thrid Parties',
@@ -154,7 +164,7 @@ export const DynamicAsideMenuConfig = {
 			only: ['SA', 'ADMIN', 'STAFF', 'OWNER', 'anotherPermissions'],
 			bullet: 'dot',
 		},
-		
+
 		// {
 		//   title: 'User Profile',
 		//   root: true,

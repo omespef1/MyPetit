@@ -11,11 +11,11 @@ import { DxSchedulerComponent } from 'devextreme-angular';
 import { AppointmentData } from 'src/app/_metronic/core/models/appointment-data.model';
 
 @Component({
-	selector: 'app-disponibility-schedule',
-	templateUrl: './disponibility-schedule.component.html',
-	styleUrls: ['./disponibility-schedule.component.scss'],
+	selector: 'app-calendar',
+	templateUrl: './calendar.component.html',
+	styleUrls: ['./calendar.component.scss'],
 })
-export class DisponibilityScheduleComponent implements OnInit {
+export class CalendarComponent implements OnInit {
 	@ViewChild(DxSchedulerComponent, { static: false })
 	scheduler: DxSchedulerComponent;
 	@Input() dataSource: AppointmentData[] = [];
@@ -25,44 +25,22 @@ export class DisponibilityScheduleComponent implements OnInit {
 	@Output() onAppointmentDeleting = new EventEmitter<AppointmentData>();
 	@Output() onAppointmentFormOpening = new EventEmitter<AppointmentData>();
 
-	days = [
+	groomers = [
 		{
 			id: 1,
-			text: this.translateService.instant('COMMON.MONDAY').toUpperCase(),
+			text: 'DIEGO ROLDÁN',
 		},
 		{
 			id: 2,
-			text: this.translateService.instant('COMMON.TUESDAY').toUpperCase(),
+			text: 'MARIA PAULA',
 		},
 		{
 			id: 3,
-			text: this.translateService
-				.instant('COMMON.WEDNESDAY')
-				.toUpperCase(),
-		},
-		{
-			id: 4,
-			text: this.translateService
-				.instant('COMMON.THURSDAY')
-				.toUpperCase(),
-		},
-		{
-			id: 5,
-			text: this.translateService.instant('COMMON.FRIDAY').toUpperCase(),
-		},
-		{
-			id: 6,
-			text: this.translateService
-				.instant('COMMON.SATURDAY')
-				.toUpperCase(),
-		},
-		{
-			id: 7,
-			text: this.translateService.instant('COMMON.SUNDAY').toUpperCase(),
+			text: 'SANTIAGO GUTIERREZ',
 		},
 	];
 
-	currentDate: Date = new Date(1901, 0, 1);
+	currentDate: Date = new Date();
 
 	constructor(private readonly translateService: TranslateService) {}
 
@@ -77,7 +55,6 @@ export class DisponibilityScheduleComponent implements OnInit {
 	}
 
 	onRemoveAppointment(e) {
-		e.cancel = true;
 		this.onAppointmentDeleting.next(e.appointmentData);
 	}
 
@@ -134,7 +111,7 @@ export class DisponibilityScheduleComponent implements OnInit {
 				editorType: 'dxSelectBox',
 				dataField: 'dayOfWeek',
 				editorOptions: {
-					items: that.days,
+					items: that.groomers,
 					displayExpr: 'text',
 					valueExpr: 'id',
 					onValueChanged(args) {},
