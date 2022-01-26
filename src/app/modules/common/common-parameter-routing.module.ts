@@ -4,6 +4,7 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 import { CommonParameterComponent } from './common-parameter.component';
 import { GroomerEditComponent } from './groomer/groomer-edit/groomer-edit.component';
 import { GroomerComponent } from './groomer/groomer.component';
+import { SettingComponent } from './setting/setting.component';
 import { ThirdPartyEditComponent } from './third-party/third-party-edit/third-party-edit.component';
 import { ThirdPartyComponent } from './third-party/third-party.component';
 
@@ -43,6 +44,19 @@ const routes: Routes = [
 						path: ':id',
 						component: GroomerEditComponent,
 					},
+				],
+			},
+			{
+				path: 'setting',
+				children: [
+					{
+						path: '',
+						component: SettingComponent,
+					},
+					// {
+					// 	path: ':id',
+					// 	component: GroomerEditComponent,
+					// },
 				],
 			},
 			{ path: '', redirectTo: 'dashboard', pathMatch: 'full' },

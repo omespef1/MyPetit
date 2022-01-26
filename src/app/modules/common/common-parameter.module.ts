@@ -18,6 +18,7 @@ import { AddDisponibilityModalComponent } from './groomer/add-disponibility-moda
 import { DxSchedulerModule, DxTemplateModule } from 'devextreme-angular';
 import { AddGroomerDisponibilitiesScheduleComponent } from './groomer/add-groomer-disponibilities-schedule/add-groomer-disponibilities-schedule.component';
 import { AddMobileDisponibilityComponent } from './groomer/add-mobile-disponibility/add-mobile-disponibility.component';
+import { SettingComponent } from './setting/setting.component';
 
 @NgModule({
 	declarations: [
@@ -30,6 +31,7 @@ import { AddMobileDisponibilityComponent } from './groomer/add-mobile-disponibil
 		AddDisponibilityModalComponent,
 		AddGroomerDisponibilitiesScheduleComponent,
 		AddMobileDisponibilityComponent,
+		SettingComponent,
 	],
 	imports: [
 		CoreModule,

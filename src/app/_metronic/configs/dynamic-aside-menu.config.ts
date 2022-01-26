@@ -111,7 +111,7 @@ export const DynamicAsideMenuConfig = {
 			icon: 'flaticon2-user-outline-symbol',
 			svg: './assets/media/svg/icons/Menu/choose-2_102347.svg',
 			page: '/common/thirdparties',
-			only: ['SA'],
+			only: ['SA', 'ADMIN'],
 		},
 		{
 			title: 'Groomers',
@@ -121,7 +121,17 @@ export const DynamicAsideMenuConfig = {
 			icon: 'flaticon2-user-outline-symbol',
 			svg: './assets/media/svg/icons/Menu/Grooming.svg',
 			page: '/common/groomers',
-			only: ['SA'],
+			only: ['SA', 'ADMIN'],
+		},
+		{
+			title: 'Settings',
+			translate: 'MENU.SETTINGS',
+			root: true,
+			bullet: 'dot',
+			icon: 'flaticon2-user-outline-symbol',
+			svg: './assets/media/svg/icons/General/Settings-1.svg',
+			page: '/common/setting',
+			only: ['SA', 'ADMIN'],
 		},
 		{ section: 'Configuration', translate: 'MENU.CONFIGURATION' },
 		{

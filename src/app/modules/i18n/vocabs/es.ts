@@ -79,7 +79,7 @@ export const locale = {
 			SATURDAY: 'Sábado',
 			SUNDAY: 'Domingo',
 			SCHEDULE: 'Horario',
-			SUCCESS_EXCLAMATION: '¡Correcto!'
+			SUCCESS_EXCLAMATION: '¡Correcto!',
 		},
 		USER: {
 			USERNAME: 'Nombre de usuario',
@@ -172,6 +172,12 @@ export const locale = {
 			ADD_DISPONIBILITY: 'Agregar disponibilidad',
 			MOBILE_DISPONIBILITIES: 'Disponibilidad Móvil',
 		},
+		SETTING: {
+			TITLE: 'Parámetros del sistema',
+			NEW: 'Nuevo parámetro',
+			NAME: 'Parámetro',
+			TAX: 'Impuesto',
+		},
 		MENU: {
 			NEW: 'nuevo',
 			ACTIONS: 'Comportamiento',
@@ -195,7 +201,8 @@ export const locale = {
 			THIRD_PARTIES: 'Terceros',
 			GROOMERS: 'Groomers',
 			SCHEDULES: 'Calendarios',
-			GROOMER_SCHEDULE: 'Groomers'
+			GROOMER_SCHEDULE: 'Groomers',
+			SETTINGS: 'Parámetros del sistema'
 		},
 		AUTH: {
 			GENERAL: {
