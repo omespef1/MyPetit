@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { map } from 'rxjs/operators';
+import { GroomerService } from '../../common/services/groomer.service';
+import { AppointmentServiceData } from '../../components/calendar/calendar.component';
+import { AddServiceModalComponent } from './add-service-modal/add-service-modal.component';
 const now = new Date();
 @Component({
 	selector: 'app-groomer-schedule',
@@ -10,49 +14,76 @@ export class GroomerScheduleComponent implements OnInit {
 	model: NgbDateStruct;
 	date: { year: number; month: number };
 
+	currentValue: Date = new Date();
 
+	firstDay = 0;
 
+	minDateValue: Date | null = null;
 
-  currentValue: Date = new Date();
+	maxDateValue: Date | null = null;
 
-  firstDay = 0;
+	disabledDates: Function | null = null;
 
-  minDateValue: Date | null = null;
+	zoomLevels: string[] = ['month', 'year', 'decade', 'century'];
 
-  maxDateValue: Date | null = null;
+	cellTemplate = 'cell';
 
-  disabledDates: Function | null = null;
+	holydays: any = [
+		[1, 0],
+		[4, 6],
+		[25, 11],
+	];
 
-  zoomLevels: string[] = [
-    'month', 'year', 'decade', 'century',
-  ];
+	getCellCssClass(date) {
+		let cssClass = '';
 
-  cellTemplate = 'cell';
+		if (this.isWeekend(date)) {
+			cssClass = 'weekend';
+		}
 
-  holydays: any = [[1, 0], [4, 6], [25, 11]];
-  getCellCssClass(date) {
-    let cssClass = '';
+		this.holydays.forEach((item) => {
+			if (date.getDate() === item[0] && date.getMonth() === item[1]) {
+				cssClass = 'holyday';
+				return false;
+			}
+		});
 
-    if (this.isWeekend(date)) { cssClass = 'weekend'; }
+		return cssClass;
+	}
+	isWeekend(date) {
+		const day = date.getDay();
 
-    this.holydays.forEach((item) => {
-      if (date.getDate() === item[0] && date.getMonth() === item[1]) {
-        cssClass = 'holyday';
-        return false;
-      }
-    });
+		return day === 0 || day === 6;
+	}
 
-    return cssClass;
-  }
-  isWeekend(date) {
-    const day = date.getDay();
+	groomers: { id: number; text: string }[] = [];
 
-    return day === 0 || day === 6;
-  }
-  
-	constructor() {}
+	constructor(
+		private readonly groomerService: GroomerService,
+		private readonly cdr: ChangeDetectorRef,
+		private readonly modalService: NgbModal
+	) {}
 
-	ngOnInit(): void {}
+	ngOnInit(): void {
+		this.getAllGroomers();
+	}
+
+	getAllGroomers() {
+		this.groomerService
+			.getAll()
+			.pipe(
+				map((g) =>
+					g.map((m) => {
+						return { id: m.id, text: m.thirdPartyFullName };
+					})
+				)
+			)
+			.subscribe((g) => {
+				this.groomers = g;
+				console.log(g);
+				this.cdr.detectChanges();
+			});
+	}
 
 	selectToday() {
 		this.model = {
@@ -60,5 +91,16 @@ export class GroomerScheduleComponent implements OnInit {
 			month: now.getMonth() + 1,
 			day: now.getDate(),
 		};
+	}
+
+	onAppointmentOpenForm(data: AppointmentServiceData) {
+		const modalRef = this.modalService.open(AddServiceModalComponent, {
+			size: 'md',
+		});
+		modalRef.componentInstance.groomerId = data.groomerId;
+		modalRef.result.then(
+			() => {},
+			() => {}
+		);
 	}
 }

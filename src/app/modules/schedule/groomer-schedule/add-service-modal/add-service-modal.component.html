@@ -1,0 +1,134 @@
+<div class="modal-content">
+	<div class="modal-header">
+		<div class="modal-title h4" id="example-modal-sizes-title-lg">
+			<ng-container *ngIf="service">
+				<ng-container>{{
+					(service.id ? 'COMMON.EDIT' : 'COMMON.NEW') | translate
+				}}</ng-container>
+				{{ 'OWNER.PET' | translate }}
+			</ng-container>
+		</div>
+	</div>
+	<div class="modal-body" style="min-height: 180px">
+		<ng-container *ngIf="isLoading$ | async">
+			<app-loading></app-loading>
+		</ng-container>
+
+		<ng-container *ngIf="service && !(isLoading$ | async)">
+			<form
+				action="#"
+				class="form form-label-right"
+				[formGroup]="formGroup"
+			>
+				<!-- <div class="form-group row">
+					<search-lookup
+						propertyText="name"
+						propertyValue="id"
+						[data]="petServices"
+						[formControl]="formGroup.controls['petServiceId']"
+						[formatter]="petservice_formatter"
+						name="petServiceId"
+						[resultTemplate]="petservice_template"
+						placeholder="PET_TYPE.NAME"
+					>
+					</search-lookup>
+				</div> -->
+
+				<div class="form-group row">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Service</th>
+								<th scope="col">Price</th>
+							</tr>
+						</thead>
+						<tbody>
+							<ng-container
+								*ngFor="
+									let item of [
+										{ id: 1, petServiceId: 3, price: 150 }
+									];
+									let i = index
+								"
+							>
+								<tr>
+									<th scope="row">{{ i + 1 }}</th>
+									<td>
+										<select
+											class="form-control form-control-solid"
+											formControlName="petServiceId"
+										>
+											<option
+												*ngFor="let item of petServices"
+												[value]="item.id"
+											>
+												{{ item.name }}
+											</option>
+										</select>
+									</td>
+
+									<td>
+										<span
+											class="label label-inline label-light-primary font-weight-bold"
+										>
+											${{
+												getServiceCost(
+													item.petServiceId
+												)
+											}}
+										</span>
+									</td>
+								</tr>
+							</ng-container>
+							<!-- <tr>
+								<th scope="row">2</th>
+								<td>Jacobs</td>
+								<td>
+									<span
+										class="label label-inline label-light-success font-weight-bold"
+									>
+										Approved
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">3</th>
+								<td>Pettis</td>
+								<td>
+									<span
+										class="label label-inline label-light-danger font-weight-bold"
+									>
+										New
+									</span>
+								</td>
+							</tr> -->
+						</tbody>
+					</table>
+				</div>
+			</form>
+		</ng-container>
+	</div>
+	<div class="modal-footer">
+		<button
+			type="button"
+			class="btn btn-light btn-elevate mr-2"
+			(click)="modal.dismiss()"
+		>
+			{{ 'COMMON.CANCEL' | translate }}
+		</button>
+		<ng-container *ngIf="service">
+			<button
+				type="submit"
+				class="btn btn-primary btn-elevate"
+				(click)="save()"
+				[disabled]="formGroup.invalid || (isLoading$ | async)"
+			>
+				{{ 'COMMON.SAVE' | translate }}
+			</button>
+		</ng-container>
+	</div>
+</div>
+<ng-template #petservice_formatter let-r="result">
+	{{ r.name }}
+</ng-template>

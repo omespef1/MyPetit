@@ -12,9 +12,10 @@ import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentsModule } from '../components/components.module';
 import { DxCalendarModule, DxSchedulerModule, DxTemplateModule } from 'devextreme-angular';
+import { AddServiceModalComponent } from './groomer-schedule/add-service-modal/add-service-modal.component';
 
 @NgModule({
-	declarations: [GroomerScheduleComponent, ScheduleComponent],
+	declarations: [GroomerScheduleComponent, ScheduleComponent, AddServiceModalComponent],
 	imports: [
 		CommonModule,
 		ScheduleRoutingModule,

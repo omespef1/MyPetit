@@ -10,6 +10,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { DxSchedulerComponent } from 'devextreme-angular';
 import { AppointmentData } from 'src/app/_metronic/core/models/appointment-data.model';
 
+export class AppointmentServiceData {
+	public id: number;
+	public startDate: Date;
+	public endDate: Date;
+	public groomerId: number;
+}
+
 @Component({
 	selector: 'app-calendar',
 	templateUrl: './calendar.component.html',
@@ -18,27 +25,18 @@ import { AppointmentData } from 'src/app/_metronic/core/models/appointment-data.
 export class CalendarComponent implements OnInit {
 	@ViewChild(DxSchedulerComponent, { static: false })
 	scheduler: DxSchedulerComponent;
-	@Input() dataSource: AppointmentData[] = [];
+	@Input() dataSource: AppointmentServiceData[] = [];
 	@Input() height = 800;
-	@Output() onAppointmentAdding = new EventEmitter<AppointmentData>();
-	@Output() onAppointmentUpdating = new EventEmitter<AppointmentData>();
-	@Output() onAppointmentDeleting = new EventEmitter<AppointmentData>();
-	@Output() onAppointmentFormOpening = new EventEmitter<AppointmentData>();
-
-	groomers = [
-		{
-			id: 1,
-			text: 'DIEGO ROLDÁN',
-		},
-		{
-			id: 2,
-			text: 'MARIA PAULA',
-		},
-		{
-			id: 3,
-			text: 'SANTIAGO GUTIERREZ',
-		},
-	];
+	@Output() onAppointmentAdding = new EventEmitter<AppointmentServiceData>();
+	@Output() onAppointmentUpdating =
+		new EventEmitter<AppointmentServiceData>();
+	@Output() onAppointmentDeleting =
+		new EventEmitter<AppointmentServiceData>();
+	@Output() onAppointmentFormOpening =
+		new EventEmitter<AppointmentServiceData>();
+	@Output() onAppointmentOpenForm =
+		new EventEmitter<AppointmentServiceData>();
+	@Input() groomers: { id: number; text: string }[];
 
 	currentDate: Date = new Date();
 
@@ -61,6 +59,9 @@ export class CalendarComponent implements OnInit {
 	// onAppointmentFormOpen(data) {}
 
 	onAppointmentFormOpen(data) {
+		this.onAppointmentOpenForm.next(data.appointmentData);
+		data.cancel = true;
+		return;
 		const that = this;
 		const form = data.form;
 		// let movieInfo = that.getMovieById(data.appointmentData.movieId) || {};

@@ -36,7 +36,7 @@
 				<div class="col-xxl-12">
 					<div class="card card-custom gutter-b">
 						<div class="card-body">
-							<app-calendar></app-calendar>
+							<app-calendar [groomers]="groomers" (onAppointmentOpenForm)="onAppointmentOpenForm($event)"></app-calendar>
 						</div>
 						<!--end::Body-->
 					</div>
