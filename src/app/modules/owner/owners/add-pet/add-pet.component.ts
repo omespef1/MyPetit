@@ -43,6 +43,7 @@ const EMPTY_PET: PetModel = {
 	breedName: '',
 	hairLengthName: '',
 	petTypeName: '',
+	ownerName: ''
 };
 
 interface TagData {

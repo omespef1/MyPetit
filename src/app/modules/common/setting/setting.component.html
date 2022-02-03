@@ -60,6 +60,17 @@
 					<div class="form-group row">
 						<div class="col-lg-4">
 							<label
+								><b>{{ 'SETTING.LOGO' | translate }}</b></label
+							>
+							<br>
+							<app-pic-select
+								[pic]="setting.logo"
+								[null_pic]="'./assets/media/logos/pawprint.png'"
+								(changePic)="changePic($event)"
+							></app-pic-select>
+						</div>
+						<div class="col-lg-4">
+							<label
 								><b>{{ 'SETTING.TAX' | translate }}</b></label
 							>
 							<input

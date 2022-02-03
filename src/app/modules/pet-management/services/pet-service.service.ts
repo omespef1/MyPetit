@@ -36,4 +36,17 @@ export class PetServiceService
 			finalize(() => this._isLoading$.next(false))
 		);
 	}
+
+	getByPetId(petId: number) {
+		this._isLoading$.next(true);
+		this._errorMessage.next('');
+		const url = `${this.API_URL}/getByPetId/${petId}`;
+		return this.http.get<PetServiceModel[]>(url).pipe(
+			catchError((err) => {
+				this._errorMessage.next(ErrorUtil.getMessage(err));
+				throw err;
+			}),
+			finalize(() => this._isLoading$.next(false))
+		);
+	}
 }

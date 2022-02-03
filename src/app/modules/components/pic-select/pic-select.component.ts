@@ -15,6 +15,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class PicSelectComponent implements OnInit {
 	@Input() pic: string;
+	@Input() null_pic: string;
 	@Output() changePic = new EventEmitter<string>();
 
 	formGroup: FormGroup;
@@ -45,6 +46,7 @@ export class PicSelectComponent implements OnInit {
 
 	getPic() {
 		if (!this.pic) {
+			if (this.null_pic) return `url(${this.null_pic})`;
 			return `url('assets/media/icons/perro.png')`;
 		}
 

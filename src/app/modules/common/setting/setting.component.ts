@@ -71,6 +71,10 @@ export class SettingComponent
 		return { ...EMPTY_SETTING };
 	}
 
+	changePic(pic) {
+		this.formGroup.controls.logo.setValue(pic);
+	}
+
 	loadSetting() {
 		const sb = this.route.paramMap
 			.pipe(

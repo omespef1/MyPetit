@@ -94,10 +94,12 @@ export class GroomerScheduleComponent implements OnInit {
 	}
 
 	onAppointmentOpenForm(data: AppointmentServiceData) {
+		console.log(data);
 		const modalRef = this.modalService.open(AddServiceModalComponent, {
-			size: 'md',
+			size: 'lg',
 		});
 		modalRef.componentInstance.groomerId = data.groomerId;
+		modalRef.componentInstance.startDate = data.startDate;
 		modalRef.result.then(
 			() => {},
 			() => {}

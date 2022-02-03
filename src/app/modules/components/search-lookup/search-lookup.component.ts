@@ -59,17 +59,20 @@ export class SearchLookupComponent
 		const inputFocus$ = this.focus$;
 
 		return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
-			map((term) =>
-				(term === ''
-					? this._data
-					: this._data.filter(
-							(v) =>
-								v[this.propertyText]
-									.toLowerCase()
-									.indexOf(term.toLowerCase()) > -1
-					  )
-				)?.slice(0, 10)
-			)
+			map((term) => {
+
+				console.log(term);
+				return (
+					term === ''
+						? this._data
+						: this._data.filter(
+								(v) =>
+									v[this.propertyText]
+										?.toLowerCase()
+										.indexOf(term?.toLowerCase()) > -1
+						  )
+				)?.slice(0, 10);
+			})
 		);
 	};
 

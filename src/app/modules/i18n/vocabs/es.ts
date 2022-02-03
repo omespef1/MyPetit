@@ -133,6 +133,7 @@ export const locale = {
 			PET: 'Mascota',
 			PETS_NOT_FOUND: 'Mascotas no encontradas',
 			STATE: 'Estado',
+			SELECT_PET: 'Seleccione mascota'
 		},
 		PET: {
 			HAIR_LENGTH: 'Tamaño de Pelo',
@@ -177,6 +178,8 @@ export const locale = {
 			NEW: 'Nuevo parámetro',
 			NAME: 'Parámetro',
 			TAX: 'Impuesto',
+			LOGO: 'Logo',
+			SELECT_SERVICE: 'Seleccione servicios'
 		},
 		MENU: {
 			NEW: 'nuevo',

@@ -8,15 +8,17 @@ import {
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import * as moment from 'moment';
 import { forkJoin, Observable, Subscription } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
+import { OwnerService } from 'src/app/modules/owner/services/owner.service';
 import { PetServiceService } from 'src/app/modules/pet-management/services/pet-service.service';
 import { GroomerServiceModel } from 'src/app/_metronic/core/models/groomer-service.model';
 import { PetServiceModel } from 'src/app/_metronic/core/models/pet-service.model';
 import { PetVaccineModel } from 'src/app/_metronic/core/models/pet-vaccine.model';
+import { PetModel } from 'src/app/_metronic/core/models/pet.model';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { ServiceGroomerService } from '../../services/service-groomer.service';
+import * as _moment from 'moment';
 
 const EMPTY_GROOMER_SERVICE: GroomerServiceModel = {
 	id: undefined,
@@ -36,25 +38,30 @@ export class AddServiceModalComponent
 {
 	@Input() groomerId: number;
 	@Input() startDate: Date;
+	endDate: Date;
 
+	pet: PetModel;
 	isLoading$: Observable<boolean>;
+	isLoadingPet$: Observable<boolean>;
 	formGroup: FormGroup;
 	service: GroomerServiceModel;
 	petServices: PetServiceModel[] = [];
-
-	petservice_template = (x: PetServiceModel) => x.name;
+	showServices = false;
+	name_template = (x: PetServiceModel) => x.name;
 
 	private subscriptions: Subscription[] = [];
 
 	constructor(
 		private readonly serviceGroomerService: ServiceGroomerService,
 		private readonly petServiceService: PetServiceService,
+		private readonly ownerService: OwnerService,
 		private readonly swalService: SwalService,
-		private fb: FormBuilder,
-		public modal: NgbActiveModal,
+		private readonly fb: FormBuilder,
+		public readonly modal: NgbActiveModal,
 		private readonly cdr: ChangeDetectorRef
 	) {
 		this.isLoading$ = this.serviceGroomerService.isLoading$;
+		this.isLoadingPet$ = this.ownerService.isLoading$;
 		this.subscriptions.push(
 			this.serviceGroomerService.errorMessage$
 				.pipe(filter((r) => r !== ''))
@@ -63,16 +70,17 @@ export class AddServiceModalComponent
 	}
 
 	ngOnInit(): void {
-		forkJoin([this.searchServices(), this.getAllServices()]);
+		this.endDate = this.startDate;
+		forkJoin([this.searchServices()]);
 	}
 
 	ngAfterContentChecked() {
 		this.cdr.detectChanges();
 	}
 
-	getAllServices() {
+	getAllServicesByPetId(petId: number) {
 		this.petServiceService
-			.getAll()
+			.getByPetId(petId)
 			.subscribe((s) => (this.petServices = s));
 	}
 
@@ -80,75 +88,95 @@ export class AddServiceModalComponent
 		this.serviceGroomerService
 			.findByGroomerId(this.groomerId)
 			.subscribe((p) => {
-				console.log(p);
 				this.loadForm();
 				if (!p) {
 					this.service = this.getNewInstance();
 				} else {
 					this.service = p;
 				}
-				// this.searchBreedsByPetTypeId(this.pet.petTypeId);
-				// this.searchVaccines(this.pet.petTypeId);
 			});
-
-		// if (this.groomerId === 0) {
-		// 	this.service = this.getNewInstance();
-		// 	this.loadForm();
-		// } else {
-		// 	// this.serviceGroomerService.getPetById(this.groomerId).subscribe((p) => {
-		// 	// 	this.service = p;
-		// 	// 	this.loadForm();
-		// 	// 	// this.searchBreedsByPetTypeId(this.pet.petTypeId);
-		// 	// 	// this.searchVaccines(this.pet.petTypeId);
-		// 	// });
-		// }
 	}
 
-	searchBreedsByPetTypeId(petTypeId: number) {
-		// this.petTypeService
-		// 	.getBreedsByPetTypeId(petTypeId)
-		// 	.subscribe((br) => (this.breeds = br));
+	findPetById(petId: number) {
+		this.ownerService.getPetById(petId).subscribe((pet) => {
+			this.pet = pet;
+			this.getAllServicesByPetId(pet.id);
+		});
 	}
 
-	searchVaccines(petTypeId: number) {
-		// this.ownerService
-		// 	.getVaccinesByPetId(petTypeId, this.pet.id)
-		// 	.subscribe((vaccines) => {
-		// 		this.vaccines.clear();
-		// 		vaccines.forEach((v) => this.addVaccine(v));
-		// 	});
+	petChange(petId: number) {
+		if (petId) {
+			this.f.petId.setValue(petId);
+			this.findPetById(petId);
+			this.showServices = true;
+		}
 	}
 
 	getNewInstance() {
 		return { ...EMPTY_GROOMER_SERVICE };
 	}
 
+	get f() {
+		return this.formGroup.controls;
+	}
+
 	loadForm() {
 		this.formGroup = this.fb.group({
-			petServiceId: [1, Validators.compose([Validators.required])],
+			groomerId: [this.groomerId],
+			petId: [undefined, Validators.compose([Validators.required])],
+			start_date: [
+				_moment(this.startDate).format('YYYY-MM-DD HH:mm:ss'),
+				Validators.compose([Validators.required]),
+			],
+			services: this.fb.array([]),
 		});
 
-		this.formGroup.controls.petServiceId.valueChanges.subscribe((v) =>
-			console.log(v)
+		this.addNewService();
+	}
+
+	get services() {
+		return this.formGroup.controls['services'] as FormArray;
+	}
+
+	get totalServices() {
+		return (<any[]>this.services.value)
+			.filter((m) => m.serviceId !== null)
+			.reduce((sum, current) => sum + current.cost, 0);
+	}
+
+	addNewService() {
+		const serviceForm = this.fb.group({
+			serviceId: [undefined, Validators.required],
+			cost: [0],
+			duration: [0],
+		});
+
+		this.subscriptions.push(
+			serviceForm.controls.serviceId.valueChanges.subscribe(
+				(petServiceId) => {
+					const service = this.petServices.find(
+						(m) => m.id === Number(petServiceId)
+					);
+					serviceForm.controls.cost.setValue(service.cost);
+					serviceForm.controls.duration.setValue(service.duration);
+					this.calcEndDate();
+				}
+			)
 		);
+
+		this.services.push(serviceForm);
 	}
 
-  getServiceCost(id) {
-    console.log(id);
-    return this.petServices.find(m => m.id === id)?.cost;
-  }
+	calcEndDate() {
+		const totalDuration = (<any[]>this.services.value)
+			.filter((m) => m.serviceId !== null)
+			.reduce((sum, current) => sum + current.duration, 0);
 
-	get vaccines() {
-		return this.formGroup.controls['vaccines'] as FormArray;
-	}
-
-	addVaccine(vaccine: PetVaccineModel) {
-		const vaccineForm = this.fb.group({
-			title: [vaccine.vaccineName],
-			vaccineId: [vaccine.vaccineId],
-			value: [vaccine.applied],
-		});
-		this.vaccines.push(vaccineForm);
+		this.endDate = new Date(
+			this.startDate.getTime() + totalDuration * 60000
+		);
+		console.log(totalDuration, this.endDate);
+		this.cdr.detectChanges();
 	}
 
 	changePic(pic: string) {
@@ -162,6 +190,7 @@ export class AddServiceModalComponent
 		}
 
 		const formValues = this.formGroup.value;
+		console.log(formValues);
 		// this.pet = Object.assign(this.pet, formValues);
 		// this.pet.tags = (<any[]>formValues.tags).map((m) => m.value);
 
@@ -174,7 +203,6 @@ export class AddServiceModalComponent
 
 	addVaccinesToPet() {
 		const petVaccines: PetVaccineModel[] = [];
-		const vaccines = this.vaccines;
 
 		// vaccines.controls.forEach((fg: FormGroup) => {
 		// 	const petVaccine: Partial<PetVaccineModel> = {

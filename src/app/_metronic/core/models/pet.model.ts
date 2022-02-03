@@ -15,4 +15,5 @@ export class PetModel {
 	public petTypeName: string;
 	public breedName: string;
 	public hairLengthName: string;
+	public ownerName: string;
 }
