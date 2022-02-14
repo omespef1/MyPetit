@@ -44,6 +44,20 @@ export class GroomerService
 		);
 	}
 
+	getAllWithDisponibility() {
+		this._isLoading$.next(true);
+		this._errorMessage.next('');
+		const url = `${this.API_URL}`;
+		return this.http.get<GroomerModel[]>(`${url}/getAllWithDisponibility`).pipe(
+			tap((pt) => this.groomers$.next(pt)),
+			catchError((err) => {
+				this._errorMessage.next(ErrorUtil.getMessage(err));
+				throw err;
+			}),
+			finalize(() => this._isLoading$.next(false))
+		);
+	}
+
 	getAllDisponibilities(groomerId: number) {
 		this._isLoading$.next(true);
 		this._errorMessage.next('');

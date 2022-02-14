@@ -6,6 +6,7 @@ import {
 	Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { OwnerService } from 'src/app/modules/owner/services/owner.service';
 import { OwnerModel } from 'src/app/_metronic/core/models/owner.model';
 import { PetModel } from 'src/app/_metronic/core/models/pet.model';
@@ -24,12 +25,15 @@ export class SelectPetComponent implements OnInit {
 	owner_formatter = (x: any) =>
 		`${x.documentNumber} - ${x.names} ${x.lastNames}`;
 	name_formatter = (x: any) => x.name;
+	isLoading$: Observable<boolean>;
 
 	constructor(
 		private readonly fb: FormBuilder,
 		private readonly ownerService: OwnerService,
 		private readonly cdr: ChangeDetectorRef
-	) {}
+	) {
+		this.isLoading$ = this.ownerService.isLoading$;
+	}
 
 	ngOnInit(): void {
 		this.findOwners();
@@ -44,7 +48,7 @@ export class SelectPetComponent implements OnInit {
 
 	findPets(ownerId: number) {
 		if (!ownerId) return;
-		
+
 		this.ownerService.getAllPets(ownerId).subscribe((o) => (this.pets = o));
 	}
 

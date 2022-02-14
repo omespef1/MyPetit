@@ -8,7 +8,6 @@
 						[(ngModel)]="model"
 						(navigate)="date = $event.next"
 					></ngb-datepicker> -->
-
 					<dx-calendar
 						#calendar
 						id="calendar-container"
@@ -36,7 +35,14 @@
 				<div class="col-xxl-12">
 					<div class="card card-custom gutter-b">
 						<div class="card-body">
-							<app-calendar [groomers]="groomers" (onAppointmentOpenForm)="onAppointmentOpenForm($event)"></app-calendar>
+							<app-calendar
+								[groomers]="groomers"
+								[dataSource]="dataSource"
+								(onChangeDate)="onChangeDate($event)"
+								(onAppointmentOpenForm)="
+									onAppointmentOpenForm($event)
+								"
+							></app-calendar>
 						</div>
 						<!--end::Body-->
 					</div>

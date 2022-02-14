@@ -8,13 +8,24 @@ import {
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DxSchedulerComponent } from 'devextreme-angular';
-import { AppointmentData } from 'src/app/_metronic/core/models/appointment-data.model';
+import { TimeObjectModel } from 'src/app/_metronic/core/models/groomer-disponibility.model';
 
 export class AppointmentServiceData {
 	public id: number;
+	public text: string;
 	public startDate: Date;
 	public endDate: Date;
 	public groomerId: number;
+	public groomerName: string;
+	public ownerName: string;
+	public petName: string;
+	public state: number;
+}
+
+export class Resource {
+	id: string;
+	text: string;
+	color: string;
 }
 
 @Component({
@@ -27,6 +38,14 @@ export class CalendarComponent implements OnInit {
 	scheduler: DxSchedulerComponent;
 	@Input() dataSource: AppointmentServiceData[] = [];
 	@Input() height = 800;
+	@Input() groomers: {
+		id: number;
+		text: string;
+		disponibilities: {
+			startDate: TimeObjectModel;
+			endDate: TimeObjectModel;
+		}[];
+	}[];
 	@Output() onAppointmentAdding = new EventEmitter<AppointmentServiceData>();
 	@Output() onAppointmentUpdating =
 		new EventEmitter<AppointmentServiceData>();
@@ -36,8 +55,30 @@ export class CalendarComponent implements OnInit {
 		new EventEmitter<AppointmentServiceData>();
 	@Output() onAppointmentOpenForm =
 		new EventEmitter<AppointmentServiceData>();
-	@Input() groomers: { id: number; text: string }[];
+	@Output() onChangeDate = new EventEmitter<Date>();
 
+	resourcesData: Resource[] = [
+		{
+			id: 'Created',
+			text: 'Created',
+			color: '#1e90ff',
+		},
+		{
+			id: 'Canceled',
+			text: 'Canceled',
+			color: '#cb6bb2',
+		},
+		{
+			id: 'Executing',
+			text: 'Executing',
+			color: '#56ca85',
+		},
+		{
+			id: 'Completed',
+			text: 'Completed',
+			color: '#9F9F9F',
+		},
+	];
 	currentDate: Date = new Date();
 
 	constructor(private readonly translateService: TranslateService) {}
@@ -56,68 +97,67 @@ export class CalendarComponent implements OnInit {
 		this.onAppointmentDeleting.next(e.appointmentData);
 	}
 
-	// onAppointmentFormOpen(data) {}
+	onOptionChanged(e) {
+		if (e.name === 'currentDate') {
+			this.onChangeDate.next(e.value);
+		}
+	}
 
 	onAppointmentFormOpen(data) {
 		this.onAppointmentOpenForm.next(data.appointmentData);
 		data.cancel = true;
-		return;
-		const that = this;
-		const form = data.form;
-		// let movieInfo = that.getMovieById(data.appointmentData.movieId) || {};
-		const duration = 30;
-		let startDate = data.appointmentData.startDate;
+	}
 
-		form.option('items', [
-			{
-				label: {
-					text: this.translateService.instant('GROOMER.START_DATE'),
-				},
-				dataField: 'startDate',
-				editorType: 'dxDateBox',
-				editorOptions: {
-					// width: '100%',
-					// type: 'datetime',
-					// onValueChanged(args) {
-					// 	startDate = args.value;
-					// 	form.updateData(
-					// 		'endDate',
-					// 		new Date(startDate.getTime() + 60 * 1000 * duration)
-					// 	);
-					// },
-					width: '100%',
-					type: 'time',
-					pickerType: 'calendar',
-					readOnly: false,
-				},
-			},
-			{
-				label: {
-					text: this.translateService.instant('GROOMER.END_DATE'),
-				},
-				name: 'endDate',
-				dataField: 'endDate',
-				editorType: 'dxDateBox',
-				editorOptions: {
-					width: '100%',
-					type: 'time',
-					pickerType: 'calendar',
-					readOnly: false,
-				},
-			},
-			{
-				label: {
-					text: this.translateService.instant('GROOMER.DAY'),
-				},
-				editorType: 'dxSelectBox',
-				dataField: 'dayOfWeek',
-				editorOptions: {
-					items: that.groomers,
-					displayExpr: 'text',
-					valueExpr: 'id',
-					onValueChanged(args) {},
-				},
-			},
-		]);
+	onContentReady(e) {
+		e.component.scrollTo(this.currentDate);
+	}
+
+	isDisableDate(e) {
+		if (!e || !e.groups || !e.groups.groomerId) return true;
+
+		const groomerId = e.groups.groomerId;
+		const groomer = this.groomers.find((m) => m.id === groomerId);
+		const date: Date = e.startDate;
+		const disponibility = groomer.disponibilities.find(
+			(m) =>
+				new Date(
+					0,
+					0,
+					1,
+					date.getHours(),
+					date.getMinutes(),
+					date.getSeconds()
+				) >=
+					new Date(
+						0,
+						0,
+						1,
+						m.startDate.hours,
+						m.startDate.minutes,
+						m.startDate.seconds
+					) &&
+				new Date(
+					0,
+					0,
+					1,
+					date.getHours(),
+					date.getMinutes(),
+					date.getSeconds()
+				) <
+					new Date(
+						0,
+						0,
+						1,
+						m.endDate.hours,
+						m.endDate.minutes,
+						m.endDate.seconds
+					)
+		);
+
+		return disponibility ? false : true;
+	}
+
+	isDinner(e) {
+		return false;
 	}
 }

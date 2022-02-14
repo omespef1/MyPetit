@@ -36,4 +36,44 @@ export class ServiceGroomerService
 			finalize(() => this._isLoading$.next(false))
 		);
 	}
+
+	createService(service: GroomerServiceModel) {
+		this._isLoading$.next(true);
+		this._errorMessage.next('');
+		const url = `${this.API_URL}/${service.groomerId}`;
+		return this.http
+			.post(url, {
+				startDate: service.startDate,
+				petId: service.petId,
+				services: service.serviceGroomer.map((m) => {
+					return {
+						serviceId: m,
+					};
+				}),
+			})
+			.pipe(
+				catchError((err) => {
+					this._errorMessage.next(ErrorUtil.getMessage(err));
+					throw err;
+				}),
+				finalize(() => this._isLoading$.next(false))
+			);
+	}
+
+	getScheduleByDate(currentValue: string) {
+		this._isLoading$.next(true);
+		this._errorMessage.next('');
+		const url = `${this.API_URL}/getScheduleByDate`;
+		return this.http
+			.post(url, {
+				date: currentValue,
+			})
+			.pipe(
+				catchError((err) => {
+					this._errorMessage.next(ErrorUtil.getMessage(err));
+					throw err;
+				}),
+				finalize(() => this._isLoading$.next(false))
+			);
+	}
 }

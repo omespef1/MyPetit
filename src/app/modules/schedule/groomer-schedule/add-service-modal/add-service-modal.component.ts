@@ -9,12 +9,11 @@ import {
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { OwnerService } from 'src/app/modules/owner/services/owner.service';
 import { PetServiceService } from 'src/app/modules/pet-management/services/pet-service.service';
 import { GroomerServiceModel } from 'src/app/_metronic/core/models/groomer-service.model';
 import { PetServiceModel } from 'src/app/_metronic/core/models/pet-service.model';
-import { PetVaccineModel } from 'src/app/_metronic/core/models/pet-vaccine.model';
 import { PetModel } from 'src/app/_metronic/core/models/pet.model';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { ServiceGroomerService } from '../../services/service-groomer.service';
@@ -24,7 +23,7 @@ const EMPTY_GROOMER_SERVICE: GroomerServiceModel = {
 	id: undefined,
 	groomerId: undefined,
 	petId: undefined,
-	serviceDate: new Date(),
+	startDate: new Date(),
 	serviceGroomer: [],
 };
 
@@ -124,7 +123,7 @@ export class AddServiceModalComponent
 		this.formGroup = this.fb.group({
 			groomerId: [this.groomerId],
 			petId: [undefined, Validators.compose([Validators.required])],
-			start_date: [
+			startDate: [
 				_moment(this.startDate).format('YYYY-MM-DD HH:mm:ss'),
 				Validators.compose([Validators.required]),
 			],
@@ -172,10 +171,11 @@ export class AddServiceModalComponent
 			.filter((m) => m.serviceId !== null)
 			.reduce((sum, current) => sum + current.duration, 0);
 
+		console.log('startDate', this.startDate);
 		this.endDate = new Date(
 			this.startDate.getTime() + totalDuration * 60000
 		);
-		console.log(totalDuration, this.endDate);
+		// console.log(totalDuration, this.endDate);
 		this.cdr.detectChanges();
 	}
 
@@ -191,43 +191,30 @@ export class AddServiceModalComponent
 
 		const formValues = this.formGroup.value;
 		console.log(formValues);
-		// this.pet = Object.assign(this.pet, formValues);
-		// this.pet.tags = (<any[]>formValues.tags).map((m) => m.value);
+		this.service = Object.assign(this.service, formValues);
+		this.service.serviceGroomer = (<any[]>formValues.services).map(
+			(m) => m.serviceId
+		);
 
 		// if (this.petId > 0) {
 		// 	this.edit();
 		// } else {
-		// 	this.create();
+		this.create();
 		// }
 	}
 
-	addVaccinesToPet() {
-		const petVaccines: PetVaccineModel[] = [];
-
-		// vaccines.controls.forEach((fg: FormGroup) => {
-		// 	const petVaccine: Partial<PetVaccineModel> = {
-		// 		petId: this.pet.id,
-		// 		vaccineId: fg.controls.vaccineId.value,
-		// 		applied: fg.controls.value.value,
-		// 	};
-		// 	petVaccines.push(petVaccine as PetVaccineModel);
-		// });
-
-		return petVaccines;
-	}
-
 	create() {
-		// const sbCreate = this.ownerService
-		// 	.createPet(this.ownerId, this.pet, this.addVaccinesToPet())
-		// 	.pipe(
-		// 		tap(() => {
-		// 			this.swalService.success('COMMON.RESOURCE_CREATED');
-		// 		})
-		// 	)
-		// 	.subscribe((res) => {
-		// 		this.modal.close();
-		// 	});
-		// this.subscriptions.push(sbCreate);
+		const sbCreate = this.serviceGroomerService
+			.createService(this.service)
+			.pipe(
+				tap(() => {
+					this.swalService.success('COMMON.RESOURCE_CREATED');
+				})
+			)
+			.subscribe((res) => {
+				this.modal.close();
+			});
+		this.subscriptions.push(sbCreate);
 	}
 
 	edit() {
