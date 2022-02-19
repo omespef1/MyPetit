@@ -71,15 +71,63 @@ export class AddServiceModalComponent
 
 	ngOnInit(): void {
 		this.endDate = this.startDate;
-		forkJoin([this.searchServices(), this.searchDetail()]);
-	}
 
-	searchDetail() {
 		if (this.id > 0) {
 			this.serviceGroomerService
 				.getItemById(this.id)
-				.subscribe((res) => console.log('detalle: ', res));
+				.subscribe((res: any) => {
+					this.service = {
+						groomerId: res.groomerId,
+						id: res.id,
+						petId: res.petId,
+						startDate: res.startDate,
+						serviceGroomer: (<any[]>(
+							res.serviceGroomerPetServices
+						)).map((i) => {
+							return i.serviceId;
+						}),
+					};
+					this.loadForm();
+					this.petChange(res.petId);
+				});
+		} else {
+			this.service = this.getNewInstance();
+			this.loadForm();
 		}
+	}
+
+	loadCreatedServies() {
+		console.log(
+			'this.service.serviceGroomer:',
+			this.service.serviceGroomer
+		);
+		if (this.service.serviceGroomer) {
+			this.service.serviceGroomer.forEach((m) => {
+				this.addNewService();
+				const ctrls = (<FormGroup>(
+					this.services.at(this.services.length - 1)
+				)).controls;
+				ctrls.serviceId.setValue(m);
+			});
+		}
+	}
+
+	searchDetail() {
+		this.serviceGroomerService
+			.getItemById(this.id)
+			.subscribe((res: any) => {
+				this.service = {
+					groomerId: res.groomerId,
+					id: res.id,
+					petId: res.petId,
+					startDate: res.startDate,
+					serviceGroomer: (<any[]>res.serviceGroomerPetServices).map(
+						(i) => {
+							return i.serviceId;
+						}
+					),
+				};
+			});
 	}
 
 	ngAfterContentChecked() {
@@ -87,23 +135,25 @@ export class AddServiceModalComponent
 	}
 
 	getAllServicesByPetId(petId: number) {
-		this.petServiceService
-			.getByPetId(petId)
-			.subscribe((s) => (this.petServices = s));
+		this.petServiceService.getByPetId(petId).subscribe((s) => {
+			this.petServices = s;
+			if (Number(this.id) > 0) {
+				this.loadCreatedServies();
+			}
+		});
 	}
 
-	searchServices() {
-		this.serviceGroomerService
-			.findByGroomerId(this.groomerId)
-			.subscribe((p) => {
-				this.loadForm();
-				if (!p) {
-					this.service = this.getNewInstance();
-				} else {
-					this.service = p;
-				}
-			});
-	}
+	// searchServices() {
+	// 	this.serviceGroomerService
+	// 		.findByGroomerId(this.groomerId)
+	// 		.subscribe((p) => {
+	// 			if (!p) {
+	// 				this.service = this.getNewInstance();
+	// 			} else {
+	// 				this.service = p;
+	// 			}
+	// 		});
+	// }
 
 	findPetById(petId: number) {
 		this.ownerService.getPetById(petId).subscribe((pet) => {
@@ -117,8 +167,11 @@ export class AddServiceModalComponent
 			this.f.petId.setValue(petId);
 			this.findPetById(petId);
 			this.showServices = true;
-			this.clearServices();
-			this.addNewService();
+
+			if (Number(this.id) === 0) {
+				this.clearServices();
+				this.addNewService();
+			}
 		}
 	}
 
@@ -139,7 +192,10 @@ export class AddServiceModalComponent
 	loadForm() {
 		this.formGroup = this.fb.group({
 			groomerId: [this.groomerId],
-			petId: [undefined, Validators.compose([Validators.required])],
+			petId: [
+				this.service.petId,
+				Validators.compose([Validators.required]),
+			],
 			startDate: [
 				_moment(this.startDate).format('YYYY-MM-DD HH:mm:ss'),
 				Validators.compose([Validators.required]),
@@ -218,11 +274,11 @@ export class AddServiceModalComponent
 			(m) => m.serviceId
 		);
 
-		// if (this.petId > 0) {
-		// 	this.edit();
-		// } else {
-		this.create();
-		// }
+		if (this.id > 0) {
+			this.edit();
+		} else {
+			this.create();
+		}
 	}
 
 	create() {

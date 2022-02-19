@@ -80,6 +80,7 @@ export const locale = {
 			SUNDAY: 'Domingo',
 			SCHEDULE: 'Horario',
 			SUCCESS_EXCLAMATION: '¡Correcto!',
+			INVALID_RANGE: 'Rango no válido'
 		},
 		USER: {
 			USERNAME: 'Nombre de usuario',
@@ -205,6 +206,7 @@ export const locale = {
 			GROOMERS: 'Groomers',
 			SCHEDULES: 'Calendarios',
 			GROOMER_SCHEDULE: 'Groomers',
+			MOBILE_GROOMER_SCHEDULE: 'Mobile Groomers',
 			SETTINGS: 'Parámetros del sistema'
 		},
 		AUTH: {

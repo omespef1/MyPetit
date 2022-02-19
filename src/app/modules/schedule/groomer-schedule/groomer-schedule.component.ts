@@ -142,7 +142,7 @@ export class GroomerScheduleComponent implements OnInit {
 		const modalRef = this.modalService.open(AddServiceModalComponent, {
 			size: 'lg',
 		});
-		modalRef.componentInstance.id = data.id;
+		modalRef.componentInstance.id = data.id ?? 0;
 		modalRef.componentInstance.groomerId = data.groomerId;
 		modalRef.componentInstance.startDate = data.startDate;
 		modalRef.result.then(

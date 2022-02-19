@@ -9,6 +9,7 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { DxSchedulerComponent } from 'devextreme-angular';
 import { TimeObjectModel } from 'src/app/_metronic/core/models/groomer-disponibility.model';
+import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 
 export class AppointmentServiceData {
 	public id: number;
@@ -81,7 +82,10 @@ export class CalendarComponent implements OnInit {
 	];
 	currentDate: Date = new Date();
 
-	constructor(private readonly translateService: TranslateService) {}
+	constructor(
+		private readonly translateService: TranslateService,
+		private readonly swal: SwalService
+	) {}
 
 	ngOnInit(): void {}
 
@@ -106,8 +110,23 @@ export class CalendarComponent implements OnInit {
 	}
 
 	onAppointmentFormOpen(data) {
-		this.onAppointmentOpenForm.next(data.appointmentData);
 		data.cancel = true;
+		console.log('data: ', data);
+		if (
+			this.isDisableDate({
+				groups: {
+					groomerId: data.appointmentData.groomerId,
+				},
+				startDate: data.appointmentData.startDate,
+			})
+		) {
+			this.swal.error(
+				this.translateService.instant('COMMON.INVALID_RANGE')
+			);
+			return;
+		}
+
+		this.onAppointmentOpenForm.next(data.appointmentData);
 	}
 
 	onContentReady(e) {

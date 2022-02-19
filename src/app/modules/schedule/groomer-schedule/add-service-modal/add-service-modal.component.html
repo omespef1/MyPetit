@@ -198,7 +198,7 @@
 			<app-select-pet (petChange)="petChange($event)"></app-select-pet>
 		</ng-container>
 
-		<ng-container *ngIf="showServices && service && !(isLoading$ | async)">
+		<ng-container *ngIf="formGroup && showServices && service && !(isLoading$ | async)">
 			<form
 				action="#"
 				class="form form-label-right"
@@ -326,7 +326,7 @@
 		</ng-container>
 	</div>
 	<div class="modal-footer">
-		<ng-container *ngIf="showServices">
+		<ng-container *ngIf="showServices && id === 0">
 			<button
 				type="submit"
 				class="btn btn-warning btn-elevate"
@@ -345,7 +345,7 @@
 			{{ 'COMMON.CANCEL' | translate }}
 		</button>
 
-		<ng-container *ngIf="service">
+		<ng-container *ngIf="service && formGroup">
 			<button
 				type="submit"
 				class="btn btn-primary btn-elevate"
