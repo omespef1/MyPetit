@@ -3,17 +3,12 @@
 	id="scheduler"
 	[dataSource]="dataSource"
 	[views]="[]"
-	[showAllDayPanel]="false"
-	[showCurrentTimeIndicator]="true"
-	[shadeUntilCurrentTime]="true"
-	[indicatorUpdateInterval]="60"
 	[firstDayOfWeek]="0"
 	[startDayHour]="6"
 	[endDayHour]="24"
 	[showAllDayPanel]="false"
 	[groups]="['groomerId']"
-	[currentDate]="currentDate"
-	[crossScrollingEnabled]="true"
+	[currentDate]="currentDate"	
 	[cellDuration]="15"
 	[height]="800"
 	dataCellTemplate="dataCellTemplate"
@@ -26,6 +21,11 @@
 	(onAppointmentFormOpening)="onAppointmentFormOpen($event)"
 >
 	<!-- appointmentTooltipTemplate="tooltip-template" -->
+	<!-- 
+		[crossScrollingEnabled]="true"
+		[showCurrentTimeIndicator]="true"
+		[shadeUntilCurrentTime]="true"
+		[indicatorUpdateInterval]="60" -->
 	<dxo-editing [allowAdding]="true" [allowDeleting]="true"></dxo-editing>
 	<dxi-resource fieldExpr="groomerId" [dataSource]="groomers"> </dxi-resource>
 	<dxi-resource

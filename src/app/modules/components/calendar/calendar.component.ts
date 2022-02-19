@@ -90,10 +90,12 @@ export class CalendarComponent implements OnInit {
 	}
 
 	onEditAppointment(e) {
+		e.cancel = true;
 		this.onAppointmentUpdating.next(e.newData);
 	}
 
 	onRemoveAppointment(e) {
+		e.cancel = true;
 		this.onAppointmentDeleting.next(e.appointmentData);
 	}
 
@@ -109,7 +111,7 @@ export class CalendarComponent implements OnInit {
 	}
 
 	onContentReady(e) {
-		e.component.scrollTo(this.currentDate);
+		// e.component.scrollTo(this.currentDate);
 	}
 
 	isDisableDate(e) {

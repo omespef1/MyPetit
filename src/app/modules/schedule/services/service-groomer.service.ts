@@ -27,7 +27,7 @@ export class ServiceGroomerService
 	findByGroomerId(groomerId: number) {
 		this._isLoading$.next(true);
 		this._errorMessage.next('');
-		const url = `${this.API_URL}/${groomerId}`;
+		const url = `${this.API_URL}/groomer/${groomerId}`;
 		return this.http.get<GroomerServiceModel>(url).pipe(
 			catchError((err) => {
 				this._errorMessage.next(ErrorUtil.getMessage(err));

@@ -44,11 +44,11 @@ export class GroomerService
 		);
 	}
 
-	getAllWithDisponibility() {
+	getAllWithDisponibility(date: string) {
 		this._isLoading$.next(true);
 		this._errorMessage.next('');
 		const url = `${this.API_URL}`;
-		return this.http.get<GroomerModel[]>(`${url}/getAllWithDisponibility`).pipe(
+		return this.http.get<GroomerModel[]>(`${url}/getAllWithDisponibility/${date}`).pipe(
 			tap((pt) => this.groomers$.next(pt)),
 			catchError((err) => {
 				this._errorMessage.next(ErrorUtil.getMessage(err));

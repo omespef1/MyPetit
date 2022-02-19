@@ -1,3 +1,6 @@
+<ng-container *ngIf="isLoading$ | async">
+	<app-loading></app-loading>
+</ng-container>
 <div class="container-fluid">
 	<div class="d-flex flex-column flex-md-row">
 		<div class="flex-md-row-auto w-md-195px w-xl-195px">
@@ -41,6 +44,9 @@
 								(onChangeDate)="onChangeDate($event)"
 								(onAppointmentOpenForm)="
 									onAppointmentOpenForm($event)
+								"
+								(onAppointmentDeleting)="
+									onAppointmentDeleting($event)
 								"
 							></app-calendar>
 						</div>

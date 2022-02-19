@@ -61,7 +61,7 @@ export class SearchLookupComponent
 		return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
 			map((term) => {
 
-				console.log(term);
+				// console.log(term);
 				return (
 					term === ''
 						? this._data
@@ -101,7 +101,7 @@ export class SearchLookupComponent
 	writeValue(value: any): void {
 		if (!this.writting) {
 			this.writed_value = value;
-			console.log('write value:', value);
+			// console.log('write value:', value);
 			this.writting = true;
 
 			const item = this.propertyValue
@@ -115,7 +115,7 @@ export class SearchLookupComponent
 	}
 
 	selectItem(event: any) {
-		console.log('select: ', event);
+		// console.log('select: ', event);
 		let svalue = this.propertyValue
 			? event.item[this.propertyValue]
 			: event.item;

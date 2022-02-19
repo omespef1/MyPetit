@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { GroomerService } from '../../common/services/groomer.service';
 import { AppointmentServiceData } from '../../components/calendar/calendar.component';
@@ -15,6 +15,7 @@ const now = new Date();
 	styleUrls: ['./groomer-schedule.component.scss'],
 })
 export class GroomerScheduleComponent implements OnInit {
+	isLoading$: Observable<boolean>;
 	model: NgbDateStruct;
 	date: { year: number; month: number };
 	currentValue: Date = new Date();
@@ -60,7 +61,9 @@ export class GroomerScheduleComponent implements OnInit {
 		private readonly groomerService: GroomerService,
 		private readonly cdr: ChangeDetectorRef,
 		private readonly modalService: NgbModal
-	) {}
+	) {
+		this.isLoading$ = groomerService.isLoading$;
+	}
 
 	ngOnInit(): void {
 		forkJoin([this.getAllGroomers(), this.getAllScheduleData()]);
@@ -68,7 +71,9 @@ export class GroomerScheduleComponent implements OnInit {
 
 	getAllGroomers() {
 		this.groomerService
-			.getAllWithDisponibility()
+			.getAllWithDisponibility(
+				_moment(this.currentValue).format('YYYY-MM-DD')
+			)
 			.pipe(
 				map((g) =>
 					g.map((m) => {
@@ -94,11 +99,14 @@ export class GroomerScheduleComponent implements OnInit {
 
 	onChangeDate(date: Date) {
 		this.currentValue = date;
-		this.getAllScheduleData();
+		forkJoin([this.getAllGroomers(), this.getAllScheduleData()]);
+	}
+
+	onAppointmentDeleting(e) {
+		this.serviceGroomerService.delete(e.id).subscribe();
 	}
 
 	getAllScheduleData() {
-		console.log(_moment(this.currentValue).toDate());
 		this.serviceGroomerService
 			.getScheduleByDate(_moment(this.currentValue).format('YYYY-MM-DD'))
 			.subscribe((data: AppointmentServiceData[]) => {
@@ -115,6 +123,7 @@ export class GroomerScheduleComponent implements OnInit {
 						state: m.state,
 					};
 				});
+
 				console.log(this.dataSource);
 				this.cdr.detectChanges();
 			});
@@ -133,6 +142,7 @@ export class GroomerScheduleComponent implements OnInit {
 		const modalRef = this.modalService.open(AddServiceModalComponent, {
 			size: 'lg',
 		});
+		modalRef.componentInstance.id = data.id;
 		modalRef.componentInstance.groomerId = data.groomerId;
 		modalRef.componentInstance.startDate = data.startDate;
 		modalRef.result.then(

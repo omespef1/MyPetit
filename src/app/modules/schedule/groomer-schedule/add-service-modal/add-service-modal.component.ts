@@ -35,6 +35,7 @@ const EMPTY_GROOMER_SERVICE: GroomerServiceModel = {
 export class AddServiceModalComponent
 	implements OnInit, OnDestroy, AfterContentChecked
 {
+	@Input() id: number;
 	@Input() groomerId: number;
 	@Input() startDate: Date;
 	endDate: Date;
@@ -70,7 +71,15 @@ export class AddServiceModalComponent
 
 	ngOnInit(): void {
 		this.endDate = this.startDate;
-		forkJoin([this.searchServices()]);
+		forkJoin([this.searchServices(), this.searchDetail()]);
+	}
+
+	searchDetail() {
+		if (this.id > 0) {
+			this.serviceGroomerService
+				.getItemById(this.id)
+				.subscribe((res) => console.log('detalle: ', res));
+		}
 	}
 
 	ngAfterContentChecked() {
@@ -108,6 +117,14 @@ export class AddServiceModalComponent
 			this.f.petId.setValue(petId);
 			this.findPetById(petId);
 			this.showServices = true;
+			this.clearServices();
+			this.addNewService();
+		}
+	}
+
+	clearServices() {
+		while (this.services.length !== 0) {
+			this.services.removeAt(0);
 		}
 	}
 
@@ -129,12 +146,20 @@ export class AddServiceModalComponent
 			],
 			services: this.fb.array([]),
 		});
+	}
 
-		this.addNewService();
+	removeService(index: number) {
+		this.services.removeAt(index);
+		this.calcEndDate();
+		this.cdr.detectChanges();
 	}
 
 	get services() {
 		return this.formGroup.controls['services'] as FormArray;
+	}
+
+	set services(value: FormArray) {
+		this.formGroup.controls['services'].setValue(value);
 	}
 
 	get totalServices() {
@@ -170,12 +195,9 @@ export class AddServiceModalComponent
 		const totalDuration = (<any[]>this.services.value)
 			.filter((m) => m.serviceId !== null)
 			.reduce((sum, current) => sum + current.duration, 0);
-
-		console.log('startDate', this.startDate);
 		this.endDate = new Date(
 			this.startDate.getTime() + totalDuration * 60000
 		);
-		// console.log(totalDuration, this.endDate);
 		this.cdr.detectChanges();
 	}
 

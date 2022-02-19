@@ -6,7 +6,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col" *ngIf="pet">
-					<div class="d-flex">
+					<div class="d-flex mt-5">
 						<div class="flex-shrink-0 mr-7">
 							<div class="symbol symbol-50 symbol-lg-120">
 								<img alt="Pic" [src]="pet.pic" />
@@ -23,8 +23,8 @@
 										>{{ pet.name | uppercase }}
 										<i
 											class="flaticon2-correct text-success icon-md ml-2"
-										></i
-									></a>
+										></i>
+									</a>
 									<div class="d-flex flex-wrap my-2">
 										<a
 											href="#"
@@ -221,6 +221,7 @@
 										<i class="fa fa-plus"></i>
 									</button>
 								</th>
+								<th style="min-width: 90px; width: 90px"></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -254,6 +255,7 @@
 											>
 											</search-lookup> -->
 											<select
+												#serviceId
 												class="form-control form-control-sm form-control-solid"
 												formControlName="serviceId"
 											>
@@ -267,7 +269,6 @@
 												</option>
 											</select>
 										</td>
-
 										<td>
 											<div
 												class="text-dark-75 font-weight-bolder mt-2"
@@ -277,6 +278,23 @@
 														.value
 												}}
 											</div>
+										</td>
+										<td>
+											<a
+												title="Delete service"
+												class="btn btn-icon btn-light btn-hover-danger btn-sm"
+												(click)="removeService(i)"
+											>
+												<span
+													style="pointer-events: none"
+													[inlineSVG]="
+														'./assets/media/svg/icons/General/Trash.svg'
+													"
+													cacheSVG="true"
+													class="svg-icon svg-icon-md svg-icon-danger"
+												>
+												</span>
+											</a>
 										</td>
 									</tr>
 								</ng-container>
@@ -289,7 +307,6 @@
 											class="font-weight-bolder text-dark ml-4"
 											>${{ totalServices | json }}</span
 										> -->
-
 										<span
 											class="font-weight-bolder font-size-h5"
 										>
@@ -299,6 +316,7 @@
 											>{{ totalServices }}</span
 										>
 									</td>
+									<td></td>
 								</tr>
 							</ng-container>
 						</tbody>
@@ -308,6 +326,17 @@
 		</ng-container>
 	</div>
 	<div class="modal-footer">
+		<ng-container *ngIf="showServices">
+			<button
+				type="submit"
+				class="btn btn-warning btn-elevate"
+				(click)="showServices = false"
+				[disabled]="isLoading$ | async"
+			>
+				{{ 'COMMON.BACK' | translate }}
+			</button>
+		</ng-container>
+
 		<button
 			type="button"
 			class="btn btn-light btn-elevate mr-2"
@@ -315,6 +344,7 @@
 		>
 			{{ 'COMMON.CANCEL' | translate }}
 		</button>
+
 		<ng-container *ngIf="service">
 			<button
 				type="submit"

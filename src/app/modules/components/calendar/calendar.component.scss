@@ -17,13 +17,19 @@
 }
 
 ::ng-deep .disable-date {
-	background-image: repeating-linear-gradient(
-		135deg,
-		rgba(244, 67, 54, 0.1),
-		rgba(244, 67, 54, 0.1) 4px,
-		transparent 4px,
-		transparent 9px
-	);
+	// background-image: repeating-linear-gradient(
+	// 	135deg,
+	// 	rgba(244, 67, 54, 0.1),
+	// 	rgba(244, 67, 54, 0.1) 4px,
+	// 	transparent 4px,
+	// 	transparent 9px
+	// );
+	background-color: #e6e6e6;
+	color: #9b6467;
+}
+
+::ng-deep .enable-date {
+	background-color: #9cc29e;
 	color: #9b6467;
 }
 
