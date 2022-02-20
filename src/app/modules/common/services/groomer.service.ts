@@ -48,14 +48,16 @@ export class GroomerService
 		this._isLoading$.next(true);
 		this._errorMessage.next('');
 		const url = `${this.API_URL}`;
-		return this.http.get<GroomerModel[]>(`${url}/getAllWithDisponibility/${date}`).pipe(
-			tap((pt) => this.groomers$.next(pt)),
-			catchError((err) => {
-				this._errorMessage.next(ErrorUtil.getMessage(err));
-				throw err;
-			}),
-			finalize(() => this._isLoading$.next(false))
-		);
+		return this.http
+			.get<GroomerModel[]>(`${url}/getAllWithDisponibility/${date}`)
+			.pipe(
+				tap((pt) => this.groomers$.next(pt)),
+				catchError((err) => {
+					this._errorMessage.next(ErrorUtil.getMessage(err));
+					throw err;
+				}),
+				finalize(() => this._isLoading$.next(false))
+			);
 	}
 
 	getAllDisponibilities(groomerId: number) {
@@ -140,6 +142,22 @@ export class GroomerService
 				},
 			})
 			.pipe(
+				catchError((err) => {
+					this._errorMessage.next(ErrorUtil.getMessage(err));
+					throw err;
+				}),
+				finalize(() => this._isLoading$.next(false))
+			);
+	}
+
+	getAllWithMobileDisponibility(date: string) {
+		this._isLoading$.next(true);
+		this._errorMessage.next('');
+		const url = `${this.API_URL}`;
+		return this.http
+			.get<GroomerModel[]>(`${url}/getAllWithMobileDisponibility/${date}`)
+			.pipe(
+				tap((pt) => this.groomers$.next(pt)),
 				catchError((err) => {
 					this._errorMessage.next(ErrorUtil.getMessage(err));
 					throw err;

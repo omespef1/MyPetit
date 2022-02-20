@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { GroomerScheduleComponent } from './groomer-schedule/groomer-schedule.component';
+import { MobileGroomerScheduleComponent } from './mobile-groomer-schedule/mobile-groomer-schedule.component';
 import { ScheduleComponent } from './schedule.component';
 
 const routes: Routes = [
@@ -17,6 +18,17 @@ const routes: Routes = [
 					},
 				],
 			},
+			{
+				path: 'mobile-groomer-schedule',
+				children: [
+					{
+						path: '',
+						component: MobileGroomerScheduleComponent,
+					},
+				],
+			},
+			{ path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+			{ path: '**', redirectTo: 'error/404', pathMatch: 'full' },
 			{ path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 			{ path: '**', redirectTo: 'error/404', pathMatch: 'full' },
 		],

@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { forkJoin, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { OwnerService } from 'src/app/modules/owner/services/owner.service';
 import { PetServiceService } from 'src/app/modules/pet-management/services/pet-service.service';
@@ -23,6 +23,7 @@ const EMPTY_GROOMER_SERVICE: GroomerServiceModel = {
 	id: undefined,
 	groomerId: undefined,
 	petId: undefined,
+	isMobile: false,
 	startDate: new Date(),
 	serviceGroomer: [],
 };
@@ -38,6 +39,7 @@ export class AddServiceModalComponent
 	@Input() id: number;
 	@Input() groomerId: number;
 	@Input() startDate: Date;
+	@Input() isMobile: boolean;
 	endDate: Date;
 
 	pet: PetModel;
@@ -81,6 +83,7 @@ export class AddServiceModalComponent
 						id: res.id,
 						petId: res.petId,
 						startDate: res.startDate,
+						isMobile: res.isMobile,
 						serviceGroomer: (<any[]>(
 							res.serviceGroomerPetServices
 						)).map((i) => {
@@ -97,10 +100,6 @@ export class AddServiceModalComponent
 	}
 
 	loadCreatedServies() {
-		console.log(
-			'this.service.serviceGroomer:',
-			this.service.serviceGroomer
-		);
 		if (this.service.serviceGroomer) {
 			this.service.serviceGroomer.forEach((m) => {
 				this.addNewService();
@@ -119,6 +118,7 @@ export class AddServiceModalComponent
 				this.service = {
 					groomerId: res.groomerId,
 					id: res.id,
+					isMobile: res.isMobile,
 					petId: res.petId,
 					startDate: res.startDate,
 					serviceGroomer: (<any[]>res.serviceGroomerPetServices).map(
@@ -142,18 +142,6 @@ export class AddServiceModalComponent
 			}
 		});
 	}
-
-	// searchServices() {
-	// 	this.serviceGroomerService
-	// 		.findByGroomerId(this.groomerId)
-	// 		.subscribe((p) => {
-	// 			if (!p) {
-	// 				this.service = this.getNewInstance();
-	// 			} else {
-	// 				this.service = p;
-	// 			}
-	// 		});
-	// }
 
 	findPetById(petId: number) {
 		this.ownerService.getPetById(petId).subscribe((pet) => {
@@ -182,7 +170,7 @@ export class AddServiceModalComponent
 	}
 
 	getNewInstance() {
-		return { ...EMPTY_GROOMER_SERVICE };
+		return { ...EMPTY_GROOMER_SERVICE, isMobile: this.isMobile };
 	}
 
 	get f() {
@@ -268,7 +256,6 @@ export class AddServiceModalComponent
 		}
 
 		const formValues = this.formGroup.value;
-		console.log(formValues);
 		this.service = Object.assign(this.service, formValues);
 		this.service.serviceGroomer = (<any[]>formValues.services).map(
 			(m) => m.serviceId

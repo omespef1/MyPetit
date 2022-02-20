@@ -14,9 +14,10 @@ import { ComponentsModule } from '../components/components.module';
 import { DxCalendarModule, DxSchedulerModule, DxTemplateModule } from 'devextreme-angular';
 import { AddServiceModalComponent } from './groomer-schedule/add-service-modal/add-service-modal.component';
 import { SelectPetComponent } from './groomer-schedule/select-pet/select-pet.component';
+import { MobileGroomerScheduleComponent } from './mobile-groomer-schedule/mobile-groomer-schedule.component';
 
 @NgModule({
-	declarations: [GroomerScheduleComponent, ScheduleComponent, AddServiceModalComponent, SelectPetComponent],
+	declarations: [GroomerScheduleComponent, ScheduleComponent, AddServiceModalComponent, SelectPetComponent, MobileGroomerScheduleComponent],
 	imports: [
 		CommonModule,
 		ScheduleRoutingModule,

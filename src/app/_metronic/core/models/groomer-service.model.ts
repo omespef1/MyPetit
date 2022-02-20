@@ -3,6 +3,7 @@ export class GroomerServiceModel {
 	public groomerId: number;
 	public startDate: Date;
 	public petId: number;
+	public isMobile: boolean;
 
 	public serviceGroomer: number[] = [];
 }

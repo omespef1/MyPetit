@@ -1,0 +1,28 @@
+<ng-container *ngIf="isLoading$ | async">
+	<app-loading></app-loading>
+</ng-container>
+<div class="container-fluid">
+	<div class="d-flex flex-column flex-md-row">
+		<div class="flex-md-row-fluid ml-lg-12">
+			<div class="row">
+				<div class="col-xxl-12">
+					<div class="card card-custom gutter-b">
+						<div class="card-body">
+							<app-calendar
+								[groomers]="groomers"
+								[dataSource]="dataSource"
+								(onChangeDate)="onChangeDate($event)"
+								(onAppointmentOpenForm)="
+									onAppointmentOpenForm($event)
+								"
+								(onAppointmentDeleting)="
+									onAppointmentDeleting($event)
+								"
+							></app-calendar>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

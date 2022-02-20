@@ -27,7 +27,8 @@ const EMPTY_GROOMER: GroomerModel = {
 	thirdPartyFullName: '',
 	thirdPartyId: undefined,
 	isActive: true,
-	disponibilities: []
+	disponibilities: [],
+	mobileDisponibilities: [],
 };
 
 @Component({

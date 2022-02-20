@@ -45,6 +45,7 @@ export class ServiceGroomerService
 			.post(url, {
 				startDate: service.startDate,
 				petId: service.petId,
+				isMobile: service.isMobile,
 				services: service.serviceGroomer.map((m) => {
 					return {
 						serviceId: m,
@@ -60,12 +61,13 @@ export class ServiceGroomerService
 			);
 	}
 
-	getScheduleByDate(currentValue: string) {
+	getScheduleByDate(currentValue: string, isMobile: boolean) {
 		this._isLoading$.next(true);
 		this._errorMessage.next('');
 		const url = `${this.API_URL}/getScheduleByDate`;
 		return this.http
 			.post(url, {
+				isMobile: isMobile,
 				date: currentValue,
 			})
 			.pipe(

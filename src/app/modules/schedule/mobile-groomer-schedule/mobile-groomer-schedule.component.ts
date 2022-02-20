@@ -5,21 +5,19 @@ import { map } from 'rxjs/operators';
 import { GroomerService } from '../../common/services/groomer.service';
 import { AppointmentServiceData } from '../../components/calendar/calendar.component';
 import { ServiceGroomerService } from '../services/service-groomer.service';
-import { AddServiceModalComponent } from './add-service-modal/add-service-modal.component';
 import * as _moment from 'moment';
+import { AddServiceModalComponent } from '../groomer-schedule/add-service-modal/add-service-modal.component';
 const now = new Date();
 
 @Component({
-	selector: 'app-groomer-schedule',
-	templateUrl: './groomer-schedule.component.html',
-	styleUrls: ['./groomer-schedule.component.scss'],
+	selector: 'app-mobile-groomer-schedule',
+	templateUrl: './mobile-groomer-schedule.component.html',
+	styleUrls: ['./mobile-groomer-schedule.component.scss'],
 })
-export class GroomerScheduleComponent implements OnInit {
+export class MobileGroomerScheduleComponent implements OnInit {
 	isLoading$: Observable<boolean>;
-	date: { year: number; month: number };
 	currentValue: Date = new Date();
 	dataSource: AppointmentServiceData[];
-
 	groomers: { id: number; text: string; disponibilities: any[] }[] = [];
 
 	constructor(
@@ -37,7 +35,7 @@ export class GroomerScheduleComponent implements OnInit {
 
 	getAllGroomers() {
 		this.groomerService
-			.getAllWithDisponibility(
+			.getAllWithMobileDisponibility(
 				_moment(this.currentValue).format('YYYY-MM-DD')
 			)
 			.pipe(
@@ -46,19 +44,20 @@ export class GroomerScheduleComponent implements OnInit {
 						return {
 							id: m.id,
 							text: m.thirdPartyFullName,
-							disponibilities: m.disponibilities.map((o) => {
-								return {
-									startDate: o.startDate,
-									endDate: o.endDate,
-								};
-							}),
+							disponibilities: m.mobileDisponibilities.map(
+								(o) => {
+									return {
+										startDate: o.startDate,
+										endDate: o.endDate,
+									};
+								}
+							),
 						};
 					})
 				)
 			)
 			.subscribe((g) => {
 				this.groomers = g;
-				console.log(g);
 				this.cdr.detectChanges();
 			});
 	}
@@ -76,7 +75,7 @@ export class GroomerScheduleComponent implements OnInit {
 		this.serviceGroomerService
 			.getScheduleByDate(
 				_moment(this.currentValue).format('YYYY-MM-DD'),
-				false
+				true
 			)
 			.subscribe((data: AppointmentServiceData[]) => {
 				this.dataSource = data.map((m) => {
@@ -93,19 +92,17 @@ export class GroomerScheduleComponent implements OnInit {
 					};
 				});
 
-				console.log(this.dataSource);
 				this.cdr.detectChanges();
 			});
 	}
 
 	onAppointmentOpenForm(data: AppointmentServiceData) {
-		console.log(data);
 		const modalRef = this.modalService.open(AddServiceModalComponent, {
 			size: 'lg',
 		});
 		modalRef.componentInstance.id = data.id ?? 0;
 		modalRef.componentInstance.groomerId = data.groomerId;
-		modalRef.componentInstance.isMobile = false;
+		modalRef.componentInstance.isMobile = true;
 		modalRef.componentInstance.startDate = data.startDate;
 		modalRef.result.then(
 			() => this.getAllScheduleData(),

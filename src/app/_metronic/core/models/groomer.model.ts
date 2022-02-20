@@ -11,4 +11,5 @@ export class GroomerModel {
 	public thidrPartyPhoneNumber: string;
 
 	public disponibilities: GroomerDisponibilityModel[];
+	public mobileDisponibilities: GroomerDisponibilityModel[];
 }
