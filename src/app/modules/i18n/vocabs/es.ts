@@ -80,7 +80,8 @@ export const locale = {
 			SUNDAY: 'Domingo',
 			SCHEDULE: 'Horario',
 			SUCCESS_EXCLAMATION: '¡Correcto!',
-			INVALID_RANGE: 'Rango no válido'
+			INVALID_RANGE: 'Rango no válido',
+			START: 'Iniciar',
 		},
 		USER: {
 			USERNAME: 'Nombre de usuario',
@@ -134,7 +135,7 @@ export const locale = {
 			PET: 'Mascota',
 			PETS_NOT_FOUND: 'Mascotas no encontradas',
 			STATE: 'Estado',
-			SELECT_PET: 'Seleccione mascota'
+			SELECT_PET: 'Seleccione mascota',
 		},
 		PET: {
 			HAIR_LENGTH: 'Tamaño de Pelo',
@@ -173,6 +174,7 @@ export const locale = {
 			END_DATE: 'Fecha fin',
 			ADD_DISPONIBILITY: 'Agregar disponibilidad',
 			MOBILE_DISPONIBILITIES: 'Disponibilidad Móvil',
+			ADD_PAYMENT: 'Registrar pago',
 		},
 		SETTING: {
 			TITLE: 'Parámetros del sistema',
@@ -180,7 +182,12 @@ export const locale = {
 			NAME: 'Parámetro',
 			TAX: 'Impuesto',
 			LOGO: 'Logo',
-			SELECT_SERVICE: 'Seleccione servicios'
+			SELECT_SERVICE: 'Seleccione servicios',
+		},
+		PAYMENT: {
+			ADD_PAYMENT: 'Agregar pago',
+			VALUE: 'Valor ($)',
+			PAYMENT_CREATED: 'El pago se ha realizado correctamente',
 		},
 		MENU: {
 			NEW: 'nuevo',
@@ -207,7 +214,7 @@ export const locale = {
 			SCHEDULES: 'Calendarios',
 			GROOMER_SCHEDULE: 'Groomers',
 			MOBILE_GROOMER_SCHEDULE: 'Mobile Groomers',
-			SETTINGS: 'Parámetros del sistema'
+			SETTINGS: 'Parámetros del sistema',
 		},
 		AUTH: {
 			GENERAL: {

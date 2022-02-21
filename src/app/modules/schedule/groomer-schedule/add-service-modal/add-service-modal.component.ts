@@ -7,7 +7,7 @@ import {
 	OnInit,
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { OwnerService } from 'src/app/modules/owner/services/owner.service';
@@ -18,12 +18,14 @@ import { PetModel } from 'src/app/_metronic/core/models/pet.model';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { ServiceGroomerService } from '../../services/service-groomer.service';
 import * as _moment from 'moment';
+import { AddPaymentComponent } from '../add-payment/add-payment.component';
 
 const EMPTY_GROOMER_SERVICE: GroomerServiceModel = {
 	id: undefined,
 	groomerId: undefined,
 	petId: undefined,
 	isMobile: false,
+	state: '',
 	startDate: new Date(),
 	serviceGroomer: [],
 };
@@ -59,6 +61,7 @@ export class AddServiceModalComponent
 		private readonly ownerService: OwnerService,
 		private readonly swalService: SwalService,
 		private readonly fb: FormBuilder,
+		private readonly modalService: NgbModal,
 		public readonly modal: NgbActiveModal,
 		private readonly cdr: ChangeDetectorRef
 	) {
@@ -81,6 +84,7 @@ export class AddServiceModalComponent
 					this.service = {
 						groomerId: res.groomerId,
 						id: res.id,
+						state: res.state,
 						petId: res.petId,
 						startDate: res.startDate,
 						isMobile: res.isMobile,
@@ -97,6 +101,18 @@ export class AddServiceModalComponent
 			this.service = this.getNewInstance();
 			this.loadForm();
 		}
+	}
+
+	addPayment() {
+		const modalRef = this.modalService.open(AddPaymentComponent, {
+			size: 'sm',
+		});
+		modalRef.componentInstance.groomerPetServiceId = this.id;
+		modalRef.componentInstance.value = this.totalServices ?? 0;
+		modalRef.result.then(
+			() => this.modal.close(),
+			() => {}
+		);
 	}
 
 	loadCreatedServies() {
@@ -118,6 +134,7 @@ export class AddServiceModalComponent
 				this.service = {
 					groomerId: res.groomerId,
 					id: res.id,
+					state: res.state,
 					isMobile: res.isMobile,
 					petId: res.petId,
 					startDate: res.startDate,
@@ -283,22 +300,17 @@ export class AddServiceModalComponent
 	}
 
 	edit() {
-		// const sbCreate = this.ownerService
-		// 	.updatePet(
-		// 		this.ownerId,
-		// 		this.petId,
-		// 		this.pet,
-		// 		this.addVaccinesToPet()
-		// 	)
-		// 	.pipe(
-		// 		tap(() => {
-		// 			this.swalService.success('COMMON.RESOURCE_UPDATED');
-		// 		})
-		// 	)
-		// 	.subscribe((res) => {
-		// 		this.modal.close();
-		// 	});
-		// this.subscriptions.push(sbCreate);
+		const sbCreate = this.serviceGroomerService
+			.updateService(this.service)
+			.pipe(
+				tap(() => {
+					this.swalService.success('COMMON.RESOURCE_UPDATED');
+				})
+			)
+			.subscribe((res) => {
+				this.modal.close();
+			});
+		this.subscriptions.push(sbCreate);
 	}
 
 	ngOnDestroy(): void {

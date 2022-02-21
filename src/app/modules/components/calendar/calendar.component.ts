@@ -65,6 +65,11 @@ export class CalendarComponent implements OnInit {
 			color: '#1e90ff',
 		},
 		{
+			id: 'PaidOut',
+			text: 'Paid Out',
+			color: '#009688',
+		},
+		{
 			id: 'Canceled',
 			text: 'Canceled',
 			color: '#cb6bb2',

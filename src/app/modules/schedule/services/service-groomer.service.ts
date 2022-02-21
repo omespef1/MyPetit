@@ -61,6 +61,28 @@ export class ServiceGroomerService
 			);
 	}
 
+	updateService(service: GroomerServiceModel) {
+		this._isLoading$.next(true);
+		this._errorMessage.next('');
+		const url = `${this.API_URL}/${service.id}`;
+		return this.http
+			.put(url, {
+				startDate: service.startDate,
+				services: service.serviceGroomer.map((m) => {
+					return {
+						serviceId: m,
+					};
+				}),
+			})
+			.pipe(
+				catchError((err) => {
+					this._errorMessage.next(ErrorUtil.getMessage(err));
+					throw err;
+				}),
+				finalize(() => this._isLoading$.next(false))
+			);
+	}
+
 	getScheduleByDate(currentValue: string, isMobile: boolean) {
 		this._isLoading$.next(true);
 		this._errorMessage.next('');
@@ -69,6 +91,24 @@ export class ServiceGroomerService
 			.post(url, {
 				isMobile: isMobile,
 				date: currentValue,
+			})
+			.pipe(
+				catchError((err) => {
+					this._errorMessage.next(ErrorUtil.getMessage(err));
+					throw err;
+				}),
+				finalize(() => this._isLoading$.next(false))
+			);
+	}
+
+	addPayment(groomerPetServiceId: number, paymentTypeId: any, value: any) {
+		this._isLoading$.next(true);
+		this._errorMessage.next('');
+		const url = `${this.API_URL}/addPayment/${groomerPetServiceId}`;
+		return this.http
+			.post(url, {
+				paymentTypeId,
+				value,
 			})
 			.pipe(
 				catchError((err) => {

@@ -15,9 +15,11 @@ import { DxCalendarModule, DxSchedulerModule, DxTemplateModule } from 'devextrem
 import { AddServiceModalComponent } from './groomer-schedule/add-service-modal/add-service-modal.component';
 import { SelectPetComponent } from './groomer-schedule/select-pet/select-pet.component';
 import { MobileGroomerScheduleComponent } from './mobile-groomer-schedule/mobile-groomer-schedule.component';
+import { NgxPermissionsModule } from 'ngx-permissions';
+import { AddPaymentComponent } from './groomer-schedule/add-payment/add-payment.component';
 
 @NgModule({
-	declarations: [GroomerScheduleComponent, ScheduleComponent, AddServiceModalComponent, SelectPetComponent, MobileGroomerScheduleComponent],
+	declarations: [GroomerScheduleComponent, ScheduleComponent, AddServiceModalComponent, SelectPetComponent, MobileGroomerScheduleComponent, AddPaymentComponent],
 	imports: [
 		CommonModule,
 		ScheduleRoutingModule,
@@ -33,7 +35,8 @@ import { MobileGroomerScheduleComponent } from './mobile-groomer-schedule/mobile
 		NgbModule,
 		DxSchedulerModule,
 		DxTemplateModule,
-		DxCalendarModule
+		DxCalendarModule,
+		NgxPermissionsModule.forChild(),
 	],
 })
 export class ScheduleModule {}

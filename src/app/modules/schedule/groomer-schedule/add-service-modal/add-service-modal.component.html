@@ -166,6 +166,53 @@
 									>
 								</div> -->
 							</div>
+							<div
+								class="d-flex align-items-center flex-wrap justify-content-between"
+							>
+								<ng-container *ngIf="id > 0">
+									<ng-container
+										*ngIf="service.state === 'Created'"
+									>
+										<button
+											*ngxPermissionsOnly="[
+												'SA',
+												'ADMIN',
+												'STAFF'
+											]"
+											class="btn btn-sm btn-info"
+											[disabled]="isLoading$ | async"
+											(click)="addPayment()"
+										>
+											<i
+												class="far fa-money-bill-alt"
+											></i>
+											{{
+												'GROOMER.ADD_PAYMENT'
+													| translate
+											}}
+										</button>
+									</ng-container>
+
+									<ng-container
+										*ngIf="service.state === 'PaidOut'"
+									>
+										<button
+											*ngxPermissionsOnly="[
+												'SA',
+												'ADMIN',
+												'STAFF'
+											]"
+											type="button"
+											class="btn btn-sm btn-success"
+											(click)="showServices = false"
+											[disabled]="isLoading$ | async"
+										>
+											<i class="fas fa-play"></i>
+											{{ 'COMMON.START' | translate }}
+										</button>
+									</ng-container>
+								</ng-container>
+							</div>
 							<!-- <div class="d-flex align-items-center flex-wrap justify-content-between">
                                 <div class="flex-grow-1 font-weight-bold text-dark-50 py-2 py-lg-2 mr-5">I distinguish three main text objectives could be merely to inform people.
                                 <br />A second could be persuade people. You want people to bay objective.</div>
@@ -198,7 +245,11 @@
 			<app-select-pet (petChange)="petChange($event)"></app-select-pet>
 		</ng-container>
 
-		<ng-container *ngIf="formGroup && showServices && service && !(isLoading$ | async)">
+		<ng-container
+			*ngIf="
+				formGroup && showServices && service && !(isLoading$ | async)
+			"
+		>
 			<form
 				action="#"
 				class="form form-label-right"
@@ -214,14 +265,24 @@
 								</th>
 								<th scope="col">
 									{{ 'PET_SERVICE.COST' | translate }}
-									<button
-										class="ml-1 btn btn-sm btn-icon btn-success"
-										(click)="addNewService()"
+									<ng-container
+										*ngIf="service.state === 'Created'"
 									>
-										<i class="fa fa-plus"></i>
-									</button>
+										<button
+											class="ml-1 btn btn-sm btn-icon btn-success"
+											(click)="addNewService()"
+										>
+											<i class="fa fa-plus"></i>
+										</button>
+									</ng-container>
 								</th>
-								<th style="min-width: 90px; width: 90px"></th>
+								<ng-container
+									*ngIf="service.state === 'Created'"
+								>
+									<th
+										style="min-width: 90px; width: 90px"
+									></th>
+								</ng-container>
 							</tr>
 						</thead>
 						<tbody>
@@ -239,21 +300,6 @@
 											</span>
 										</th>
 										<td>
-											<!-- <search-lookup
-												propertyText="name"
-												propertyValue="id"
-												[data]="petServices"
-												[formControl]="
-													serviceForm.controls[
-														'serviceId'
-													]
-												"
-												[formatter]="name_formatter"
-												name="serviceId"
-												[resultTemplate]="name_template"
-												placeholder="PET_SERVICE.NAME"
-											>
-											</search-lookup> -->
 											<select
 												#serviceId
 												class="form-control form-control-sm form-control-solid"
@@ -279,23 +325,29 @@
 												}}
 											</div>
 										</td>
-										<td>
-											<a
-												title="Delete service"
-												class="btn btn-icon btn-light btn-hover-danger btn-sm"
-												(click)="removeService(i)"
-											>
-												<span
-													style="pointer-events: none"
-													[inlineSVG]="
-														'./assets/media/svg/icons/General/Trash.svg'
-													"
-													cacheSVG="true"
-													class="svg-icon svg-icon-md svg-icon-danger"
+										<ng-container
+											*ngIf="service.state === 'Created'"
+										>
+											<td>
+												<a
+													title="Delete service"
+													class="btn btn-icon btn-light btn-hover-danger btn-sm"
+													(click)="removeService(i)"
 												>
-												</span>
-											</a>
-										</td>
+													<span
+														style="
+															pointer-events: none;
+														"
+														[inlineSVG]="
+															'./assets/media/svg/icons/General/Trash.svg'
+														"
+														cacheSVG="true"
+														class="svg-icon svg-icon-md svg-icon-danger"
+													>
+													</span>
+												</a>
+											</td>
+										</ng-container>
 									</tr>
 								</ng-container>
 								<tr>
@@ -303,10 +355,6 @@
 									<td></td>
 									<td>
 										<b>Total: </b>
-										<!-- <span
-											class="font-weight-bolder text-dark ml-4"
-											>${{ totalServices | json }}</span
-										> -->
 										<span
 											class="font-weight-bolder font-size-h5"
 										>
@@ -345,7 +393,9 @@
 			{{ 'COMMON.CANCEL' | translate }}
 		</button>
 
-		<ng-container *ngIf="service && formGroup">
+		<ng-container
+			*ngIf="service && formGroup && service.state === 'Created'"
+		>
 			<button
 				type="submit"
 				class="btn btn-primary btn-elevate"

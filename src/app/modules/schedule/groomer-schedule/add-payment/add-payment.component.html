@@ -1,0 +1,89 @@
+<div class="modal-content">
+	<div class="modal-header">
+		<div class="modal-title h4 p-3" id="example-modal-sizes-title-lg">
+			<ng-container>
+				{{ 'PAYMENT.ADD_PAYMENT' | translate }}
+			</ng-container>
+		</div>
+	</div>
+	<div class="modal-body mt-0 pt-0" style="min-height: 180px">
+		<ng-container *ngIf="isLoading$ | async">
+			<app-loading></app-loading>
+		</ng-container>
+		<ng-container *ngIf="formGroup && !(isLoading$ | async)">
+			<form
+				action="#"
+				class="form form-label-right"
+				[formGroup]="formGroup"
+			>
+				<div class="form-group row">
+					<div class="col-lg-12">
+						<label
+							><b>{{ 'PAYMENT.VALUE' | translate }}</b></label
+						>
+						<input
+							type="text"
+							class="form-control form-control-sm form-control-solid"
+							autocomplete="off"
+							placeholder="{{ 'PAYMENT.VALUE' | translate }}"
+							name="value"
+							[class.is-invalid]="isControlInvalid('value')"
+							formControlName="value"
+						/>
+						<div
+							class="invalid-feedback"
+							*ngIf="controlHasError('required', 'value')"
+						>
+							<b>{{ 'PAYMENT.VALUE' | translate }}</b>
+							{{ 'COMMON.REQUIRED' | translate }}
+						</div>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-lg-12">
+						<label
+							><b>{{ 'PAYMENT.VALUE' | translate }}</b></label
+						>
+						<select
+							#serviceId
+							class="form-control form-control-sm form-control-solid"
+							formControlName="paymentTypeId"
+						>
+							<option
+								*ngFor="let item of paymentTypes"
+								[value]="item.id"
+							>
+								{{ item.name }}
+							</option>
+						</select>
+						<div
+							class="invalid-feedback"
+							*ngIf="controlHasError('required', 'value')"
+						>
+							<b>{{ 'HAIR.NAME' | translate }}</b>
+							{{ 'COMMON.REQUIRED' | translate }}
+						</div>
+					</div>
+				</div>
+			</form>
+		</ng-container>
+	</div>
+	<div class="modal-footer">
+		<button
+			type="button"
+			class="btn btn-light btn-elevate mr-2"
+			(click)="modal.dismiss()"
+		>
+			{{ 'COMMON.CANCEL' | translate }}
+		</button>
+
+		<button
+			type="submit"
+			class="btn btn-primary btn-elevate"
+			(click)="save()"
+			[disabled]="formGroup.invalid || (isLoading$ | async)"
+		>
+			{{ 'COMMON.SAVE' | translate }}
+		</button>
+	</div>
+</div>

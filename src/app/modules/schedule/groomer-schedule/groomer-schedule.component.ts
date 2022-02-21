@@ -7,6 +7,7 @@ import { AppointmentServiceData } from '../../components/calendar/calendar.compo
 import { ServiceGroomerService } from '../services/service-groomer.service';
 import { AddServiceModalComponent } from './add-service-modal/add-service-modal.component';
 import * as _moment from 'moment';
+import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 const now = new Date();
 
 @Component({
@@ -26,13 +27,14 @@ export class GroomerScheduleComponent implements OnInit {
 		private readonly serviceGroomerService: ServiceGroomerService,
 		private readonly groomerService: GroomerService,
 		private readonly cdr: ChangeDetectorRef,
+		private readonly swal: SwalService,
 		private readonly modalService: NgbModal
 	) {
 		this.isLoading$ = groomerService.isLoading$;
 	}
 
 	ngOnInit(): void {
-		forkJoin([this.getAllGroomers(), this.getAllScheduleData()]);
+		this.refreshData();
 	}
 
 	getAllGroomers() {
@@ -58,18 +60,28 @@ export class GroomerScheduleComponent implements OnInit {
 			)
 			.subscribe((g) => {
 				this.groomers = g;
-				console.log(g);
 				this.cdr.detectChanges();
 			});
 	}
 
 	onChangeDate(date: Date) {
 		this.currentValue = date;
+		this.refreshData();
+	}
+
+	refreshData() {
 		forkJoin([this.getAllGroomers(), this.getAllScheduleData()]);
 	}
 
 	onAppointmentDeleting(e) {
-		this.serviceGroomerService.delete(e.id).subscribe();
+		this.swal.question('COMMON.DELETE_MESSAGE_QUESTION').then((res) => {
+			if (res.isConfirmed) {
+				this.serviceGroomerService.delete(e.id).subscribe(() => {
+					this.swal.success('COMMON.RESOURCE_DELETED');
+					this.getAllScheduleData();
+				});
+			}
+		});
 	}
 
 	getAllScheduleData() {
@@ -93,13 +105,11 @@ export class GroomerScheduleComponent implements OnInit {
 					};
 				});
 
-				console.log(this.dataSource);
 				this.cdr.detectChanges();
 			});
 	}
 
 	onAppointmentOpenForm(data: AppointmentServiceData) {
-		console.log(data);
 		const modalRef = this.modalService.open(AddServiceModalComponent, {
 			size: 'lg',
 		});

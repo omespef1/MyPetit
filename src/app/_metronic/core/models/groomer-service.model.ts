@@ -4,6 +4,7 @@ export class GroomerServiceModel {
 	public startDate: Date;
 	public petId: number;
 	public isMobile: boolean;
+	public state: string;
 
 	public serviceGroomer: number[] = [];
 }
