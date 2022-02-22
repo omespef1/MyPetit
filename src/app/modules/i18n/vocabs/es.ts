@@ -189,6 +189,10 @@ export const locale = {
 			VALUE: 'Valor ($)',
 			PAYMENT_CREATED: 'El pago se ha realizado correctamente',
 		},
+		SCHEDULE: {
+			START_QUESTION: '¿Está seguro que desea iniciar el servicio?',
+			SERVICE_STARTED: 'El servicio ha sido iniciado correctamente',
+		},
 		MENU: {
 			NEW: 'nuevo',
 			ACTIONS: 'Comportamiento',

@@ -204,7 +204,7 @@
 											]"
 											type="button"
 											class="btn btn-sm btn-success"
-											(click)="showServices = false"
+											(click)="startService()"
 											[disabled]="isLoading$ | async"
 										>
 											<i class="fas fa-play"></i>
@@ -237,7 +237,7 @@
 			</ng-container>
 		</div>
 	</div>
-	<div class="modal-body mt-0 pt-0" style="min-height: 180px">
+	<div class="modal-body mt-2 pt-0" style="min-height: 180px">
 		<ng-container *ngIf="isLoading$ | async">
 			<app-loading></app-loading>
 		</ng-container>
@@ -256,7 +256,9 @@
 				[formGroup]="formGroup"
 			>
 				<div class="row">
-					<table class="table">
+					<table
+						class="table table-head-custom table-vertical-center overflow-hidden"
+					>
 						<thead>
 							<tr>
 								<th scope="col">#</th>
@@ -300,20 +302,37 @@
 											</span>
 										</th>
 										<td>
-											<select
-												#serviceId
-												class="form-control form-control-sm form-control-solid"
-												formControlName="serviceId"
+											<ng-container
+												*ngIf="id === 0; else only_name"
 											>
-												<option
-													*ngFor="
-														let item of petServices
-													"
-													[value]="item.id"
+												<select
+													#serviceId
+													class="form-control form-control-sm form-control-solid"
+													formControlName="serviceId"
 												>
-													{{ item.name }}
-												</option>
-											</select>
+													<option
+														*ngFor="
+															let item of petServices
+														"
+														[value]="item.id"
+													>
+														{{ item.name }}
+													</option>
+												</select>
+											</ng-container>
+											<ng-template #only_name>
+												<span
+													class="label label-lg label-inline label-light-info"
+													>{{
+														findServiceById(
+															serviceForm
+																.controls[
+																'serviceId'
+															].value
+														).name
+													}}</span
+												></ng-template
+											>
 										</td>
 										<td>
 											<div
@@ -364,7 +383,11 @@
 											>{{ totalServices }}</span
 										>
 									</td>
-									<td></td>
+									<ng-container
+										*ngIf="service.state === 'Created'"
+									>
+										<td></td>
+									</ng-container>
 								</tr>
 							</ng-container>
 						</tbody>

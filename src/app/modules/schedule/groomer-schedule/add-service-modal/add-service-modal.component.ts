@@ -25,7 +25,7 @@ const EMPTY_GROOMER_SERVICE: GroomerServiceModel = {
 	groomerId: undefined,
 	petId: undefined,
 	isMobile: false,
-	state: '',
+	state: 'Created',
 	startDate: new Date(),
 	serviceGroomer: [],
 };
@@ -59,7 +59,7 @@ export class AddServiceModalComponent
 		private readonly serviceGroomerService: ServiceGroomerService,
 		private readonly petServiceService: PetServiceService,
 		private readonly ownerService: OwnerService,
-		private readonly swalService: SwalService,
+		private readonly swal: SwalService,
 		private readonly fb: FormBuilder,
 		private readonly modalService: NgbModal,
 		public readonly modal: NgbActiveModal,
@@ -70,7 +70,7 @@ export class AddServiceModalComponent
 		this.subscriptions.push(
 			this.serviceGroomerService.errorMessage$
 				.pipe(filter((r) => r !== ''))
-				.subscribe((err) => swalService.error(err))
+				.subscribe((err) => swal.error(err))
 		);
 	}
 
@@ -113,6 +113,17 @@ export class AddServiceModalComponent
 			() => this.modal.close(),
 			() => {}
 		);
+	}
+
+	startService() {
+		this.swal.question('SCHEDULE.START_QUESTION').then((res) => {
+			if (res.isConfirmed) {
+				this.serviceGroomerService.start(this.id).subscribe(() => {
+					this.swal.success('SCHEDULE.SERVICE_STARTED');
+					this.modal.close();
+				});
+			}
+		});
 	}
 
 	loadCreatedServies() {
@@ -165,6 +176,10 @@ export class AddServiceModalComponent
 			this.pet = pet;
 			this.getAllServicesByPetId(pet.id);
 		});
+	}
+
+	findServiceById(serviceId: number) {
+		return this.petServices.find(m => m.id === serviceId);
 	}
 
 	petChange(petId: number) {
@@ -290,7 +305,7 @@ export class AddServiceModalComponent
 			.createService(this.service)
 			.pipe(
 				tap(() => {
-					this.swalService.success('COMMON.RESOURCE_CREATED');
+					this.swal.success('COMMON.RESOURCE_CREATED');
 				})
 			)
 			.subscribe((res) => {
@@ -304,7 +319,7 @@ export class AddServiceModalComponent
 			.updateService(this.service)
 			.pipe(
 				tap(() => {
-					this.swalService.success('COMMON.RESOURCE_UPDATED');
+					this.swal.success('COMMON.RESOURCE_UPDATED');
 				})
 			)
 			.subscribe((res) => {
