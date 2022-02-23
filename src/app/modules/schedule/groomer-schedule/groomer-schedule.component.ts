@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { GroomerService } from '../../common/services/groomer.service';
@@ -8,6 +8,7 @@ import { ServiceGroomerService } from '../services/service-groomer.service';
 import { AddServiceModalComponent } from './add-service-modal/add-service-modal.component';
 import * as _moment from 'moment';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
+import { ResumeServiceModalComponent } from './resume-service-modal/resume-service-modal.component';
 const now = new Date();
 
 @Component({
@@ -110,16 +111,31 @@ export class GroomerScheduleComponent implements OnInit {
 	}
 
 	onAppointmentOpenForm(data: AppointmentServiceData) {
-		const modalRef = this.modalService.open(AddServiceModalComponent, {
-			size: 'lg',
-		});
-		modalRef.componentInstance.id = data.id ?? 0;
-		modalRef.componentInstance.groomerId = data.groomerId;
-		modalRef.componentInstance.isMobile = false;
-		modalRef.componentInstance.startDate = data.startDate;
-		modalRef.result.then(
-			() => this.getAllScheduleData(),
-			() => {}
-		);
+		console.log('data.state: ', data.state);
+		if (data.state === 'Started') {
+			const modalRef = this.modalService.open(
+				ResumeServiceModalComponent,
+				{
+					size: 'lg',
+				}
+			);
+			modalRef.componentInstance.id = data.id ?? 0;
+			modalRef.result.then(
+				() => this.getAllScheduleData(),
+				() => {}
+			);
+		} else {
+			const modalRef = this.modalService.open(AddServiceModalComponent, {
+				size: 'lg',
+			});
+			modalRef.componentInstance.id = data.id ?? 0;
+			modalRef.componentInstance.groomerId = data.groomerId;
+			modalRef.componentInstance.isMobile = false;
+			modalRef.componentInstance.startDate = data.startDate;
+			modalRef.result.then(
+				() => this.getAllScheduleData(),
+				() => {}
+			);
+		}
 	}
 }

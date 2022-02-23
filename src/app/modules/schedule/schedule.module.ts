@@ -17,9 +17,10 @@ import { SelectPetComponent } from './groomer-schedule/select-pet/select-pet.com
 import { MobileGroomerScheduleComponent } from './mobile-groomer-schedule/mobile-groomer-schedule.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { AddPaymentComponent } from './groomer-schedule/add-payment/add-payment.component';
+import { ResumeServiceModalComponent } from './groomer-schedule/resume-service-modal/resume-service-modal.component';
 
 @NgModule({
-	declarations: [GroomerScheduleComponent, ScheduleComponent, AddServiceModalComponent, SelectPetComponent, MobileGroomerScheduleComponent, AddPaymentComponent],
+	declarations: [GroomerScheduleComponent, ScheduleComponent, AddServiceModalComponent, SelectPetComponent, MobileGroomerScheduleComponent, AddPaymentComponent, ResumeServiceModalComponent],
 	imports: [
 		CommonModule,
 		ScheduleRoutingModule,

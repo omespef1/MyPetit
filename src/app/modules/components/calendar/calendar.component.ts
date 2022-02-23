@@ -20,7 +20,7 @@ export class AppointmentServiceData {
 	public groomerName: string;
 	public ownerName: string;
 	public petName: string;
-	public state: number;
+	public state: string;
 }
 
 export class Resource {
