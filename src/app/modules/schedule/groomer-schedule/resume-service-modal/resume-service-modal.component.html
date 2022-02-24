@@ -1,37 +1,40 @@
 <div class="modal-content">
-	<div class="modal-header" *ngIf="showServices">
-		<ng-container *ngIf="isLoadingPet$ | async">
-			<app-loading></app-loading>
-		</ng-container>
+	<div class="modal-header">
+		<div class="modal-title h4 p-3">
+			<ng-container>
+				{{ 'PAYMENT.ADD_PAYMENT' | translate }}
+			</ng-container>
+		</div>
 	</div>
-	<div class="modal-body mt-2 pt-0" style="min-height: 180px">
+	<div class="modal-body mt-0 pt-0" style="min-height: 180px">
 		<ng-container *ngIf="isLoading$ | async">
 			<app-loading></app-loading>
 		</ng-container>
-		<ng-container
-			*ngIf="
-				formGroup && showServices && service && !(isLoading$ | async)
-			"
-		>
+		<ng-container *ngIf="formGroup && !(isLoading$ | async)">
 			<form
 				action="#"
 				class="form form-label-right"
 				[formGroup]="formGroup"
-			></form>
+			>
+				<div class="form-group row">
+					<div class="col-lg-12">
+						<label
+							><b>{{ 'PAYMENT.VALUE' | translate }}</b></label
+						>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-lg-12">
+						<label
+							><b>{{ 'PAYMENT.VALUE' | translate }}</b></label
+						>
+						
+					</div>
+				</div>
+			</form>
 		</ng-container>
 	</div>
 	<div class="modal-footer">
-		<ng-container *ngIf="showServices && id === 0">
-			<button
-				type="submit"
-				class="btn btn-warning btn-elevate"
-				(click)="showServices = false"
-				[disabled]="isLoading$ | async"
-			>
-				{{ 'COMMON.BACK' | translate }}
-			</button>
-		</ng-container>
-
 		<button
 			type="button"
 			class="btn btn-light btn-elevate mr-2"
@@ -40,9 +43,47 @@
 			{{ 'COMMON.CANCEL' | translate }}
 		</button>
 
-		<ng-container
-			*ngIf="service && formGroup && service.state === 'Created'"
+		<button
+			type="submit"
+			class="btn btn-primary btn-elevate"
+			(click)="save()"
+			[disabled]="formGroup.invalid || (isLoading$ | async)"
 		>
+			{{ 'COMMON.SAVE' | translate }}
+		</button>
+	</div>
+</div>
+
+<!-- <div class="modal-content">
+	<div class="modal-header">
+		<div class="modal-title h4 p-3" id="example-modal-sizes-title-lg">
+			<ng-container>
+				{{ 'PAYMENT.ADD_PAYMENT' | translate }}
+			</ng-container>
+		</div>
+	</div>
+	<div class="modal-body mt-2 pt-0" style="min-height: 180px">
+		<ng-container *ngIf="isLoading$ | async">
+			<app-loading></app-loading>
+		</ng-container>
+		<ng-container *ngIf="formGroup && !(isLoading$ | async)">
+			<form
+				action="#"
+				class="form form-label-right"
+				[formGroup]="formGroup"
+			></form>
+		</ng-container>
+	</div>
+	<div class="modal-footer">
+		<button
+			type="button"
+			class="btn btn-light btn-elevate mr-2"
+			(click)="modal.dismiss()"
+		>
+			{{ 'COMMON.CANCEL' | translate }}
+		</button>
+
+		<ng-container *ngIf="formGroup">
 			<button
 				type="submit"
 				class="btn btn-primary btn-elevate"
@@ -53,7 +94,4 @@
 			</button>
 		</ng-container>
 	</div>
-</div>
-<ng-template #name_formatter let-r="result">
-	{{ r.name }}
-</ng-template>
+</div> -->

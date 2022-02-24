@@ -111,31 +111,31 @@ export class GroomerScheduleComponent implements OnInit {
 	}
 
 	onAppointmentOpenForm(data: AppointmentServiceData) {
-		console.log('data.state: ', data.state);
-		if (data.state === 'Started') {
-			const modalRef = this.modalService.open(
+		console.log('data.state: ', data);
+		// if (data.state === 'Started') {
+			const modalResume = this.modalService.open(
 				ResumeServiceModalComponent,
 				{
 					size: 'lg',
 				}
 			);
-			modalRef.componentInstance.id = data.id ?? 0;
-			modalRef.result.then(
-				() => this.getAllScheduleData(),
+			// modalResume.componentInstance.id = data.id;
+			modalResume.result.then(
+				() => {},
 				() => {}
 			);
-		} else {
-			const modalRef = this.modalService.open(AddServiceModalComponent, {
-				size: 'lg',
-			});
-			modalRef.componentInstance.id = data.id ?? 0;
-			modalRef.componentInstance.groomerId = data.groomerId;
-			modalRef.componentInstance.isMobile = false;
-			modalRef.componentInstance.startDate = data.startDate;
-			modalRef.result.then(
-				() => this.getAllScheduleData(),
-				() => {}
-			);
-		}
+		// } else {
+		// 	const modalRef = this.modalService.open(AddServiceModalComponent, {
+		// 		size: 'lg',
+		// 	});
+		// 	modalRef.componentInstance.id = data.id ?? 0;
+		// 	modalRef.componentInstance.groomerId = data.groomerId;
+		// 	modalRef.componentInstance.isMobile = false;
+		// 	modalRef.componentInstance.startDate = data.startDate;
+		// 	modalRef.result.then(
+		// 		() => this.getAllScheduleData(),
+		// 		() => {}
+		// 	);
+		// }
 	}
 }

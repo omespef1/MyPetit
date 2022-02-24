@@ -6,29 +6,13 @@ import {
 	OnDestroy,
 	OnInit,
 } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
-import { OwnerService } from 'src/app/modules/owner/services/owner.service';
-import { PetServiceService } from 'src/app/modules/pet-management/services/pet-service.service';
-import { GroomerServiceModel } from 'src/app/_metronic/core/models/groomer-service.model';
-import { PetServiceModel } from 'src/app/_metronic/core/models/pet-service.model';
-import { PetModel } from 'src/app/_metronic/core/models/pet.model';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { ServiceGroomerService } from '../../services/service-groomer.service';
 import * as _moment from 'moment';
-import { AddPaymentComponent } from '../add-payment/add-payment.component';
-
-const EMPTY_GROOMER_SERVICE: GroomerServiceModel = {
-	id: undefined,
-	groomerId: undefined,
-	petId: undefined,
-	isMobile: false,
-	state: 'Created',
-	startDate: new Date(),
-	serviceGroomer: [],
-};
 
 @Component({
 	selector: 'app-resume-service-modal',
@@ -39,34 +23,18 @@ export class ResumeServiceModalComponent
 	implements OnInit, OnDestroy, AfterContentChecked
 {
 	@Input() id: number;
-	@Input() groomerId: number;
-	@Input() startDate: Date;
-	@Input() isMobile: boolean;
-	endDate: Date;
-
-	pet: PetModel;
-	isLoading$: Observable<boolean>;
-	isLoadingPet$: Observable<boolean>;
 	formGroup: FormGroup;
-	service: GroomerServiceModel;
-	petServices: PetServiceModel[] = [];
-	showServices = false;
-	name_template = (x: PetServiceModel) => x.name;
-
+	isLoading$: Observable<boolean>;
 	private subscriptions: Subscription[] = [];
 
 	constructor(
 		private readonly serviceGroomerService: ServiceGroomerService,
-		private readonly petServiceService: PetServiceService,
-		private readonly ownerService: OwnerService,
 		private readonly swal: SwalService,
 		private readonly fb: FormBuilder,
-		private readonly modalService: NgbModal,
 		public readonly modal: NgbActiveModal,
 		private readonly cdr: ChangeDetectorRef
 	) {
 		this.isLoading$ = this.serviceGroomerService.isLoading$;
-		this.isLoadingPet$ = this.ownerService.isLoading$;
 		this.subscriptions.push(
 			this.serviceGroomerService.errorMessage$
 				.pipe(filter((r) => r !== ''))
@@ -75,134 +43,20 @@ export class ResumeServiceModalComponent
 	}
 
 	ngOnInit(): void {
-		this.endDate = this.startDate;
-
-		if (this.id > 0) {
-			this.serviceGroomerService
-				.getItemById(this.id)
-				.subscribe((res: any) => {
-					this.service = {
-						groomerId: res.groomerId,
-						id: res.id,
-						state: res.state,
-						petId: res.petId,
-						startDate: res.startDate,
-						isMobile: res.isMobile,
-						serviceGroomer: (<any[]>(
-							res.serviceGroomerPetServices
-						)).map((i) => {
-							return i.serviceId;
-						}),
-					};
-					this.loadForm();
-					this.petChange(res.petId);
-				});
-		} else {
-			this.service = this.getNewInstance();
-			this.loadForm();
-		}
-	}
-
-	addPayment() {
-		const modalRef = this.modalService.open(AddPaymentComponent, {
-			size: 'sm',
-		});
-		modalRef.componentInstance.groomerPetServiceId = this.id;
-		modalRef.componentInstance.value = this.totalServices ?? 0;
-		modalRef.result.then(
-			() => this.modal.close(),
-			() => {}
-		);
-	}
-
-	startService() {
-		this.swal.question('SCHEDULE.START_QUESTION').then((res) => {
-			if (res.isConfirmed) {
-				this.serviceGroomerService.start(this.id).subscribe(() => {
-					this.swal.success('SCHEDULE.SERVICE_STARTED');
-					this.modal.close();
-				});
-			}
-		});
-	}
-
-	loadCreatedServies() {
-		if (this.service.serviceGroomer) {
-			this.service.serviceGroomer.forEach((m) => {
-				this.addNewService();
-				const ctrls = (<FormGroup>(
-					this.services.at(this.services.length - 1)
-				)).controls;
-				ctrls.serviceId.setValue(m);
-			});
-		}
-	}
-
-	searchDetail() {
-		this.serviceGroomerService
-			.getItemById(this.id)
-			.subscribe((res: any) => {
-				this.service = {
-					groomerId: res.groomerId,
-					id: res.id,
-					state: res.state,
-					isMobile: res.isMobile,
-					petId: res.petId,
-					startDate: res.startDate,
-					serviceGroomer: (<any[]>res.serviceGroomerPetServices).map(
-						(i) => {
-							return i.serviceId;
-						}
-					),
-				};
-			});
+		this.loadForm();
+		// if (this.id > 0) {
+		// 	this.serviceGroomerService
+		// 		.getItemById(this.id)
+		// 		.subscribe((res: any) => {
+		// 			this.loadForm();
+		// 		});
+		// } else {
+		// 	this.loadForm();
+		// }
 	}
 
 	ngAfterContentChecked() {
 		this.cdr.detectChanges();
-	}
-
-	getAllServicesByPetId(petId: number) {
-		this.petServiceService.getByPetId(petId).subscribe((s) => {
-			this.petServices = s;
-			if (Number(this.id) > 0) {
-				this.loadCreatedServies();
-			}
-		});
-	}
-
-	findPetById(petId: number) {
-		this.ownerService.getPetById(petId).subscribe((pet) => {
-			this.pet = pet;
-			this.getAllServicesByPetId(pet.id);
-		});
-	}
-
-	findServiceById(serviceId: number) {
-		return this.petServices.find((m) => m.id === serviceId);
-	}
-
-	petChange(petId: number) {
-		if (petId) {
-			this.f.petId.setValue(petId);
-			this.findPetById(petId);
-			this.showServices = true;
-
-			if (Number(this.id) === 0) {
-				this.clearServices();
-				this.addNewService();
-			}
-		}
-	}
-
-	clearServices() {
-		while (this.services.length !== 0) {
-			this.services.removeAt(0);
-		}
-	}
-
-	getNewInstance() {
-		return { ...EMPTY_GROOMER_SERVICE, isMobile: this.isMobile };
 	}
 
 	get f() {
@@ -211,74 +65,8 @@ export class ResumeServiceModalComponent
 
 	loadForm() {
 		this.formGroup = this.fb.group({
-			groomerId: [this.groomerId],
-			petId: [
-				this.service.petId,
-				Validators.compose([Validators.required]),
-			],
-			startDate: [
-				_moment(this.startDate).format('YYYY-MM-DD HH:mm:ss'),
-				Validators.compose([Validators.required]),
-			],
-			services: this.fb.array([]),
-		});
-	}
-
-	removeService(index: number) {
-		this.services.removeAt(index);
-		this.calcEndDate();
-		this.cdr.detectChanges();
-	}
-
-	get services() {
-		return this.formGroup.controls['services'] as FormArray;
-	}
-
-	set services(value: FormArray) {
-		this.formGroup.controls['services'].setValue(value);
-	}
-
-	get totalServices() {
-		return (<any[]>this.services.value)
-			.filter((m) => m.serviceId !== null)
-			.reduce((sum, current) => sum + current.cost, 0);
-	}
-
-	addNewService() {
-		const serviceForm = this.fb.group({
 			serviceId: [undefined, Validators.required],
-			cost: [0],
-			duration: [0],
 		});
-
-		this.subscriptions.push(
-			serviceForm.controls.serviceId.valueChanges.subscribe(
-				(petServiceId) => {
-					const service = this.petServices.find(
-						(m) => m.id === Number(petServiceId)
-					);
-					serviceForm.controls.cost.setValue(service.cost);
-					serviceForm.controls.duration.setValue(service.duration);
-					this.calcEndDate();
-				}
-			)
-		);
-
-		this.services.push(serviceForm);
-	}
-
-	calcEndDate() {
-		const totalDuration = (<any[]>this.services.value)
-			.filter((m) => m.serviceId !== null)
-			.reduce((sum, current) => sum + current.duration, 0);
-		this.endDate = new Date(
-			this.startDate.getTime() + totalDuration * 60000
-		);
-		this.cdr.detectChanges();
-	}
-
-	changePic(pic: string) {
-		this.formGroup.controls.pic.setValue(pic);
 	}
 
 	save() {
@@ -288,44 +76,18 @@ export class ResumeServiceModalComponent
 		}
 
 		const formValues = this.formGroup.value;
-		this.service = Object.assign(this.service, formValues);
-		this.service.serviceGroomer = (<any[]>formValues.services).map(
-			(m) => m.serviceId
-		);
 
-		if (this.id > 0) {
-			this.edit();
-		} else {
-			this.create();
-		}
-	}
-
-	create() {
-		const sbCreate = this.serviceGroomerService
-			.createService(this.service)
-			.pipe(
-				tap(() => {
-					this.swal.success('COMMON.RESOURCE_CREATED');
-				})
-			)
-			.subscribe((res) => {
-				this.modal.close();
-			});
-		this.subscriptions.push(sbCreate);
-	}
-
-	edit() {
-		const sbCreate = this.serviceGroomerService
-			.updateService(this.service)
-			.pipe(
-				tap(() => {
-					this.swal.success('COMMON.RESOURCE_UPDATED');
-				})
-			)
-			.subscribe((res) => {
-				this.modal.close();
-			});
-		this.subscriptions.push(sbCreate);
+		// const sbCreate = this.serviceGroomerService
+		// 	.createService(this.service)
+		// 	.pipe(
+		// 		tap(() => {
+		// 			this.swal.success('COMMON.RESOURCE_CREATED');
+		// 		})
+		// 	)
+		// 	.subscribe((res) => {
+		// 		this.modal.close();
+		// 	});
+		// this.subscriptions.push(sbCreate);
 	}
 
 	ngOnDestroy(): void {

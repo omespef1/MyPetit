@@ -11,7 +11,11 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentsModule } from '../components/components.module';
-import { DxCalendarModule, DxSchedulerModule, DxTemplateModule } from 'devextreme-angular';
+import {
+	DxCalendarModule,
+	DxSchedulerModule,
+	DxTemplateModule,
+} from 'devextreme-angular';
 import { AddServiceModalComponent } from './groomer-schedule/add-service-modal/add-service-modal.component';
 import { SelectPetComponent } from './groomer-schedule/select-pet/select-pet.component';
 import { MobileGroomerScheduleComponent } from './mobile-groomer-schedule/mobile-groomer-schedule.component';
@@ -20,7 +24,15 @@ import { AddPaymentComponent } from './groomer-schedule/add-payment/add-payment.
 import { ResumeServiceModalComponent } from './groomer-schedule/resume-service-modal/resume-service-modal.component';
 
 @NgModule({
-	declarations: [GroomerScheduleComponent, ScheduleComponent, AddServiceModalComponent, SelectPetComponent, MobileGroomerScheduleComponent, AddPaymentComponent, ResumeServiceModalComponent],
+	declarations: [
+		GroomerScheduleComponent,
+		ScheduleComponent,
+		AddServiceModalComponent,
+		SelectPetComponent,
+		MobileGroomerScheduleComponent,
+		AddPaymentComponent,
+		ResumeServiceModalComponent,
+	],
 	imports: [
 		CommonModule,
 		ScheduleRoutingModule,
