@@ -22,7 +22,7 @@ export class AddPaymentComponent implements OnInit {
 
 	constructor(
 		private readonly fb: FormBuilder,
-    private readonly swal: SwalService,
+		private readonly swal: SwalService,
 		public readonly modal: NgbActiveModal,
 		private readonly paymentTypeService: PaymentTypeService,
 		private readonly serviceGroomerService: ServiceGroomerService
@@ -60,7 +60,7 @@ export class AddPaymentComponent implements OnInit {
 				this.f.value
 			)
 			.subscribe(() => {
-        this.swal.success('PAYMENT.PAYMENT_CREATED');
+				this.swal.success('PAYMENT.PAYMENT_CREATED');
 				this.modal.close();
 			});
 	}

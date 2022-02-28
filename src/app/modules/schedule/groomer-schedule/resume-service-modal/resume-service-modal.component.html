@@ -1,17 +1,58 @@
 <div class="modal-content">
 	<div class="modal-header">
-		<div class="modal-title h4 p-3">
-			<ng-container>
-				{{ 'PAYMENT.ADD_PAYMENT' | translate }}
+		<div class="modal-title h4">
+			<ng-container *ngIf="service">
+				{{ service.groomerName | uppercase }},
+				{{ service.startDate | date: 'MMM d' }}
 			</ng-container>
 		</div>
 	</div>
-	<div class="modal-body mt-0 pt-0" style="min-height: 180px">
+	<div class="modal-body p-0" style="min-height: 180px">
 		<ng-container *ngIf="isLoading$ | async">
 			<app-loading></app-loading>
 		</ng-container>
-		<ng-container *ngIf="formGroup && !(isLoading$ | async)">
-			<form
+		<ng-container *ngIf="service && !(isLoading$ | async)">
+			<div class="row">
+				<div class="col-lg-7"></div>
+				<div class="col-lg-5">
+					<div class="row pl-2" *ngIf="pet">
+						<div class="col-lg-12">
+							<div class="d-flex align-items-center mt-5">
+								<div class="symbol symbol-100 mr-5">
+									<img alt="Pic" [src]="pet.pic" />
+									<i class="symbol-badge bg-success"></i>
+								</div>
+								<div class="d-flex flex-column">
+									<a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">{{ pet.name | uppercase }} ({{ pet.petTypeName }})</a>
+									<div class="text-muted mt-1">{{ pet.breedName | uppercase }}</div>
+									<div class="navi mt-2">
+										<a href="#" class="navi-item">
+											<span class="navi-link p-0 pb-2">
+												<!-- <span class="navi-icon mr-1">
+													<span class="svg-icon svg-icon-lg svg-icon-primary">
+														<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+															<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+																<rect x="0" y="0" width="24" height="24"></rect>
+																<path d="M21,12.0829584 C20.6747915,12.0283988 20.3407122,12 20,12 C16.6862915,12 14,14.6862915 14,18 C14,18.3407122 14.0283988,18.6747915 14.0829584,19 L5,19 C3.8954305,19 3,18.1045695 3,17 L3,8 C3,6.8954305 3.8954305,6 5,6 L19,6 C20.1045695,6 21,6.8954305 21,8 L21,12.0829584 Z M18.1444251,7.83964668 L12,11.1481833 L5.85557487,7.83964668 C5.4908718,7.6432681 5.03602525,7.77972206 4.83964668,8.14442513 C4.6432681,8.5091282 4.77972206,8.96397475 5.14442513,9.16035332 L11.6444251,12.6603533 C11.8664074,12.7798822 12.1335926,12.7798822 12.3555749,12.6603533 L18.8555749,9.16035332 C19.2202779,8.96397475 19.3567319,8.5091282 19.1603533,8.14442513 C18.9639747,7.77972206 18.5091282,7.6432681 18.1444251,7.83964668 Z" fill="#000000"></path>
+																<circle fill="#000000" opacity="0.3" cx="19.5" cy="17.5" r="2.5"></circle>
+															</g>
+														</svg>
+													</span>
+												</span> -->
+												<span class="navi-text text-muted text-hover-primary">{{ pet.ownerName }}</span>
+											</span>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr />
+
+				</div>
+			</div>
+
+			<!-- <form
 				action="#"
 				class="form form-label-right"
 				[formGroup]="formGroup"
@@ -21,69 +62,36 @@
 						<label
 							><b>{{ 'PAYMENT.VALUE' | translate }}</b></label
 						>
-					</div>
-				</div>
-				<div class="form-group row">
-					<div class="col-lg-12">
-						<label
-							><b>{{ 'PAYMENT.VALUE' | translate }}</b></label
+						<input
+							type="text"
+							class="form-control form-control-sm form-control-solid"
+							autocomplete="off"
+							placeholder="{{ 'PAYMENT.VALUE' | translate }}"
+							name="serviceId"
+							[class.is-invalid]="isControlInvalid('serviceId')"
+							formControlName="serviceId"
+						/>
+						<div
+							class="invalid-feedback"
+							*ngIf="controlHasError('required', 'serviceId')"
 						>
-						
+							<b>{{ 'PAYMENT.VALUE' | translate }}</b>
+							{{ 'COMMON.REQUIRED' | translate }}
+						</div>
 					</div>
 				</div>
-			</form>
+			</form> -->
 		</ng-container>
 	</div>
 	<div class="modal-footer">
-		<button
-			type="button"
-			class="btn btn-light btn-elevate mr-2"
-			(click)="modal.dismiss()"
-		>
-			{{ 'COMMON.CANCEL' | translate }}
-		</button>
-
-		<button
-			type="submit"
-			class="btn btn-primary btn-elevate"
-			(click)="save()"
-			[disabled]="formGroup.invalid || (isLoading$ | async)"
-		>
-			{{ 'COMMON.SAVE' | translate }}
-		</button>
-	</div>
-</div>
-
-<!-- <div class="modal-content">
-	<div class="modal-header">
-		<div class="modal-title h4 p-3" id="example-modal-sizes-title-lg">
-			<ng-container>
-				{{ 'PAYMENT.ADD_PAYMENT' | translate }}
-			</ng-container>
-		</div>
-	</div>
-	<div class="modal-body mt-2 pt-0" style="min-height: 180px">
-		<ng-container *ngIf="isLoading$ | async">
-			<app-loading></app-loading>
-		</ng-container>
-		<ng-container *ngIf="formGroup && !(isLoading$ | async)">
-			<form
-				action="#"
-				class="form form-label-right"
-				[formGroup]="formGroup"
-			></form>
-		</ng-container>
-	</div>
-	<div class="modal-footer">
-		<button
-			type="button"
-			class="btn btn-light btn-elevate mr-2"
-			(click)="modal.dismiss()"
-		>
-			{{ 'COMMON.CANCEL' | translate }}
-		</button>
-
 		<ng-container *ngIf="formGroup">
+			<button
+				type="button"
+				class="btn btn-light btn-elevate mr-2"
+				(click)="modal.dismiss()"
+			>
+				{{ 'COMMON.CANCEL' | translate }}
+			</button>
 			<button
 				type="submit"
 				class="btn btn-primary btn-elevate"
@@ -94,4 +102,4 @@
 			</button>
 		</ng-container>
 	</div>
-</div> -->
+</div>

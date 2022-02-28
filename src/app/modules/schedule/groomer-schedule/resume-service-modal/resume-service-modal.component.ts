@@ -9,10 +9,12 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { ServiceGroomerService } from '../../services/service-groomer.service';
 import * as _moment from 'moment';
+import { OwnerService } from 'src/app/modules/owner/services/owner.service';
+import { PetModel } from 'src/app/_metronic/core/models/pet.model';
 
 @Component({
 	selector: 'app-resume-service-modal',
@@ -23,12 +25,16 @@ export class ResumeServiceModalComponent
 	implements OnInit, OnDestroy, AfterContentChecked
 {
 	@Input() id: number;
+
+	pet: PetModel;
+	service: any;
 	formGroup: FormGroup;
 	isLoading$: Observable<boolean>;
 	private subscriptions: Subscription[] = [];
 
 	constructor(
 		private readonly serviceGroomerService: ServiceGroomerService,
+		private readonly ownerService: OwnerService,
 		private readonly swal: SwalService,
 		private readonly fb: FormBuilder,
 		public readonly modal: NgbActiveModal,
@@ -38,29 +44,29 @@ export class ResumeServiceModalComponent
 		this.subscriptions.push(
 			this.serviceGroomerService.errorMessage$
 				.pipe(filter((r) => r !== ''))
-				.subscribe((err) => swal.error(err))
+				.subscribe((err) => this.swal.error(err))
 		);
 	}
 
 	ngOnInit(): void {
-		this.loadForm();
-		// if (this.id > 0) {
-		// 	this.serviceGroomerService
-		// 		.getItemById(this.id)
-		// 		.subscribe((res: any) => {
-		// 			this.loadForm();
-		// 		});
-		// } else {
-		// 	this.loadForm();
-		// }
+		console.log(this.id);
+		if (this.id > 0) {
+			this.serviceGroomerService
+				.getItemById(this.id)
+				.subscribe((res: any) => {
+					console.log('res: ', res);
+					this.service = res;
+					this.loadForm();
+					this.findPetById(Number(res.petId));
+				});
+		} else {
+			console.log('cerrando');
+			this.modal.close();
+		}
 	}
 
 	ngAfterContentChecked() {
 		this.cdr.detectChanges();
-	}
-
-	get f() {
-		return this.formGroup.controls;
 	}
 
 	loadForm() {
@@ -90,14 +96,16 @@ export class ResumeServiceModalComponent
 		// this.subscriptions.push(sbCreate);
 	}
 
+	findPetById(petId: number) {
+		this.ownerService.getPetById(petId).subscribe((pet) => {
+			this.pet = pet;
+			console.log(pet);
+		});
+	}
+
 	ngOnDestroy(): void {
 		this.serviceGroomerService.ngOnDestroy();
 		this.subscriptions.forEach((sb) => sb.unsubscribe());
-	}
-
-	isControlValid(controlName: string): boolean {
-		const control = this.formGroup.controls[controlName];
-		return control.valid && (control.dirty || control.touched);
 	}
 
 	isControlInvalid(controlName: string): boolean {

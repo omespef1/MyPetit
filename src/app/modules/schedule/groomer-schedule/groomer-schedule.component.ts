@@ -9,6 +9,7 @@ import { AddServiceModalComponent } from './add-service-modal/add-service-modal.
 import * as _moment from 'moment';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { ResumeServiceModalComponent } from './resume-service-modal/resume-service-modal.component';
+import { AddPaymentComponent } from './add-payment/add-payment.component';
 const now = new Date();
 
 @Component({
@@ -112,30 +113,30 @@ export class GroomerScheduleComponent implements OnInit {
 
 	onAppointmentOpenForm(data: AppointmentServiceData) {
 		console.log('data.state: ', data);
-		// if (data.state === 'Started') {
-			const modalResume = this.modalService.open(
+		if (data.state === 'Started') {
+			const modalRef = this.modalService.open(
 				ResumeServiceModalComponent,
 				{
 					size: 'lg',
 				}
 			);
-			// modalResume.componentInstance.id = data.id;
-			modalResume.result.then(
+			modalRef.componentInstance.id = data.id;
+			modalRef.result.then(
 				() => {},
 				() => {}
 			);
-		// } else {
-		// 	const modalRef = this.modalService.open(AddServiceModalComponent, {
-		// 		size: 'lg',
-		// 	});
-		// 	modalRef.componentInstance.id = data.id ?? 0;
-		// 	modalRef.componentInstance.groomerId = data.groomerId;
-		// 	modalRef.componentInstance.isMobile = false;
-		// 	modalRef.componentInstance.startDate = data.startDate;
-		// 	modalRef.result.then(
-		// 		() => this.getAllScheduleData(),
-		// 		() => {}
-		// 	);
-		// }
+		} else {
+			const modalRef = this.modalService.open(AddServiceModalComponent, {
+				size: 'lg',
+			});
+			modalRef.componentInstance.id = data.id ?? 0;
+			modalRef.componentInstance.groomerId = data.groomerId;
+			modalRef.componentInstance.isMobile = false;
+			modalRef.componentInstance.startDate = data.startDate;
+			modalRef.result.then(
+				() => this.getAllScheduleData(),
+				() => {}
+			);
+		}
 	}
 }
