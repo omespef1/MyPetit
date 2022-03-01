@@ -82,6 +82,7 @@ export const locale = {
 			SUCCESS_EXCLAMATION: '¡Correcto!',
 			INVALID_RANGE: 'Rango no válido',
 			START: 'Iniciar',
+			TOTAL: 'Total'
 		},
 		USER: {
 			USERNAME: 'Nombre de usuario',
