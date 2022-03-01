@@ -14,7 +14,14 @@
 		<ng-container *ngIf="service && !(isLoading$ | async)">
 			<div class="row">
 				<div class="col-lg-7"></div>
-				<div class="col-lg-5" style="border-left: 1px solid rgba(0, 0, 0, 0.1);">
+				<div
+					class="col-lg-5"
+					style="
+						border-left: 1px solid rgba(0, 0, 0, 0.1);
+						border-left: 1px solid rgba(0, 0, 0, 0.1);
+						padding-left: 0px;
+					"
+				>
 					<div class="row pl-2" *ngIf="pet">
 						<div class="col-lg-12">
 							<div class="d-flex align-items-center mt-5">
