@@ -89,14 +89,21 @@ export class ResumeServiceModalComponent
 	}
 
 	download(fileId: number) {
-		// const subs = this.serviceGroomerService
-		// 	.downloadFile(this.id)
-		// 	.subscribe();
-		// this.subscriptions.push(subs);
 		window.open(
 			`${environment.apiUrl}/serviceGroomer/downloadFile/${fileId}`,
 			'_blank'
 		);
+	}
+
+	end() {
+		this.swal.question('SCHEDULE.END_QUESTION').then((res) => {
+			if (res.isConfirmed) {
+				this.serviceGroomerService.end(this.id).subscribe(() => {
+					this.swal.success('SCHEDULE.SERVICE_ENDED');
+					this.modal.close();
+				});
+			}
+		});
 	}
 
 	save() {

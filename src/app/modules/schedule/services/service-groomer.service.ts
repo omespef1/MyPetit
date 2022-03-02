@@ -170,4 +170,17 @@ export class ServiceGroomerService
 			finalize(() => this._isLoading$.next(false))
 		);
 	}
+
+	end(id: number) {
+		this._isLoading$.next(true);
+		this._errorMessage.next('');
+		const url = `${this.API_URL}/end/${id}`;
+		return this.http.put(url, {}).pipe(
+			catchError((err) => {
+				this._errorMessage.next(ErrorUtil.getMessage(err));
+				throw err;
+			}),
+			finalize(() => this._isLoading$.next(false))
+		);
+	}
 }

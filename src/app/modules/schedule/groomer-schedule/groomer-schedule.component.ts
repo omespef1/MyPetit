@@ -113,7 +113,7 @@ export class GroomerScheduleComponent implements OnInit {
 
 	onAppointmentOpenForm(data: AppointmentServiceData) {
 		console.log('data.state: ', data);
-		if (data.state === 'Started') {
+		if (data.state === 'Started' || data.state === 'Completed') {
 			const modalRef = this.modalService.open(
 				ResumeServiceModalComponent,
 				{
@@ -122,7 +122,7 @@ export class GroomerScheduleComponent implements OnInit {
 			);
 			modalRef.componentInstance.id = data.id;
 			modalRef.result.then(
-				() => {},
+				() => this.getAllScheduleData(),
 				() => {}
 			);
 		} else {

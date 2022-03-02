@@ -82,7 +82,7 @@ export const locale = {
 			SUCCESS_EXCLAMATION: '¡Correcto!',
 			INVALID_RANGE: 'Rango no válido',
 			START: 'Iniciar',
-			TOTAL: 'Total'
+			TOTAL: 'Total',
 		},
 		USER: {
 			USERNAME: 'Nombre de usuario',
@@ -194,7 +194,10 @@ export const locale = {
 			START_QUESTION: '¿Está seguro que desea iniciar el servicio?',
 			SERVICE_STARTED: 'El servicio ha sido iniciado correctamente',
 			OBSERVATIONS: 'Observaciones',
-			UPLOADED_FILES: 'Archivos subidos'
+			UPLOADED_FILES: 'Archivos subidos',
+			END: 'Finalizar',
+			END_QUESTION: '¿Está seguro que desea finalizar el servicio?',
+			SERVICE_ENDED: 'El servicio ha finalizado correctamente',
 		},
 		MENU: {
 			NEW: 'nuevo',

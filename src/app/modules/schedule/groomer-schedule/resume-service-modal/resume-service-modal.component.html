@@ -15,7 +15,7 @@
 			<div class="row">
 				<div class="col-lg-7">
 					<div class="container">
-						<div class="row">
+						<div class="row" *ngIf="service.state === 'Started'">
 							<div class="col-12">
 								<form
 									action="#"
@@ -68,7 +68,7 @@
 								service.serviceFiles.length > 0
 							"
 						>
-							<hr />
+							<hr *ngIf="service.state === 'Started'" />
 							<div class="row">
 								<div class="col-12">
 									<div class="table-responsive pl-3 pr-3">
@@ -248,12 +248,21 @@
 				{{ 'COMMON.CANCEL' | translate }}
 			</button>
 			<button
+				*ngIf="service.state === 'Started'"
 				type="submit"
 				class="btn btn-primary btn-elevate"
 				(click)="save()"
 				[disabled]="formGroup.invalid || (isLoading$ | async)"
 			>
 				{{ 'COMMON.SAVE' | translate }}
+			</button>
+			<button
+				*ngIf="service.state === 'Started'"
+				type="button"
+				class="btn btn-info btn-elevate mr-2"
+				(click)="end()"
+			>
+				{{ 'SCHEDULE.END' | translate }}
 			</button>
 		</ng-container>
 	</div>
