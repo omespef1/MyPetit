@@ -32,7 +32,7 @@ export class GroomerScheduleComponent implements OnInit {
 		private readonly swal: SwalService,
 		private readonly modalService: NgbModal
 	) {
-		this.isLoading$ = groomerService.isLoading$;
+		this.isLoading$ = serviceGroomerService.isLoading$;
 	}
 
 	ngOnInit(): void {

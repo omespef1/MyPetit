@@ -193,7 +193,8 @@ export const locale = {
 		SCHEDULE: {
 			START_QUESTION: '¿Está seguro que desea iniciar el servicio?',
 			SERVICE_STARTED: 'El servicio ha sido iniciado correctamente',
-			OBSERVATIONS: 'Observaciones'
+			OBSERVATIONS: 'Observaciones',
+			UPLOADED_FILES: 'Archivos subidos'
 		},
 		MENU: {
 			NEW: 'nuevo',

@@ -6,10 +6,15 @@ import {
 	OnDestroy,
 	OnInit,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+	FormBuilder,
+	FormControl,
+	FormGroup,
+	Validators,
+} from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { ServiceGroomerService } from '../../services/service-groomer.service';
 import * as _moment from 'moment';
@@ -75,7 +80,10 @@ export class ResumeServiceModalComponent
 
 	loadForm() {
 		this.formGroup = this.fb.group({
-			observations: ['', Validators.required],
+			observations: [this.service.observations, Validators.required],
+			files: new FormControl(null),
+			// files: new FormControl(null, FileUploadValidators.fileSize(80000)),
+			// files: new FormControl(null, FileUploadValidators.filesLimit(2)),
 		});
 	}
 
@@ -86,18 +94,27 @@ export class ResumeServiceModalComponent
 		}
 
 		const formValues = this.formGroup.value;
+		console.log('formValues: ', formValues);
+		const formData = new FormData();
+		formData.append('observations', formValues.observations);
 
-		// const sbCreate = this.serviceGroomerService
-		// 	.createService(this.service)
-		// 	.pipe(
-		// 		tap(() => {
-		// 			this.swal.success('COMMON.RESOURCE_CREATED');
-		// 		})
-		// 	)
-		// 	.subscribe((res) => {
-		// 		this.modal.close();
-		// 	});
-		// this.subscriptions.push(sbCreate);
+		if (formValues.files) {
+			(<File[]>formValues.files).forEach((fileToUpload) => {
+				formData.append('file', fileToUpload, fileToUpload.name);
+			});
+		}
+
+		const sbCreate = this.serviceGroomerService
+			.saveResume(this.id, formData)
+			.pipe(
+				tap(() => {
+					this.swal.success('COMMON.RESOURCE_CREATED');
+				})
+			)
+			.subscribe((res) => {
+				this.modal.close();
+			});
+		this.subscriptions.push(sbCreate);
 	}
 
 	findPetById(petId: number) {

@@ -56,9 +56,71 @@
 									</div>
 									<hr />
 									<file-upload
-										[control]="fileUploadControl"
+										accept="image/*"
+										formControlName="files"
 									></file-upload>
 								</form>
+							</div>
+						</div>
+						<hr />
+						<div class="row">
+							<div class="col-12">
+								<div class="table-responsive pl-3 pr-3">
+									<table
+										class="table table-head-custom table-sm table-vertical-center overflow-hidden"
+									>
+										<thead>
+											<tr>
+												<th scope="col">
+													{{
+														'SCHEDULE.UPLOADED_FILES'
+															| translate
+													}}
+												</th>
+												<th
+													scope="col"
+													class="text-right mr-5"
+												></th>
+											</tr>
+										</thead>
+										<tbody>
+											<ng-container
+												*ngFor="
+													let item of service.serviceFiles
+												"
+											>
+												<tr>
+													<td>
+														{{ item.fileName }}
+													</td>
+													<td class="text-right pr-5">
+														<a
+															title="Download"
+															class="btn btn-icon btn-light btn-hover-danger btn-sm mx-3"
+														>
+															<span
+																[inlineSVG]="
+																	'./assets/media/svg/icons/Files/Download.svg'
+																"
+																cacheSVG="true"
+																class="svg-icon svg-icon-md svg-icon-danger"
+															>
+															</span>
+														</a>
+
+														<!-- <button
+															class="btn btn-sm btn-icon btn-primary"
+														>
+															<i
+																class="fa fa-download"
+															></i>
+														</button> -->
+													</td>
+												</tr>
+											</ng-container>
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>

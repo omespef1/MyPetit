@@ -144,4 +144,17 @@ export class ServiceGroomerService
 			finalize(() => this._isLoading$.next(false))
 		);
 	}
+
+	saveResume(id: number, formData: FormData) {
+		this._isLoading$.next(true);
+		this._errorMessage.next('');
+		const url = `${this.API_URL}/resume/${id}`;
+		return this.http.post(url, formData).pipe(
+			catchError((err) => {
+				this._errorMessage.next(ErrorUtil.getMessage(err));
+				throw err;
+			}),
+			finalize(() => this._isLoading$.next(false))
+		);
+	}
 }
