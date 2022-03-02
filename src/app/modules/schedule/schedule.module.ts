@@ -22,6 +22,7 @@ import { MobileGroomerScheduleComponent } from './mobile-groomer-schedule/mobile
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { AddPaymentComponent } from './groomer-schedule/add-payment/add-payment.component';
 import { ResumeServiceModalComponent } from './groomer-schedule/resume-service-modal/resume-service-modal.component';
+import { FileUploadModule } from '@iplab/ngx-file-upload';
 
 @NgModule({
 	declarations: [
@@ -49,6 +50,7 @@ import { ResumeServiceModalComponent } from './groomer-schedule/resume-service-m
 		DxSchedulerModule,
 		DxTemplateModule,
 		DxCalendarModule,
+		FileUploadModule,
 		NgxPermissionsModule.forChild(),
 	],
 })

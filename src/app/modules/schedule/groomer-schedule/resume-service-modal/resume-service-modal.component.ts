@@ -15,6 +15,10 @@ import { ServiceGroomerService } from '../../services/service-groomer.service';
 import * as _moment from 'moment';
 import { OwnerService } from 'src/app/modules/owner/services/owner.service';
 import { PetModel } from 'src/app/_metronic/core/models/pet.model';
+import {
+	FileUploadControl,
+	FileUploadValidators,
+} from '@iplab/ngx-file-upload';
 
 @Component({
 	selector: 'app-resume-service-modal',
@@ -49,10 +53,9 @@ export class ResumeServiceModalComponent
 	}
 
 	ngOnInit(): void {
-		console.log(this.id);
 		if (this.id > 0) {
 			this.serviceGroomerService
-				.getItemById(this.id)
+				.findResumeService(this.id)
 				.subscribe((res: any) => {
 					console.log('res: ', res);
 					this.service = res;
@@ -60,10 +63,11 @@ export class ResumeServiceModalComponent
 					this.findPetById(Number(res.petId));
 				});
 		} else {
-			console.log('cerrando');
 			this.modal.close();
 		}
 	}
+
+	public fileUploadControl = new FileUploadControl(null);
 
 	ngAfterContentChecked() {
 		this.cdr.detectChanges();
@@ -71,7 +75,7 @@ export class ResumeServiceModalComponent
 
 	loadForm() {
 		this.formGroup = this.fb.group({
-			serviceId: [undefined, Validators.required],
+			observations: ['', Validators.required],
 		});
 	}
 

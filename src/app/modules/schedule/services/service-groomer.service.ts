@@ -131,4 +131,17 @@ export class ServiceGroomerService
 			finalize(() => this._isLoading$.next(false))
 		);
 	}
+
+	findResumeService(id: number) {
+		this._isLoading$.next(true);
+		this._errorMessage.next('');
+		const url = `${this.API_URL}/findResumeService/${id}`;
+		return this.http.get(url).pipe(
+			catchError((err) => {
+				this._errorMessage.next(ErrorUtil.getMessage(err));
+				throw err;
+			}),
+			finalize(() => this._isLoading$.next(false))
+		);
+	}
 }
