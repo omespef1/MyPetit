@@ -20,6 +20,7 @@ import { SearchLookupComponent } from './search-lookup/search-lookup.component';
 import { DisponibilityScheduleComponent } from './disponibility-schedule/disponibility-schedule.component';
 import { DxSchedulerModule, DxTemplateModule } from 'devextreme-angular';
 import { CalendarComponent } from './calendar/calendar.component';
+import { DownloadButtonComponent } from './download-button/download-button.component';
 
 @NgModule({
 	declarations: [
@@ -29,6 +30,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 		SearchLookupComponent,
 		DisponibilityScheduleComponent,
 		CalendarComponent,
+		DownloadButtonComponent,
 	],
 	imports: [
 		CommonModule,

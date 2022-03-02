@@ -24,6 +24,7 @@ import {
 	FileUploadControl,
 	FileUploadValidators,
 } from '@iplab/ngx-file-upload';
+import { environment } from 'src/environments/environment';
 
 @Component({
 	selector: 'app-resume-service-modal',
@@ -85,6 +86,17 @@ export class ResumeServiceModalComponent
 			// files: new FormControl(null, FileUploadValidators.fileSize(80000)),
 			// files: new FormControl(null, FileUploadValidators.filesLimit(2)),
 		});
+	}
+
+	download(fileId: number) {
+		// const subs = this.serviceGroomerService
+		// 	.downloadFile(this.id)
+		// 	.subscribe();
+		// this.subscriptions.push(subs);
+		window.open(
+			`${environment.apiUrl}/serviceGroomer/downloadFile/${fileId}`,
+			'_blank'
+		);
 	}
 
 	save() {

@@ -1,0 +1,20 @@
+<button
+	[disabled]="isLoading || disabled"
+	class="btn btn-light btn-hover-danger btn-sm"
+	[ngClass]="only_icon ? 'btn-icon' : ''"
+	(click)="generate()"
+>
+	<span
+		*ngIf="!isLoading"
+		[inlineSVG]="
+			icon && icon !== ''
+				? icon
+				: './assets/media/svg/icons/Files/Download.svg'
+		"
+		cacheSVG="true"
+		class="svg-icon svg-icon-md svg-icon-danger"
+	>
+	</span>
+	<i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i>
+	<span *ngIf="title && title !== ''">&nbsp;{{ title }}</span>
+</button>
