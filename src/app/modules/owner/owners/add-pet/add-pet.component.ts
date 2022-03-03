@@ -15,15 +15,17 @@ import {
 } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
-import { forkJoin, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { HairService } from 'src/app/modules/pet-management/services/hair.service';
 import { PetTypeService } from 'src/app/modules/pet-management/services/pet-type.service';
+import { TagService } from 'src/app/modules/pet-management/services/tag.service';
 import { BreedModel } from 'src/app/_metronic/core/models/breed.model';
 import { HairModel } from 'src/app/_metronic/core/models/hair.model';
 import { PetTypeModel } from 'src/app/_metronic/core/models/pet-type.model';
 import { PetVaccineModel } from 'src/app/_metronic/core/models/pet-vaccine.model';
 import { PetModel } from 'src/app/_metronic/core/models/pet.model';
+import { TagModel } from 'src/app/_metronic/core/models/tag.model';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { OwnerService } from '../../services/owner.service';
 
@@ -43,7 +45,7 @@ const EMPTY_PET: PetModel = {
 	breedName: '',
 	hairLengthName: '',
 	petTypeName: '',
-	ownerName: ''
+	ownerName: '',
 };
 
 interface TagData {
@@ -65,19 +67,35 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 	petTypes: PetTypeModel[] = [];
 	hairLengths: HairModel[] = [];
 	breeds: BreedModel[] = [];
-	// vaccines: PetVaccineModel[] = [];
-	private subscriptions: Subscription[] = [];
-
 	pettype_formatter = (x: PetTypeModel) => x.name;
 	hairlength_formatter = (x: HairModel) => x.name;
 	breed_formatter = (x: BreedModel) => x.name;
-
-	tags: TagData[] = [{ value: 'foo' }];
+	settings = {
+		placeholder: 'Start typing...',
+		enforceWhitelist: true,
+		maxTags: 10,
+		dropdown: {
+			// maxItems: 20,
+			classname: 'tags-look',
+			enabled: 0,
+			closeOnSelect: false,
+			highlightFirst: true,
+			// classname     : "color-blue",
+			// enabled       : 0,              // show the dropdown immediately on focus
+			// maxItems      : 5,
+			// position      : "text",         // place the dropdown near the typed text
+			// closeOnSelect : false,          // keep the dropdown open after selecting a suggestion
+			// highlightFirst: true
+		},
+	};
+	whitelist$ = new BehaviorSubject<TagData[]>([]);
+	private subscriptions: Subscription[] = [];
 
 	constructor(
 		private readonly ownerService: OwnerService,
 		private readonly petTypeService: PetTypeService,
 		private readonly hairLengthService: HairService,
+		private readonly tagService: TagService,
 		private readonly swalService: SwalService,
 		private fb: FormBuilder,
 		public modal: NgbActiveModal,
@@ -96,7 +114,21 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 			this.searchPet(),
 			this.searchPetTypes(),
 			this.searchHairLengths(),
+			this.searchTags(),
 		]);
+	}
+
+	searchTags(): any {
+		this.tagService.getAll().subscribe((tags: TagModel[]) => {
+			this.whitelist$.next(
+				tags.map((m) => {
+					return {
+						value: m.description,
+						key: m.id,
+					};
+				})
+			);
+		});
 	}
 
 	ngAfterContentChecked() {
@@ -188,9 +220,8 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 					return { value: m };
 				}),
 			],
-			// tags: [{ value: 'Reactive' }, { value: 'No Reactive' }],
 		});
-
+		console.log(this.pet);
 		this.formGroup.controls.pic.setValue(this.pet.pic);
 		this.formGroup.controls.petTypeId.valueChanges.subscribe(
 			(petTypeId) => {
@@ -198,9 +229,6 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 				this.searchVaccines(petTypeId);
 			}
 		);
-		this.formGroup.valueChanges.subscribe((value) => {
-			console.log('form value changed', value);
-		});
 	}
 
 	get vaccines() {
@@ -228,8 +256,9 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 
 		const formValues = this.formGroup.value;
 		this.pet = Object.assign(this.pet, formValues);
-		this.pet.tags = (<any[]>formValues.tags).map((m) => m.value);
+		this.pet.tags = (<any[]>formValues.tags).map((m) => m.key);
 
+		console.log('pet: ', this.pet);
 		if (this.petId > 0) {
 			this.edit();
 		} else {

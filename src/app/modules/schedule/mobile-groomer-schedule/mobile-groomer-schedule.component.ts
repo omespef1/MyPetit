@@ -8,6 +8,7 @@ import { ServiceGroomerService } from '../services/service-groomer.service';
 import * as _moment from 'moment';
 import { AddServiceModalComponent } from '../groomer-schedule/add-service-modal/add-service-modal.component';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
+import { ResumeServiceModalComponent } from '../groomer-schedule/resume-service-modal/resume-service-modal.component';
 const now = new Date();
 
 @Component({
@@ -28,11 +29,11 @@ export class MobileGroomerScheduleComponent implements OnInit {
 		private readonly swal: SwalService,
 		private readonly modalService: NgbModal
 	) {
-		this.isLoading$ = groomerService.isLoading$;
+		this.isLoading$ = serviceGroomerService.isLoading$;
 	}
 
 	ngOnInit(): void {
-		forkJoin([this.getAllGroomers(), this.getAllScheduleData()]);
+		this.refreshData();
 	}
 
 	getAllGroomers() {
@@ -66,6 +67,10 @@ export class MobileGroomerScheduleComponent implements OnInit {
 
 	onChangeDate(date: Date) {
 		this.currentValue = date;
+		this.refreshData();
+	}
+
+	refreshData() {
 		forkJoin([this.getAllGroomers(), this.getAllScheduleData()]);
 	}
 
@@ -106,16 +111,30 @@ export class MobileGroomerScheduleComponent implements OnInit {
 	}
 
 	onAppointmentOpenForm(data: AppointmentServiceData) {
-		const modalRef = this.modalService.open(AddServiceModalComponent, {
-			size: 'lg',
-		});
-		modalRef.componentInstance.id = data.id ?? 0;
-		modalRef.componentInstance.groomerId = data.groomerId;
-		modalRef.componentInstance.isMobile = true;
-		modalRef.componentInstance.startDate = data.startDate;
-		modalRef.result.then(
-			() => this.getAllScheduleData(),
-			() => {}
-		);
+		if (data.state === 'Started' || data.state === 'Completed') {
+			const modalRef = this.modalService.open(
+				ResumeServiceModalComponent,
+				{
+					size: 'lg',
+				}
+			);
+			modalRef.componentInstance.id = data.id;
+			modalRef.result.then(
+				() => this.getAllScheduleData(),
+				() => {}
+			);
+		} else {
+			const modalRef = this.modalService.open(AddServiceModalComponent, {
+				size: 'lg',
+			});
+			modalRef.componentInstance.id = data.id ?? 0;
+			modalRef.componentInstance.groomerId = data.groomerId;
+			modalRef.componentInstance.isMobile = true;
+			modalRef.componentInstance.startDate = data.startDate;
+			modalRef.result.then(
+				() => this.getAllScheduleData(),
+				() => {}
+			);
+		}
 	}
 }

@@ -174,6 +174,16 @@ export const DynamicAsideMenuConfig = {
 			only: ['SA'],
 		},
 		{
+			title: 'Tags',
+			translate: 'MENU.TAGS',
+			root: true,
+			bullet: 'dot',
+			icon: 'flaticon2-user-outline-symbol',
+			svg: './assets/media/svg/icons/Code/Tag3.svg',
+			page: '/pet-management/tags',
+			only: ['SA'],
+		},
+		{
 			title: 'Owners',
 			root: true,
 			icon: 'flaticon2-architecture-and-city',

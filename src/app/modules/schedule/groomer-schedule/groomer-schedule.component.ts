@@ -22,7 +22,6 @@ export class GroomerScheduleComponent implements OnInit {
 	date: { year: number; month: number };
 	currentValue: Date = new Date();
 	dataSource: AppointmentServiceData[];
-
 	groomers: { id: number; text: string; disponibilities: any[] }[] = [];
 
 	constructor(
@@ -112,7 +111,6 @@ export class GroomerScheduleComponent implements OnInit {
 	}
 
 	onAppointmentOpenForm(data: AppointmentServiceData) {
-		console.log('data.state: ', data);
 		if (data.state === 'Started' || data.state === 'Completed') {
 			const modalRef = this.modalService.open(
 				ResumeServiceModalComponent,

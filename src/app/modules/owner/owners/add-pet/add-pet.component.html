@@ -89,33 +89,6 @@
 									placeholder="PET_TYPE.NAME"
 								>
 								</search-lookup>
-								<!-- <label
-									><b>{{
-										'PET_TYPE.NAME' | translate
-									}}</b></label
-								>
-								<input
-									type="text"
-									class="form-control form-control-lg form-control-solid"
-									autocomplete="off"
-									placeholder="{{
-										'PET_TYPE.NAME' | translate
-									}}"
-									name="petTypeId"
-									[class.is-invalid]="
-										isControlInvalid('petTypeId')
-									"
-									formControlName="petTypeId"
-								/>
-								<div
-									class="invalid-feedback"
-									*ngIf="
-										controlHasError('required', 'petTypeId')
-									"
-								>
-									<b>{{ 'PET_TYPE.NAME' | translate }}</b>
-									{{ 'COMMON.REQUIRED' | translate }}
-								</div> -->
 							</div>
 						</div>
 					</div>
@@ -134,25 +107,6 @@
 							placeholder="PET_TYPE.BREED"
 						>
 						</search-lookup>
-						<!-- <label
-							><b>{{ 'PET_TYPE.BREED' | translate }}</b></label
-						>
-						<input
-							type="text"
-							class="form-control form-control-lg form-control-solid"
-							autocomplete="off"
-							placeholder="{{ 'PET_TYPE.BREED' | translate }}"
-							name="breedId"
-							[class.is-invalid]="isControlInvalid('breedId')"
-							formControlName="breedId"
-						/>
-						<div
-							class="invalid-feedback"
-							*ngIf="controlHasError('required', 'breedId')"
-						>
-							<b>{{ 'PET_TYPE.BREED' | translate }}</b>
-							{{ 'COMMON.REQUIRED' | translate }}
-						</div> -->
 					</div>
 					<div class="col-lg-6">
 						<search-lookup
@@ -167,27 +121,6 @@
 							placeholder="PET.HAIR_LENGTH"
 						>
 						</search-lookup>
-						<!-- <label
-							><b>{{ 'PET.HAIR_LENGTH' | translate }}</b></label
-						>
-						<input
-							type="text"
-							class="form-control form-control-lg form-control-solid"
-							autocomplete="off"
-							placeholder="{{ 'PET.HAIR_LENGTH' | translate }}"
-							name="hairLengthId"
-							[class.is-invalid]="
-								isControlInvalid('hairLengthId')
-							"
-							formControlName="hairLengthId"
-						/>
-						<div
-							class="invalid-feedback"
-							*ngIf="controlHasError('required', 'hairLengthId')"
-						>
-							<b>{{ 'PET.HAIR_LENGTH' | translate }}</b>
-							{{ 'COMMON.REQUIRED' | translate }}
-						</div> -->
 					</div>
 				</div>
 				<div class="form-group row">
@@ -250,25 +183,6 @@
 								{{ 'COMMON.REQUIRED' | translate }}
 							</div>
 						</div>
-						<!-- <label
-							><b>{{ 'PET.WEIGHT' | translate }}</b></label
-						>
-						<input
-							type="number"
-							class="form-control form-control-lg form-control-solid"
-							autocomplete="off"
-							placeholder="{{ 'PET.WEIGHT' | translate }}"
-							name="weight"
-							[class.is-invalid]="isControlInvalid('weight')"
-							formControlName="weight"
-						/>
-						<div
-							class="invalid-feedback"
-							*ngIf="controlHasError('required', 'weight')"
-						>
-							<b>{{ 'PET.WEIGHT' | translate }}</b>
-							{{ 'COMMON.REQUIRED' | translate }}
-						</div> -->
 					</div>
 				</div>
 				<div class="form-group row">
@@ -354,7 +268,11 @@
 							><b>{{ 'PET.TAGS' | translate }}</b></label
 						>
 						<br />
-						<tagify formControlName="tags"></tagify>
+						<tagify
+							formControlName="tags"
+							[settings]="settings"
+							[whitelist]="whitelist$"
+						></tagify>
 					</div>
 				</div>
 			</form>
