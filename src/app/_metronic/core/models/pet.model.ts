@@ -10,7 +10,7 @@ export class PetModel {
 	public birthDate: Date;
 	public pic: string;
 	public observations: string;
-	public tags: string[];
+	public tags: { tagId: number; tagDescription: string }[];
 
 	public petTypeName: string;
 	public breedName: string;

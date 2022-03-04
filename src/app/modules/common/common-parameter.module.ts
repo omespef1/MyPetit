@@ -19,6 +19,7 @@ import { DxSchedulerModule, DxTemplateModule } from 'devextreme-angular';
 import { AddGroomerDisponibilitiesScheduleComponent } from './groomer/add-groomer-disponibilities-schedule/add-groomer-disponibilities-schedule.component';
 import { AddMobileDisponibilityComponent } from './groomer/add-mobile-disponibility/add-mobile-disponibility.component';
 import { SettingComponent } from './setting/setting.component';
+import { TagifyModule, TagifyService } from 'ngx-tagify';
 
 @NgModule({
 	declarations: [
@@ -42,10 +43,12 @@ import { SettingComponent } from './setting/setting.component';
 		InlineSVGModule,
 		NgbModalModule,
 		TranslateModule.forChild(),
+		TagifyModule.forRoot(),
 		ComponentsModule,
 		NgbModule,
 		DxSchedulerModule,
-		DxTemplateModule
+		DxTemplateModule,
 	],
+	providers: [TagifyService],
 })
 export class CommonParameterModule {}

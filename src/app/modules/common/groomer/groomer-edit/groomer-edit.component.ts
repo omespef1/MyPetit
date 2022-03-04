@@ -9,9 +9,12 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { forkJoin, Observable, of, Subscription } from 'rxjs';
+// import { TagData } from 'ngx-tagify';
+import { BehaviorSubject, forkJoin, Observable, of, Subscription } from 'rxjs';
 import { catchError, filter, switchMap, tap } from 'rxjs/operators';
+import { TagService } from 'src/app/modules/pet-management/services/tag.service';
 import { GroomerModel } from 'src/app/_metronic/core/models/groomer.model';
+import { TagModel } from 'src/app/_metronic/core/models/tag.model';
 import { ThirdPartyModel } from 'src/app/_metronic/core/models/third-party.model';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { GroomerService } from '../../services/groomer.service';
@@ -30,6 +33,11 @@ const EMPTY_GROOMER: GroomerModel = {
 	disponibilities: [],
 	mobileDisponibilities: [],
 };
+
+interface TagData {
+	value: string;
+	[key: string]: any;
+}
 
 @Component({
 	selector: 'app-groomer-edit',
@@ -52,21 +60,34 @@ export class GroomerEditComponent
 	};
 	activeTabId = this.tabs.BASIC_TAB; // 0 => Basic info | 1 => Roles
 	thirdParties: ThirdPartyModel[] = [];
+	settings = {
+		placeholder: 'Select tag...',
+		enforceWhitelist: false,
+		maxTags: 10,
+		dropdown: {
+			classname: 'tags-look',
+			enabled: 0,
+			closeOnSelect: false,
+			highlightFirst: true,
+		},
+	};
+	whitelist$ = new BehaviorSubject<TagData[]>([]);
 	private subscriptions: Subscription[] = [];
 
 	thirdparty_formatter = (x: any) =>
 		`${x.documentNumber} - ${x.names} ${x.lastNames}`;
 
 	constructor(
-		private fb: FormBuilder,
-		private groomerService: GroomerService,
+		private readonly router: Router,
+		private readonly fb: FormBuilder,
+		private readonly route: ActivatedRoute,
+		private readonly tagService: TagService,
+		private readonly cdr: ChangeDetectorRef,
 		private readonly modalService: NgbModal,
 		private readonly swalService: SwalService,
+		private readonly groomerService: GroomerService,
 		private readonly thirdPartyService: ThirdPartyService,
-		private readonly refreshGroomerDisponibilitiesService: RefreshGroomerDisponibilitiesService,
-		private router: Router,
-		private route: ActivatedRoute,
-		private readonly cdr: ChangeDetectorRef
+		private readonly refreshGroomerDisponibilitiesService: RefreshGroomerDisponibilitiesService
 	) {}
 
 	ngAfterViewChecked(): void {
@@ -79,7 +100,7 @@ export class GroomerEditComponent
 
 	ngOnInit(): void {
 		this.isLoading$ = this.groomerService.isLoading$;
-		forkJoin([this.findThirdParties(), this.loadUser()]);
+		forkJoin([this.findThirdParties(), this.loadUser(), this.searchTags()]);
 		this.subscriptions.push(
 			this.groomerService.errorMessage$
 				.pipe(filter((r) => r !== ''))
@@ -128,6 +149,19 @@ export class GroomerEditComponent
 		this.subscriptions.push(sb);
 	}
 
+	searchTags(): any {
+		this.tagService.getAll().subscribe((tags: TagModel[]) => {
+			this.whitelist$.next(
+				tags.map((m) => {
+					return {
+						value: m.description,
+						key: m.id,
+					};
+				})
+			);
+		});
+	}
+
 	loadForm() {
 		if (!this.groomer) {
 			return;
@@ -146,6 +180,7 @@ export class GroomerEditComponent
 					Validators.maxLength(250),
 				]),
 			],
+			tags: [],
 		});
 	}
 

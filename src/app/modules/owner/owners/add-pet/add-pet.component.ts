@@ -6,13 +6,7 @@ import {
 	OnDestroy,
 	OnInit,
 } from '@angular/core';
-import {
-	FormArray,
-	FormBuilder,
-	FormControl,
-	FormGroup,
-	Validators,
-} from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { BehaviorSubject, forkJoin, Observable, Subscription } from 'rxjs';
@@ -71,8 +65,8 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 	hairlength_formatter = (x: HairModel) => x.name;
 	breed_formatter = (x: BreedModel) => x.name;
 	settings = {
-		placeholder: 'Start typing...',
-		enforceWhitelist: true,
+		placeholder: 'Select tag...',
+		enforceWhitelist: false,
 		maxTags: 10,
 		dropdown: {
 			// maxItems: 20,
@@ -216,12 +210,12 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 			pic: [this.pet.pic],
 			vaccines: this.fb.array([]),
 			tags: [
-				this.pet.tags.map((m) => {
-					return { value: m };
+				this.pet.tags.map((m: any) => {
+					return { value: m.tagDescription, key: m.tagId };
 				}),
 			],
 		});
-		console.log(this.pet);
+
 		this.formGroup.controls.pic.setValue(this.pet.pic);
 		this.formGroup.controls.petTypeId.valueChanges.subscribe(
 			(petTypeId) => {
@@ -256,9 +250,15 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 
 		const formValues = this.formGroup.value;
 		this.pet = Object.assign(this.pet, formValues);
-		this.pet.tags = (<any[]>formValues.tags).map((m) => m.key);
+		this.pet.tags = (<any[]>formValues.tags)
+			.filter((m) => m.key && m.key !== null)
+			.map((m) => {
+				return {
+					tagId: m.key,
+					tagDescription: m.value,
+				};
+			});
 
-		console.log('pet: ', this.pet);
 		if (this.petId > 0) {
 			this.edit();
 		} else {
@@ -309,7 +309,7 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 					this.swalService.success('COMMON.RESOURCE_UPDATED');
 				})
 			)
-			.subscribe((res) => {
+			.subscribe(() => {
 				this.modal.close();
 			});
 		this.subscriptions.push(sbCreate);
