@@ -103,55 +103,86 @@
 												</svg> </span
 											>{{ pet.ownerName | uppercase }}</a
 										>
-
-										<a
-											href="javascript:void(0)"
-											class="text-muted text-hover-primary font-weight-bold"
-										>
-											<span
-												class="svg-icon svg-icon-md svg-icon-gray-500 mr-1"
+										<ng-container *ngIf="groomerId > 0">
+											<a
+												href="javascript:void(0)"
+												class="text-muted text-hover-primary font-weight-bold"
 											>
-												<svg
-													xmlns="http://www.w3.org/2000/svg"
-													xmlns:xlink="http://www.w3.org/1999/xlink"
-													width="24px"
-													height="24px"
-													viewBox="0 0 24 24"
-													version="1.1"
+												<span
+													class="svg-icon svg-icon-md svg-icon-gray-500 mr-1"
 												>
-													<g
-														stroke="none"
-														stroke-width="1"
-														fill="none"
-														fill-rule="evenodd"
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														xmlns:xlink="http://www.w3.org/1999/xlink"
+														width="24px"
+														height="24px"
+														viewBox="0 0 24 24"
+														version="1.1"
 													>
-														<rect
-															x="0"
-															y="0"
-															width="24"
-															height="24"
-														/>
-														<path
-															d="M9.82829464,16.6565893 C7.02541569,15.7427556 5,13.1079084 5,10 C5,6.13400675 8.13400675,3 12,3 C15.8659932,3 19,6.13400675 19,10 C19,13.1079084 16.9745843,15.7427556 14.1717054,16.6565893 L12,21 L9.82829464,16.6565893 Z M12,12 C13.1045695,12 14,11.1045695 14,10 C14,8.8954305 13.1045695,8 12,8 C10.8954305,8 10,8.8954305 10,10 C10,11.1045695 10.8954305,12 12,12 Z"
-															fill="#000000"
-														/>
-													</g>
-												</svg> </span
-											>{{
-												startDate
-													| date
-														: 'MMM d, y, h:mm:ss a'
-											}}
-											-
-											<ng-container *ngIf="endDate">
-												{{
-													endDate
+														<g
+															stroke="none"
+															stroke-width="1"
+															fill="none"
+															fill-rule="evenodd"
+														>
+															<rect
+																x="0"
+																y="0"
+																width="24"
+																height="24"
+															/>
+															<path
+																d="M9.82829464,16.6565893 C7.02541569,15.7427556 5,13.1079084 5,10 C5,6.13400675 8.13400675,3 12,3 C15.8659932,3 19,6.13400675 19,10 C19,13.1079084 16.9745843,15.7427556 14.1717054,16.6565893 L12,21 L9.82829464,16.6565893 Z M12,12 C13.1045695,12 14,11.1045695 14,10 C14,8.8954305 13.1045695,8 12,8 C10.8954305,8 10,8.8954305 10,10 C10,11.1045695 10.8954305,12 12,12 Z"
+																fill="#000000"
+															/>
+														</g>
+													</svg> </span
+												>{{
+													startDate
 														| date
 															: 'MMM d, y, h:mm:ss a'
 												}}
-											</ng-container>
-										</a>
+												-
+												<ng-container *ngIf="endDate">
+													{{
+														endDate
+															| date
+																: 'MMM d, y, h:mm:ss a'
+													}}
+												</ng-container>
+											</a>
+										</ng-container>
 									</div>
+									<ng-container *ngIf="groomerId === -1">
+										<div class="row">
+											<div class="col-lg-12">
+												<search-lookup
+													propertyText="name"
+													propertyValue="id"
+													label_bold="true"
+													class="form-control-sm"
+													[data]="[
+														{
+															id: 1,
+															name: 'Diego Roldan'
+														}
+													]"
+													[formControl]="
+														formGroup.controls[
+															'groomerId'
+														]
+													"
+													[formatter]="name_formatter"
+													name="groomerId"
+													[resultTemplate]="
+														name_template
+													"
+													placeholder="GROOMER.NAME"
+												>
+												</search-lookup>
+											</div>
+										</div>
+									</ng-container>
 								</div>
 								<!-- <div class="my-lg-0 my-1">
 									<a
@@ -430,6 +461,6 @@
 		</ng-container>
 	</div>
 </div>
-<ng-template #name_formatter let-r="result">
+<ng-template #name_template let-r="result">
 	{{ r.name }}
 </ng-template>

@@ -51,7 +51,7 @@ export class AddServiceModalComponent
 	service: GroomerServiceModel;
 	petServices: PetServiceModel[] = [];
 	showServices = false;
-	name_template = (x: PetServiceModel) => x.name;
+	name_formatter = (x: any) => x.name;
 
 	private subscriptions: Subscription[] = [];
 

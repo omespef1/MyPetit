@@ -12,4 +12,5 @@ export class GroomerModel {
 
 	public disponibilities: GroomerDisponibilityModel[];
 	public mobileDisponibilities: GroomerDisponibilityModel[];
+	public tags: { tagId: number; tagDescription: string }[];
 }

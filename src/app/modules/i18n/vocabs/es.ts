@@ -198,6 +198,10 @@ export const locale = {
 			END: 'Finalizar',
 			END_QUESTION: '¿Está seguro que desea finalizar el servicio?',
 			SERVICE_ENDED: 'El servicio ha finalizado correctamente',
+			CREATED: 'CREADO',
+			PAID_OUT: 'PAGADO',
+			STARTED: 'INICIADO',
+			COMPLETED: 'COMPLETADO',
 		},
 		MENU: {
 			NEW: 'nuevo',

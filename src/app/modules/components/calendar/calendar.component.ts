@@ -67,7 +67,7 @@ export class CalendarComponent implements OnInit {
 		{
 			id: 'PaidOut',
 			text: 'Paid Out',
-			color: '#009688',
+			color: '#9C27B0',
 		},
 		{
 			id: 'Canceled',
@@ -77,12 +77,12 @@ export class CalendarComponent implements OnInit {
 		{
 			id: 'Started',
 			text: 'Started',
-			color: '#56ca85',
+			color: '#8BC34A',
 		},
 		{
 			id: 'Completed',
 			text: 'Completed',
-			color: '#9F9F9F',
+			color: '#455A64',
 		},
 	];
 	currentDate: Date = new Date();

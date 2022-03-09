@@ -32,6 +32,7 @@ const EMPTY_GROOMER: GroomerModel = {
 	isActive: true,
 	disponibilities: [],
 	mobileDisponibilities: [],
+	tags: [],
 };
 
 interface TagData {
@@ -180,7 +181,11 @@ export class GroomerEditComponent
 					Validators.maxLength(250),
 				]),
 			],
-			tags: [],
+			tags: [
+				this.groomer.tags.map((m: any) => {
+					return { value: m.tagDescription, key: m.tagId };
+				}),
+			],
 		});
 	}
 
@@ -201,6 +206,15 @@ export class GroomerEditComponent
 
 		const formValues = this.formGroup.value;
 		this.groomer = Object.assign(this.groomer, formValues);
+		this.groomer.tags = (<any[]>formValues.tags)
+			.filter((m) => m.key && m.key !== null)
+			.map((m) => {
+				return {
+					tagId: m.key,
+					tagDescription: m.value,
+				};
+			});
+
 		if (this.id) {
 			this.edit();
 		} else {

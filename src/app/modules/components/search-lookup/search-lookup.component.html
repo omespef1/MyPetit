@@ -9,7 +9,7 @@
 	[id]="name"
 	autocomplete="off"
 	type="text"
-	class="form-control form-control-lg form-control-solid"
+	class="form-control form-control-solid {{ class }}"
 	[ngbTypeahead]="search"
 	[formControl]="formControl"
 	(focus)="focus$.next($event.target.value)"

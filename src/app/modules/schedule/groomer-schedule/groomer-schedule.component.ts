@@ -110,6 +110,20 @@ export class GroomerScheduleComponent implements OnInit {
 			});
 	}
 
+	add() {
+		const modalRef = this.modalService.open(AddServiceModalComponent, {
+			size: 'lg',
+		});
+		modalRef.componentInstance.id = -1;
+		modalRef.componentInstance.groomerId = -1;
+		modalRef.componentInstance.isMobile = false;
+		modalRef.componentInstance.startDate = null;
+		modalRef.result.then(
+			() => this.getAllScheduleData(),
+			() => {}
+		);
+	}
+
 	onAppointmentOpenForm(data: AppointmentServiceData) {
 		if (data.state === 'Started' || data.state === 'Completed') {
 			const modalRef = this.modalService.open(

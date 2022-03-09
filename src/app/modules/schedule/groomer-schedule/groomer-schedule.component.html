@@ -3,36 +3,19 @@
 </ng-container>
 <div class="container-fluid">
 	<div class="d-flex flex-column flex-md-row">
-		<!-- <div class="flex-md-row-auto w-md-195px w-xl-195px">
-			<div class="card card-custom gutter-b">
-				<div class="card-body text-center">
-					<dx-calendar
-						#calendar
-						id="calendar-container"
-						[min]="minDateValue"
-						[max]="maxDateValue"
-						[disabledDates]="disabledDates"
-						[firstDayOfWeek]="firstDay"
-						[disabled]="false"
-						[(value)]="currentValue"
-						[zoomLevel]="zoomLevels[0]"
-						[cellTemplate]="cellTemplate"
-					>
-						<span
-							*dxTemplate="let cell of 'custom'"
-							[ngClass]="getCellCssClass(cell.date)"
-						>
-							{{ cell.text }}
-						</span>
-					</dx-calendar>
-				</div>
-			</div>
-		</div> -->
 		<div class="flex-md-row-fluid ml-lg-12">
 			<div class="row">
 				<div class="col-xxl-12">
 					<div class="card card-custom gutter-b">
 						<div class="card-body">
+							<button class="btn btn-sm btn-primary" (click)="add()">
+								<i class="fa fa-plus"></i> Add
+							</button>
+							<span class="badge bg-created text-white">{{ 'SCHEDULE.CREATED' | translate }}</span>
+							<span class="badge bg-paidout text-white">{{ 'SCHEDULE.PAID_OUT' | translate }}</span>
+							<!-- <span class="badge bg-canceled text-white">Canceled</span> -->
+							<span class="badge bg-started text-white">{{ 'SCHEDULE.STARTED' | translate }}</span>
+							<span class="badge bg-completed text-white">{{ 'SCHEDULE.COMPLETED' | translate }}</span>
 							<app-calendar
 								[groomers]="groomers"
 								[dataSource]="dataSource"
@@ -45,12 +28,9 @@
 								"
 							></app-calendar>
 						</div>
-						<!--end::Body-->
 					</div>
 				</div>
 			</div>
 		</div>
-		<!--end::Content-->
 	</div>
-	<!--end::Education-->
 </div>
