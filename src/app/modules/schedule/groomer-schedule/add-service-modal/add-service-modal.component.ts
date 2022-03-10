@@ -19,6 +19,8 @@ import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { ServiceGroomerService } from '../../services/service-groomer.service';
 import * as _moment from 'moment';
 import { AddPaymentComponent } from '../add-payment/add-payment.component';
+import { GroomerService } from 'src/app/modules/common/services/groomer.service';
+import { GroomerModel } from 'src/app/_metronic/core/models/groomer.model';
 
 const EMPTY_GROOMER_SERVICE: GroomerServiceModel = {
 	id: undefined,
@@ -42,21 +44,24 @@ export class AddServiceModalComponent
 	@Input() groomerId: number;
 	@Input() startDate: Date;
 	@Input() isMobile: boolean;
-	endDate: Date;
 
 	pet: PetModel;
 	isLoading$: Observable<boolean>;
 	isLoadingPet$: Observable<boolean>;
 	formGroup: FormGroup;
+	groomers: GroomerModel[] = [];
 	service: GroomerServiceModel;
 	petServices: PetServiceModel[] = [];
 	showServices = false;
-	name_formatter = (x: any) => x.name;
+	now: Date = new Date();
+	name_formatter = (x: any) =>
+		`${x.thirdPartyDocumentNumber} - ${x.thirdPartyFullName}`;
 
 	private subscriptions: Subscription[] = [];
 
 	constructor(
 		private readonly serviceGroomerService: ServiceGroomerService,
+		private readonly groomerService: GroomerService,
 		private readonly petServiceService: PetServiceService,
 		private readonly ownerService: OwnerService,
 		private readonly swal: SwalService,
@@ -75,8 +80,6 @@ export class AddServiceModalComponent
 	}
 
 	ngOnInit(): void {
-		this.endDate = this.startDate;
-
 		if (this.id > 0) {
 			this.serviceGroomerService
 				.getItemById(this.id)
@@ -100,7 +103,21 @@ export class AddServiceModalComponent
 		} else {
 			this.service = this.getNewInstance();
 			this.loadForm();
+			if (this.groomerId === -1) {
+				this.getGroomersByPetId(1);
+			}
 		}
+	}
+
+	get endDate() {
+		const totalDuration = (<any[]>this.services.value)
+			.filter((m) => m.serviceId !== null)
+			.reduce((sum, current) => sum + current.duration, 0);
+		return new Date(this.startDate.getTime() + totalDuration * 60000);
+	}
+
+	getGroomersByPetId(petId: number) {
+		this.groomerService.getAll().subscribe((g) => (this.groomers = g));
 	}
 
 	addPayment() {
@@ -179,7 +196,7 @@ export class AddServiceModalComponent
 	}
 
 	findServiceById(serviceId: number) {
-		return this.petServices.find(m => m.id === serviceId);
+		return this.petServices.find((m) => m.id === serviceId);
 	}
 
 	petChange(petId: number) {
@@ -222,11 +239,18 @@ export class AddServiceModalComponent
 			],
 			services: this.fb.array([]),
 		});
+
+		this.formGroup.controls.startDate.valueChanges.subscribe(
+			(s) => (this.startDate = s)
+		);
+	}
+
+	chageDate(e) {
+		console.log(e);
 	}
 
 	removeService(index: number) {
 		this.services.removeAt(index);
-		this.calcEndDate();
 		this.cdr.detectChanges();
 	}
 
@@ -259,22 +283,11 @@ export class AddServiceModalComponent
 					);
 					serviceForm.controls.cost.setValue(service.cost);
 					serviceForm.controls.duration.setValue(service.duration);
-					this.calcEndDate();
 				}
 			)
 		);
 
 		this.services.push(serviceForm);
-	}
-
-	calcEndDate() {
-		const totalDuration = (<any[]>this.services.value)
-			.filter((m) => m.serviceId !== null)
-			.reduce((sum, current) => sum + current.duration, 0);
-		this.endDate = new Date(
-			this.startDate.getTime() + totalDuration * 60000
-		);
-		this.cdr.detectChanges();
 	}
 
 	changePic(pic: string) {

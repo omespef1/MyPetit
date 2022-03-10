@@ -8,6 +8,10 @@
 				<div class="col-xxl-12">
 					<div class="card card-custom gutter-b">
 						<div class="card-body">
+							<button class="btn btn-sm btn-primary float-right" (click)="add()">
+								<i class="fa fa-plus"></i> {{ 'COMMON.ADD' | translate }}
+							</button>
+							<br>							
 							<span class="badge bg-created text-white">{{ 'SCHEDULE.CREATED' | translate }}</span>
 							<span class="badge bg-paidout text-white">{{ 'SCHEDULE.PAID_OUT' | translate }}</span>
 							<!-- <span class="badge bg-canceled text-white">Canceled</span> -->

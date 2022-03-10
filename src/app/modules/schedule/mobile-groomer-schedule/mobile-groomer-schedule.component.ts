@@ -65,6 +65,20 @@ export class MobileGroomerScheduleComponent implements OnInit {
 			});
 	}
 
+	add() {
+		const modalRef = this.modalService.open(AddServiceModalComponent, {
+			size: 'lg',
+		});
+		modalRef.componentInstance.id = 0;
+		modalRef.componentInstance.groomerId = -1;
+		modalRef.componentInstance.isMobile = true;
+		modalRef.componentInstance.startDate = new Date();
+		modalRef.result.then(
+			() => this.getAllScheduleData(),
+			() => {}
+		);
+	}
+
 	onChangeDate(date: Date) {
 		this.currentValue = date;
 		this.refreshData();

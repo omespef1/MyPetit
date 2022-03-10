@@ -13,6 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ComponentsModule } from '../components/components.module';
 import {
 	DxCalendarModule,
+	DxDateBoxModule,
 	DxSchedulerModule,
 	DxTemplateModule,
 } from 'devextreme-angular';
@@ -49,6 +50,7 @@ import { FileUploadModule } from '@iplab/ngx-file-upload';
 		NgbModule,
 		DxSchedulerModule,
 		DxTemplateModule,
+		DxDateBoxModule,
 		DxCalendarModule,
 		FileUploadModule,
 		NgxPermissionsModule.forChild(),
