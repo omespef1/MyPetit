@@ -192,6 +192,19 @@ export class GroomerService
 		);
 	}
 
+	getAllByPetId(petId: number) {
+		this._isLoading$.next(true);
+		this._errorMessage.next('');
+		const url = `${this.API_URL}/getByPetId/${petId}`;
+		return this.http.get(url).pipe(
+			catchError((err) => {
+				this._errorMessage.next(ErrorUtil.getMessage(err));
+				throw err;
+			}),
+			finalize(() => this._isLoading$.next(false))
+		);
+	}
+
 	createMobileDisponibility(
 		groomerId: number,
 		dayOfWeek: number,

@@ -103,9 +103,6 @@ export class AddServiceModalComponent
 		} else {
 			this.service = this.getNewInstance();
 			this.loadForm();
-			if (this.groomerId === -1) {
-				this.getGroomersByPetId(1);
-			}
 		}
 	}
 
@@ -117,7 +114,9 @@ export class AddServiceModalComponent
 	}
 
 	getGroomersByPetId(petId: number) {
-		this.groomerService.getAll().subscribe((g) => (this.groomers = g));
+		this.groomerService
+			.getAllByPetId(petId)
+			.subscribe((g: GroomerModel[]) => (this.groomers = g));
 	}
 
 	addPayment() {
@@ -189,6 +188,7 @@ export class AddServiceModalComponent
 	}
 
 	findPetById(petId: number) {
+		console.log('findPetById: ', petId);
 		this.ownerService.getPetById(petId).subscribe((pet) => {
 			this.pet = pet;
 			this.getAllServicesByPetId(pet.id);
@@ -200,6 +200,7 @@ export class AddServiceModalComponent
 	}
 
 	petChange(petId: number) {
+		console.log('petchange: ', petId);
 		if (petId) {
 			this.f.petId.setValue(petId);
 			this.findPetById(petId);
@@ -208,6 +209,10 @@ export class AddServiceModalComponent
 			if (Number(this.id) === 0) {
 				this.clearServices();
 				this.addNewService();
+			}
+
+			if (this.groomerId === -1) {
+				this.getGroomersByPetId(petId);
 			}
 		}
 	}
