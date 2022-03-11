@@ -189,6 +189,7 @@ export const locale = {
 			ADD_PAYMENT: 'Agregar pago',
 			VALUE: 'Valor ($)',
 			PAYMENT_CREATED: 'El pago se ha realizado correctamente',
+			PAYMENT_METHOD: 'Forma de pago'
 		},
 		SCHEDULE: {
 			START_QUESTION: '¿Está seguro que desea iniciar el servicio?',

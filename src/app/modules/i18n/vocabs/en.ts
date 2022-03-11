@@ -79,7 +79,10 @@ export const locale = {
 			SATURDAY: 'Saturday',
 			SUNDAY: 'Sunday',
 			SCHEDULE: 'Schedule',
-			SUCCESS_EXCLAMATION: '¡Success!'
+			SUCCESS_EXCLAMATION: '¡Success!',
+			INVALID_RANGE: 'Invalid range',
+			START: 'Start',
+			TOTAL: 'Total',
 		},
 		USER: {
 			USERNAME: 'User Name',
@@ -133,6 +136,7 @@ export const locale = {
 			PET: 'Pet',
 			PETS_NOT_FOUND: 'Pet Not Found',
 			STATE: 'Status',
+			SELECT_PET: 'Select pet',
 		},
 		PET: {
 			HAIR_LENGTH: 'Hair Length',
@@ -171,6 +175,34 @@ export const locale = {
 			END_DATE: 'End date',
 			ADD_DISPONIBILITY: 'Add disponibility',
 			MOBILE_DISPONIBILITIES: 'Mobile disponibilities',
+			ADD_PAYMENT: 'Add payment',
+		},
+		SETTING: {
+			TITLE: 'System parameters',
+			NEW: 'New parameter',
+			NAME: 'Parameter',
+			TAX: 'Tax',
+			LOGO: 'Logo',
+			SELECT_SERVICE: 'Select service',
+		},
+		PAYMENT: {
+			ADD_PAYMENT: 'Add payment',
+			VALUE: 'Cost ($)',
+			PAYMENT_CREATED: 'The Payment has been successful',
+			PAYMENT_METHOD: 'Payment method'
+		},
+		SCHEDULE: {
+			START_QUESTION: 'Are you sure you want to start the service?',
+			SERVICE_STARTED: 'The service has been started successfully',
+			OBSERVATIONS: 'Observations',
+			UPLOADED_FILES: 'Uploaded files',
+			END: 'Finalize',
+			END_QUESTION: 'Are you sure you want to end the service?',
+			SERVICE_ENDED: 'The service has finished successfully',
+			CREATED: 'CREATED',
+			PAID_OUT: 'PAID OUT',
+			STARTED: 'STARTED',
+			COMPLETED: 'COMPLETED',
 		},
 		MENU: {
 			NEW: 'New',
@@ -195,7 +227,9 @@ export const locale = {
 			THIRD_PARTIES: 'Third parties',
 			GROOMERS: 'Groomers',
 			SCHEDULES: 'Schedules',
-			GROOMER_SCHEDULE: 'Groomers'
+			GROOMER_SCHEDULE: 'Groomers',
+			MOBILE_GROOMER_SCHEDULE: 'Mobile Groomers',
+			SETTINGS: 'System parameters',
 		},
 		AUTH: {
 			GENERAL: {
