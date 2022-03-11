@@ -244,14 +244,6 @@ export class AddServiceModalComponent
 			],
 			services: this.fb.array([]),
 		});
-
-		this.formGroup.controls.startDate.valueChanges.subscribe(
-			(s) => (this.startDate = s)
-		);
-	}
-
-	chageDate(e) {
-		console.log(e);
 	}
 
 	removeService(index: number) {
@@ -305,8 +297,12 @@ export class AddServiceModalComponent
 			return;
 		}
 
+		this.formGroup.controls.startDate.setValue(
+			_moment(this.startDate).format('YYYY-MM-DD HH:mm:ss')
+		);
 		const formValues = this.formGroup.value;
 		this.service = Object.assign(this.service, formValues);
+
 		this.service.serviceGroomer = (<any[]>formValues.services).map(
 			(m) => m.serviceId
 		);
