@@ -6,6 +6,7 @@ import { UserModel } from '../_models/user.model';
 import { AuthService } from '../_services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorUtil } from 'src/app/_metronic/core/utils/error.util';
+import { environment } from 'src/environments/environment';
 
 @Component({
 	selector: 'app-login',
@@ -59,7 +60,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 	initForm() {
 		this.loginForm = this.fb.group({
 			email: [
-				this.defaultAuth.email,
+				!environment.production ? this.defaultAuth.email : '',
 				Validators.compose([
 					Validators.required,
 					Validators.email,
@@ -68,7 +69,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 				]),
 			],
 			password: [
-				this.defaultAuth.password,
+				!environment.production ? this.defaultAuth.password : '',
 				Validators.compose([
 					Validators.required,
 					Validators.minLength(3),

@@ -134,7 +134,7 @@ export const locale = {
 			CITY: 'Ciudad',
 			NEW_PET: 'Nueva Mascota',
 			PET: 'Mascota',
-			PETS_NOT_FOUND: 'Mascotas no encontradas',
+			PETS_NOT_FOUND: 'Mascotas no existen',
 			STATE: 'Estado',
 			SELECT_PET: 'Seleccione mascota',
 		},

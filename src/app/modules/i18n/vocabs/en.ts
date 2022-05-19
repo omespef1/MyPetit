@@ -134,7 +134,7 @@ export const locale = {
 			CITY: 'City',
 			NEW_PET: 'New Pet',
 			PET: 'Pet',
-			PETS_NOT_FOUND: 'Pet Not Found',
+			PETS_NOT_FOUND: 'Pet Not Exist',
 			STATE: 'Status',
 			SELECT_PET: 'Select pet',
 		},

@@ -81,7 +81,7 @@ export const DynamicAsideMenuConfig = {
 		// 	only: ['SA', 'ADMIN', 'STAFF', 'OWNER', 'anotherPermissions'],
 		// 	bullet: 'dot',
 		// },
-		{ section: 'Security', translate: 'MENU.SECURITY' },
+		{ section: 'Security', translate: 'MENU.SECURITY', only: ['SA'] },
 		{
 			title: 'Users',
 			translate: 'MENU.USERS',
@@ -111,7 +111,7 @@ export const DynamicAsideMenuConfig = {
 			svg: './assets/media/svg/icons/Menu/Schedule.svg',
 			page: '/schedule/mobile-groomer-schedule',
 		},
-		{ section: 'Parámeters', translate: 'MENU.PARAMETERS' },
+		{ section: 'Parámeters', translate: 'MENU.PARAMETERS', only: ['SA', 'ADMIN'] },
 		{
 			title: 'Thrid Parties',
 			translate: 'MENU.THIRD_PARTIES',
@@ -142,7 +142,7 @@ export const DynamicAsideMenuConfig = {
 			page: '/common/setting',
 			only: ['SA', 'ADMIN'],
 		},
-		{ section: 'Configuration', translate: 'MENU.CONFIGURATION' },
+		{ section: 'Configuration', translate: 'MENU.CONFIGURATION', only: ['SA', 'ADMIN', 'STAFF', 'OWNER', 'anotherPermissions'] },
 		{
 			title: 'Types',
 			translate: 'MENU.PET_TYPES',

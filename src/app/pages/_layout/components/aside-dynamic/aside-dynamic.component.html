@@ -179,9 +179,9 @@
 <ng-template #menuItemSectionTemplate let-item="item">
   <li class="menu-section">
     <h4 class="menu-text" [translate]="item.translate">{{ item.translate | translate }}</h4>
-    <span class="menu-label mt-3 ml-2" *ngIf="validatePermission(item)">
+    <!-- <span class="menu-label mt-3 ml-2" *ngIf="validatePermission(item)">
       <span class="label label-danger label-inline">nuevo</span>
-    </span>
+    </span> -->
     <i class="menu-icon flaticon-more-v2"></i>
   </li>
 </ng-template>
