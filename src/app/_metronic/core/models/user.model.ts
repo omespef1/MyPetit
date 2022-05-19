@@ -1,6 +1,7 @@
 export class UserModel {
 	public id: number;
 	public userName: string;
+	public thirdPartyId: number;
 	public email: string;
 	public firstName: string;
 	public lastName: string;

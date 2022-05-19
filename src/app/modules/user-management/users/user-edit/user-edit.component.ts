@@ -1,8 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, of, Subscription } from 'rxjs';
+import { forkJoin, Observable, of, Subscription } from 'rxjs';
 import { catchError, filter, switchMap, tap } from 'rxjs/operators';
+import { ThirdPartyService } from 'src/app/modules/common/services/third.party.service';
+import { ThirdPartyModel } from 'src/app/_metronic/core/models/third-party.model';
 import { UserModel } from 'src/app/_metronic/core/models/user.model';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { UserService } from '../../services/user.service';
@@ -11,6 +13,7 @@ const EMPTY_USER: UserModel = {
 	id: undefined,
 	firstName: '',
 	lastName: '',
+	thirdPartyId: undefined,
 	email: '@domain.com',
 	password: undefined,
 	userName: '',
@@ -29,6 +32,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	previous: UserModel;
 	formGroup: FormGroup;
 	isLoading$: Observable<boolean>;
+	thirdParties: ThirdPartyModel[] = [];
 	errorMessage = '';
 	tabs = {
 		BASIC_TAB: 0,
@@ -36,23 +40,34 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	};
 	activeTabId = this.tabs.BASIC_TAB; // 0 => Basic info | 1 => Roles
 	private subscriptions: Subscription[] = [];
+	thirdparty_formatter = (x: any) =>
+		`${x.documentNumber} - ${x.names} ${x.lastNames}`;
 
 	constructor(
 		private fb: FormBuilder,
 		private userService: UserService,
 		private readonly swalService: SwalService,
+		private readonly thirdPartyService: ThirdPartyService,
 		private router: Router,
+		private readonly cdr: ChangeDetectorRef,
 		private route: ActivatedRoute
 	) {}
 
 	ngOnInit(): void {
 		this.isLoading$ = this.userService.isLoading$.pipe(tap(console.log));
-		this.loadUser();
+		forkJoin([this.loadUser(), this.findThirdParties()]);
 		this.subscriptions.push(
 			this.userService.errorMessage$
 				.pipe(filter((r) => r !== ''))
 				.subscribe((err) => this.swalService.error(err))
 		);
+	}
+
+	findThirdParties() {
+		this.thirdPartyService.getAll().subscribe((thirdParties) => {
+			this.thirdParties = thirdParties;
+			this.cdr.detectChanges();
+		});
 	}
 
 	getNewInstance() {
@@ -103,22 +118,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 					Validators.maxLength(255),
 				]),
 			],
-			firstName: [
-				this.user.firstName,
-				Validators.compose([
-					Validators.required,
-					Validators.minLength(3),
-					Validators.maxLength(255),
-				]),
-			],
-			lastName: [
-				this.user.lastName,
-				Validators.compose([
-					Validators.required,
-					Validators.minLength(3),
-					Validators.maxLength(255),
-				]),
-			],
+			thirdPartyId: [this.user.thirdPartyId, Validators.required],
 			email: [
 				this.user.email,
 				Validators.compose([
