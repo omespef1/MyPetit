@@ -99,6 +99,7 @@ export const locale = {
 			ROLE: 'Role',
 			PHONE_NUMBER: 'Phone',
 			PASSWORD: 'Password',
+			COUNTRY: 'Country',
 		},
 		PET_TYPE: {
 			NAME: 'Pet Type',
@@ -189,7 +190,7 @@ export const locale = {
 			ADD_PAYMENT: 'Add payment',
 			VALUE: 'Cost ($)',
 			PAYMENT_CREATED: 'The Payment has been successful',
-			PAYMENT_METHOD: 'Payment method'
+			PAYMENT_METHOD: 'Payment method',
 		},
 		SCHEDULE: {
 			START_QUESTION: 'Are you sure you want to start the service?',

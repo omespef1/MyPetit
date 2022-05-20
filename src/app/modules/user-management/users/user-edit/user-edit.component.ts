@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin, Observable, of, Subscription } from 'rxjs';
 import { catchError, filter, switchMap, tap } from 'rxjs/operators';
 import { ThirdPartyService } from 'src/app/modules/common/services/third.party.service';
+import { CountryService } from 'src/app/modules/parameters/services/country.service';
+import { CountryModel } from 'src/app/_metronic/core/models/country.model';
 import { ThirdPartyModel } from 'src/app/_metronic/core/models/third-party.model';
 import { UserModel } from 'src/app/_metronic/core/models/user.model';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
@@ -14,6 +16,7 @@ const EMPTY_USER: UserModel = {
 	firstName: '',
 	lastName: '',
 	thirdPartyId: undefined,
+	countryId: undefined,
 	email: '@domain.com',
 	password: undefined,
 	userName: '',
@@ -33,6 +36,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	formGroup: FormGroup;
 	isLoading$: Observable<boolean>;
 	thirdParties: ThirdPartyModel[] = [];
+	countries: CountryModel[] = [];
 	errorMessage = '';
 	tabs = {
 		BASIC_TAB: 0,
@@ -42,12 +46,14 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	private subscriptions: Subscription[] = [];
 	thirdparty_formatter = (x: any) =>
 		`${x.documentNumber} - ${x.names} ${x.lastNames}`;
+	country_formatter = (m: any) => m.name;
 
 	constructor(
 		private fb: FormBuilder,
 		private userService: UserService,
 		private readonly swalService: SwalService,
 		private readonly thirdPartyService: ThirdPartyService,
+		private readonly countryService: CountryService,
 		private router: Router,
 		private readonly cdr: ChangeDetectorRef,
 		private route: ActivatedRoute
@@ -55,7 +61,11 @@ export class UserEditComponent implements OnInit, OnDestroy {
 
 	ngOnInit(): void {
 		this.isLoading$ = this.userService.isLoading$.pipe(tap(console.log));
-		forkJoin([this.loadUser(), this.findThirdParties()]);
+		forkJoin([
+			this.loadUser(),
+			this.findThirdParties(),
+			this.findCountries(),
+		]);
 		this.subscriptions.push(
 			this.userService.errorMessage$
 				.pipe(filter((r) => r !== ''))
@@ -66,6 +76,13 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	findThirdParties() {
 		this.thirdPartyService.getAll().subscribe((thirdParties) => {
 			this.thirdParties = thirdParties;
+			this.cdr.detectChanges();
+		});
+	}
+
+	findCountries() {
+		this.countryService.getAll().subscribe((countries) => {
+			this.countries = countries;
 			this.cdr.detectChanges();
 		});
 	}
@@ -119,6 +136,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 				]),
 			],
 			thirdPartyId: [this.user.thirdPartyId, Validators.required],
+			countryId: [this.user.countryId, Validators.required],
 			email: [
 				this.user.email,
 				Validators.compose([

@@ -120,7 +120,7 @@
 								}}
 							</div>
 						</div>
-						<div class="col-lg-8">
+						<div class="col-lg-4">
 							<search-lookup
 								label="THIRD_PARTY.NAME"
 								propertyText="codeName"
@@ -134,6 +134,23 @@
 								name="thirdPartyId"
 								[resultTemplate]="thirdparty_template"
 								placeholder="THIRD_PARTY.NAME"
+							>
+							</search-lookup>
+						</div>
+						<div class="col-lg-4">
+							<search-lookup
+								label="USER.COUNTRY"
+								propertyText="codeName"
+								propertyValue="id"
+								label_bold="true"
+								[data]="countries"
+								[formControl]="
+									formGroup.controls['countryId']
+								"
+								[formatter]="country_formatter"
+								name="countryId"
+								[resultTemplate]="country_template"
+								placeholder="USER.COUNTRY"
 							>
 							</search-lookup>
 						</div>
@@ -272,4 +289,7 @@
 </div>
 <ng-template #thirdparty_template let-r="result">
 	{{ r.documentNumber }} - {{ r.names }} {{ r.lastNames }}
+</ng-template>
+<ng-template #country_template let-r="result">
+	{{ r.name }}
 </ng-template>

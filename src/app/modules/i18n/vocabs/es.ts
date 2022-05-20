@@ -99,6 +99,7 @@ export const locale = {
 			ROLE: 'Rol',
 			PHONE_NUMBER: 'Teléfono',
 			PASSWORD: 'Contraseña',
+			COUNTRY: 'Pais'
 		},
 		PET_TYPE: {
 			NAME: 'Tipo de Mascota',
