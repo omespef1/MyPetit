@@ -103,7 +103,9 @@
 												</svg> </span
 											>{{ pet.ownerName | uppercase }}</a
 										>
-										<ng-container *ngIf="groomerId > 0 || true">
+										<ng-container
+											*ngIf="groomerId > 0 || true"
+										>
 											<a
 												href="javascript:void(0)"
 												class="text-muted text-hover-primary font-weight-bold"
@@ -201,7 +203,8 @@
 											*ngxPermissionsOnly="[
 												'SA',
 												'ADMIN',
-												'STAFF'
+												'STAFF',
+												'GROOMER'
 											]"
 											type="button"
 											class="btn btn-sm btn-success"
@@ -229,7 +232,9 @@
 					</div>
 				</div>
 				<div class="col-lg-5">
-					<ng-container *ngIf="groomerId === -1 && !(isLoadingPet$ | async)">
+					<ng-container
+						*ngIf="groomerId === -1 && !(isLoadingPet$ | async)"
+					>
 						<div class="row">
 							<div class="col-lg-12"></div>
 						</div>
@@ -258,7 +263,10 @@
 										'GROOMER.START_DATE' | translate
 									}}</b></label
 								>
-								<dx-date-box [(value)]="startDate" type="datetime">
+								<dx-date-box
+									[(value)]="startDate"
+									type="datetime"
+								>
 								</dx-date-box>
 							</div>
 						</div>
@@ -305,7 +313,10 @@
 								<th scope="col">
 									{{ 'PET_SERVICE.COST' | translate }}
 									<ng-container
-										*ngIf="service.state === 'Created'"
+										*ngIf="
+											service.id === 0 &&
+											service.state === 'Created'
+										"
 									>
 										<button
 											class="ml-1 btn btn-sm btn-icon btn-success"
@@ -316,7 +327,10 @@
 									</ng-container>
 								</th>
 								<ng-container
-									*ngIf="service.state === 'Created'"
+									*ngIf="
+										service.id === 0 &&
+										service.state === 'Created'
+									"
 								>
 									<th
 										style="min-width: 90px; width: 90px"
@@ -366,7 +380,7 @@
 																.controls[
 																'serviceId'
 															].value
-														).name
+														)?.name
 													}}</span
 												></ng-template
 											>
@@ -382,7 +396,10 @@
 											</div>
 										</td>
 										<ng-container
-											*ngIf="service.state === 'Created'"
+											*ngIf="
+												service.id === 0 &&
+												service.state === 'Created'
+											"
 										>
 											<td>
 												<a
@@ -421,7 +438,10 @@
 										>
 									</td>
 									<ng-container
-										*ngIf="service.state === 'Created'"
+										*ngIf="
+											service.id === 0 &&
+											service.state === 'Created'
+										"
 									>
 										<td></td>
 									</ng-container>
@@ -454,7 +474,12 @@
 		</button>
 
 		<ng-container
-			*ngIf="service && formGroup && service.state === 'Created'"
+			*ngIf="
+				service &&
+				service.id === 0 &&
+				formGroup &&
+				service.state === 'Created'
+			"
 		>
 			<button
 				type="submit"

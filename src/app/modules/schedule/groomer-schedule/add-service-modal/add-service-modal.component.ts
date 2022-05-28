@@ -23,7 +23,7 @@ import { GroomerService } from 'src/app/modules/common/services/groomer.service'
 import { GroomerModel } from 'src/app/_metronic/core/models/groomer.model';
 
 const EMPTY_GROOMER_SERVICE: GroomerServiceModel = {
-	id: undefined,
+	id:  0,
 	groomerId: undefined,
 	petId: undefined,
 	isMobile: false,

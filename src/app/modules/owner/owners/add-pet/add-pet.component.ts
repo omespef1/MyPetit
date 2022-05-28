@@ -64,6 +64,7 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 	pettype_formatter = (x: PetTypeModel) => x.name;
 	hairlength_formatter = (x: HairModel) => x.name;
 	breed_formatter = (x: BreedModel) => x.name;
+	today = new Date();
 	settings = {
 		placeholder: 'Select tag...',
 		enforceWhitelist: false,
@@ -219,8 +220,11 @@ export class AddPetComponent implements OnInit, OnDestroy, AfterContentChecked {
 		this.formGroup.controls.pic.setValue(this.pet.pic);
 		this.formGroup.controls.petTypeId.valueChanges.subscribe(
 			(petTypeId) => {
-				this.searchBreedsByPetTypeId(petTypeId);
-				this.searchVaccines(petTypeId);
+				forkJoin([
+					this.searchBreedsByPetTypeId(petTypeId),
+					this.searchVaccines(petTypeId),
+				]);
+				this.cdr.detectChanges();
 			}
 		);
 	}

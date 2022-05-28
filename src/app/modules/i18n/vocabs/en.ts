@@ -91,7 +91,7 @@ export const locale = {
 			IS_ACTIVE: 'Active',
 			TITLE: 'Users',
 			NEW: 'New User',
-			STATE: 'Status',
+			STATE: 'State',
 			USER: 'User',
 			FIRST_NAMES: 'Names',
 			LAST_NAMES: 'Last Name',
@@ -136,7 +136,7 @@ export const locale = {
 			NEW_PET: 'New Pet',
 			PET: 'Pet',
 			PETS_NOT_FOUND: 'Pet Not Exist',
-			STATE: 'Status',
+			STATE: 'Province',
 			SELECT_PET: 'Select pet',
 		},
 		PET: {
@@ -164,6 +164,7 @@ export const locale = {
 			NEW: 'New third',
 			ADDRESS: 'Address',
 			NAME: 'Third',
+			PROVINCE: 'Province'
 		},
 		GROOMER: {
 			TITLE: 'Groomers',

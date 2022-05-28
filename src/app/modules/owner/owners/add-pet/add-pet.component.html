@@ -14,7 +14,7 @@
 			<app-loading></app-loading>
 		</ng-container>
 
-		<ng-container *ngIf="pet && !(isLoading$ | async)">
+		<ng-container *ngIf="pet">
 			<form
 				action="#"
 				class="form form-label-right"
@@ -197,6 +197,7 @@
 							placeholder="{{ 'PET.BIRTH_DATE' | translate }}"
 							name="birthDate"
 							datetime="yyyy-MM-dd HH:mm:ss"
+							max="{{today | date:'yyyy-MM-dd'}}"
 							[class.is-invalid]="isControlInvalid('birthDate')"
 							formControlName="birthDate"
 						/>

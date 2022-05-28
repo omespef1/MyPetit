@@ -136,7 +136,7 @@ export const locale = {
 			NEW_PET: 'Nueva Mascota',
 			PET: 'Mascota',
 			PETS_NOT_FOUND: 'Mascotas no existen',
-			STATE: 'Estado',
+			STATE: 'Provincia',
 			SELECT_PET: 'Seleccione mascota',
 		},
 		PET: {
@@ -164,6 +164,7 @@ export const locale = {
 			NEW: 'Nuevo tercero',
 			ADDRESS: 'Dirección',
 			NAME: 'Tercero',
+			PROVINCE: 'Provincia'
 		},
 		GROOMER: {
 			TITLE: 'Groomers',

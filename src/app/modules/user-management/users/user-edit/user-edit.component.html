@@ -144,9 +144,7 @@
 								propertyValue="id"
 								label_bold="true"
 								[data]="countries"
-								[formControl]="
-									formGroup.controls['countryId']
-								"
+								[formControl]="formGroup.controls['countryId']"
 								[formatter]="country_formatter"
 								name="countryId"
 								[resultTemplate]="country_template"
@@ -202,7 +200,7 @@
 								><b>{{ 'USER.PHONE_NUMBER' | translate }}</b>
 							</label>
 							<input
-								type="text"
+								type="number"
 								class="form-control form-control-lg form-control-solid"
 								autocomplete="off"
 								placeholder="{{

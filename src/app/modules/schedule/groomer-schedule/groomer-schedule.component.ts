@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { GroomerService } from '../../common/services/groomer.service';
@@ -9,7 +9,6 @@ import { AddServiceModalComponent } from './add-service-modal/add-service-modal.
 import * as _moment from 'moment';
 import { SwalService } from 'src/app/_metronic/core/services/swal.service';
 import { ResumeServiceModalComponent } from './resume-service-modal/resume-service-modal.component';
-import { AddPaymentComponent } from './add-payment/add-payment.component';
 const now = new Date();
 
 @Component({

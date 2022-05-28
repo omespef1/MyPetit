@@ -111,7 +111,11 @@ export const DynamicAsideMenuConfig = {
 			svg: './assets/media/svg/icons/Menu/Schedule.svg',
 			page: '/schedule/mobile-groomer-schedule',
 		},
-		{ section: 'Parámeters', translate: 'MENU.PARAMETERS', only: ['SA', 'ADMIN'] },
+		{
+			section: 'Parámeters',
+			translate: 'MENU.PARAMETERS',
+			only: ['SA', 'ADMIN'],
+		},
 		{
 			title: 'Thrid Parties',
 			translate: 'MENU.THIRD_PARTIES',
@@ -142,7 +146,19 @@ export const DynamicAsideMenuConfig = {
 			page: '/common/setting',
 			only: ['SA', 'ADMIN'],
 		},
-		{ section: 'Configuration', translate: 'MENU.CONFIGURATION', only: ['SA', 'ADMIN', 'STAFF', 'OWNER', 'anotherPermissions'] },
+		{
+			section: 'Configuration',
+			translate: 'MENU.CONFIGURATION',
+			only: [
+				'SA',
+				'ADMIN',
+				'STAFF',
+				'OWNER',
+				'anotherPermissions',
+				'GROOMER',
+				'MOBILE GROOMER',
+			],
+		},
 		{
 			title: 'Types',
 			translate: 'MENU.PET_TYPES',
@@ -171,7 +187,7 @@ export const DynamicAsideMenuConfig = {
 			icon: 'flaticon2-user-outline-symbol',
 			svg: './assets/media/svg/icons/Menu/Services.svg',
 			page: '/pet-management/services',
-			only: ['SA'],
+			only: ['SA', 'GROOMER', 'MOBILE GROOMER', 'STAFF'],
 		},
 		{
 			title: 'Tags',
